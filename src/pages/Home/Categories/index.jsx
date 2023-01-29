@@ -60,7 +60,7 @@ const Categories = () => {
             ))}
           </Carousel>
         </RenderIf>
-        <RenderIf condition={windowWidth <= 1000}>
+        <RenderIf condition={windowWidth <= 1000 && windowWidth !== 0}>
           <Row align="middle" style={{ flexDirection: "column" }}>
             {map(categories, ({ title, titleColor }) => (
               <Category
