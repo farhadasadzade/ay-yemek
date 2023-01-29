@@ -1,0 +1,28 @@
+@import "assets/css/variables.scss";
+
+.carousel {
+  &__controls {
+    position: absolute;
+    top: -50px;
+    right: 0;
+  }
+
+  &__controls:first-child {
+    right: 70px;
+  }
+
+  &__controls button {
+    background-color: #e1e3e1;
+    border-radius: 8px;
+    border: none;
+    padding: 16px;
+  }
+
+  &__controls button:hover {
+    background-color: $primary-color;
+
+    path {
+      stroke: #ffffff;
+    }
+  }
+}

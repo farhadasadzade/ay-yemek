@@ -8,6 +8,8 @@ import exit from "./icon_exit.svg";
 import facebookBlack from "./icon_facebook-black.svg";
 import whatsappBlack from "./icon_whatsapp-black.svg";
 import instagramBlack from "./icon_instagram-black.svg";
+import arrowLeft from "./icon_arrowleft.svg";
+import arrowRight from "./icon_arrowright.svg";
 
 export {
   facebook,
@@ -20,4 +22,6 @@ export {
   facebookBlack,
   whatsappBlack,
   instagramBlack,
+  arrowLeft,
+  arrowRight,
 };

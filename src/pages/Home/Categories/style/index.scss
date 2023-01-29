@@ -2,6 +2,20 @@
 
 .home__categories {
   padding: 80px 80px 50px;
+
+  &-link {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    text-decoration-line: underline;
+    color: #00072d;
+    position: absolute;
+    top: -30px;
+  }
+
+  &-link:hover {
+    color: $primary-color;
+  }
 }
 
 .home__category {
@@ -23,4 +37,30 @@
     top: 0;
     left: 0;
   }
+
+  &-title {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    color: #2bad3f;
+  }
+
+  &-text {
+    color: #75797f !important;
+    text-align: center !important;
+    height: 80px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    white-space: pre-wrap;
+  }
+}
+
+.carousel {
+  position: relative;
+  padding: 75px 0;
 }
