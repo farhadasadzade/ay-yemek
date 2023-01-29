@@ -1,0 +1,139 @@
+@import "assets/css/variables.scss";
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 52px 0 40px;
+
+  &__links {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  &__link {
+    color: $text-color !important;
+    font-size: 18px;
+    margin: 0 33px;
+  }
+
+  &__link:hover {
+    color: $primary-color !important;
+  }
+
+  &__link-active {
+    color: $primary-color !important;
+  }
+
+  &__button-lang {
+    color: #000 !important;
+    padding: 12px 15px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__menu-btn {
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    display: none !important;
+  }
+}
+
+.mobile__menu {
+  position: absolute;
+  width: 0;
+  height: 100vh;
+  z-index: 9999;
+  background-color: #ffffff;
+  top: 0;
+  right: 0;
+  transition: all 1s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &-exit {
+    border: none;
+    background: none;
+  }
+
+  &-link {
+    font-weight: 500;
+    color: $text-color !important;
+    font-size: 19px;
+    margin: 0 33px;
+  }
+
+  &-link-active {
+    font-weight: 600;
+    color: $primary-color !important;
+    font-size: 19px;
+    margin: 0 33px;
+  }
+
+  &-link:hover {
+    color: $primary-color !important;
+  }
+
+  &-text {
+    color: $secondary-color !important;
+  }
+
+  &-socials:hover {
+    filter: invert(45%) sepia(94%) saturate(2201%) hue-rotate(354deg)
+      brightness(92%) contrast(112%) !important;
+  }
+
+  &-lang {
+    background: none;
+    border: none;
+  }
+
+  &-lang article {
+    color: $secondary-color !important;
+  }
+
+  &-lang article:hover {
+    color: $primary-color !important;
+  }
+}
+
+.mobile__menu.active {
+  width: 100vw;
+  transition: all 1s;
+}
+
+@media (max-width: 1300px) {
+  .header {
+    &__links {
+      display: none;
+    }
+
+    &__menu-btn {
+      display: block !important;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 0 20px 0 11px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    &__logo {
+      width: 121px;
+    }
+
+    &__logo img {
+      width: 100%;
+    }
+  }
+}

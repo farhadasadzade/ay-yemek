@@ -1,0 +1,27 @@
+@import "assets/css/variables.scss";
+
+.home {
+  &__title {
+    color: $secondary-color !important;
+    font-size: 40px;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    color: #75797f !important;
+    font-size: 19px;
+    font-weight: 400;
+  }
+}
+
+@media (max-width: 1000px) {
+  .home {
+    &__title {
+      font-size: 24px;
+    }
+
+    &__subtitle {
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+@import "assets/css/variables.scss";
+
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $primary-color;
+  padding: 17px 80px;
+
+  &-block {
+    display: flex;
+    align-items: center;
+  }
+
+  &-text {
+    font-size: 18px;
+  }
+
+  &-link {
+    opacity: 0.8;
+  }
+
+  &-link:hover {
+    opacity: 1;
+  }
+
+  &-info {
+    color: #EDEDED !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .top-header {
+    padding: 17px 40px;
+
+    &-text {
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 789px) {
+  .top-header {
+    padding: 17px 20px;
+
+    &-text {
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .top-header {
+    display: none;
+  }
+}

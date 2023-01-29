@@ -1,0 +1,26 @@
+@import "assets/css/variables.scss";
+
+.home__categories {
+  padding: 80px 80px 50px;
+}
+
+.home__category {
+  width: 321px;
+
+  &-img {
+    width: 100%;
+    position: relative;
+  }
+
+  &-img img {
+    width: 100%;
+  }
+
+  &-shape {
+    width: 100%;
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    left: 0;
+  }
+}
