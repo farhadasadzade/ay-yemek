@@ -5,8 +5,8 @@
   position: relative;
 
   &__img {
-    position: absolute;
-    top: -300px;
+    position: relative;
+    top: -600px;
     width: 100%;
   }
 }
@@ -14,7 +14,7 @@
 @media (max-width: 1400px) {
   .howworks {
     &__img {
-      top: -200px;
+      top: -400px;
     }
   }
 }
@@ -22,7 +22,7 @@
 @media (max-width: 1150px) {
   .howworks {
     &__img {
-      top: -150px;
+      top: -350px;
     }
   }
 }

@@ -23,19 +23,15 @@ const HowWorks = () => {
   });
 
   return (
-    <div style={{ position: "relative" }}>
+    <>
       <div className="howworks">
-        <Row justify="center">
-          <HomeTitle
-            title={t("howWorks")}
-            subtitle="Lorem Ipsum is simply dummy text of the printing"
-          />
-        </Row>
+        <HomeTitle
+          title={t("howWorks")}
+          subtitle="Lorem Ipsum is simply dummy text of the printing"
+        />
       </div>
       <RenderIf condition={windowWidth > 1000 || windowWidth === 0}>
-        <Row justify="center">
-          <img className="howworks__img" src={howWorks} alt="how-works" />
-        </Row>
+        <img className="howworks__img" src={howWorks} alt="how-works" />
       </RenderIf>
       <RenderIf condition={windowWidth <= 1000 && windowWidth !== 0}>
         <Row align="middle" style={{ flexDirection: "column" }}>
@@ -44,7 +40,7 @@ const HowWorks = () => {
           <img className="mb-5 pb-5" src={howWorks3} alt="how-works" />
         </Row>
       </RenderIf>
-    </div>
+    </>
   );
 };
 
