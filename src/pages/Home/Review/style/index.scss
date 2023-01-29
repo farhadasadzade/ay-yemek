@@ -1,0 +1,35 @@
+@import "assets/css/variables.scss";
+
+.home__review {
+  padding: 100px 90px 100px;
+}
+
+.review__comment {
+  background-color: #ffffff;
+  border-radius: 8px;
+  max-height: 220px;
+  max-width: 604px;
+  padding: 35px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &-text {
+    max-height: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    white-space: pre-wrap;
+
+    p {
+      font-family: "Inter";
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 23px;
+      color: #172a14;
+      opacity: 0.7;
+    }
+  }
+}
