@@ -1,7 +1,10 @@
 import React from "react";
 import i18n from "i18next";
+import { map } from "lodash";
 import { HomeTitle } from "components";
+import Carousel from "react-elastic-carousel";
 import ReviewComment from "./ReviewComment";
+import { comments } from "./data";
 import "./style/index.scss";
 
 const Review = () => {
@@ -13,7 +16,18 @@ const Review = () => {
         title={t("theyChooseUs")}
         subtitle="Lorem Ipsum is simply dummy text of the printing "
       />
-      <ReviewComment />
+      <div className="carousel">
+        <Carousel
+          itemsToShow={2}
+          enableSwipe={false}
+          enableMouseSwipe={false}
+          pagination={false}
+        >
+          {map(comments, (comment) => (
+            <ReviewComment {...comment} />
+          ))}
+        </Carousel>
+      </div>
     </div>
   );
 };

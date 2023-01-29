@@ -88,7 +88,7 @@ const MobileMenu = ({ visible, toggleMobileMenu }) => {
           />
         </Link>
       </Row>
-      <Row className="mb-5" justify="center">
+      <Row className="mb-5 pb-3" justify="center">
         <button className="mobile__menu-lang">
           <Typography size={16} weight={700}>
             Az

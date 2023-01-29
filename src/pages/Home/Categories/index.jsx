@@ -21,6 +21,8 @@ const Categories = () => {
     window.addEventListener("resize", (e) =>
       setWindowWidth(e.target.innerWidth)
     );
+
+    setWindowWidth(window.innerWidth);
   });
 
   useUnmount(() => {
@@ -31,7 +33,7 @@ const Categories = () => {
     <div className="home__categories">
       <HomeTitle
         title={t("category")}
-        subtitle="Lorem Ipsum is simply dummy text of the printing "
+        subtitle="Lorem Ipsum is simply dummy text of the printing"
       />
       <div className="carousel">
         <RenderIf condition={windowWidth > 1000 || windowWidth === 0}>

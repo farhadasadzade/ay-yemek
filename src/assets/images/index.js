@@ -11,6 +11,8 @@ import burger from "./burger.png";
 import noddles from "./noddles.png";
 import subSandwich from "./subSandwich.png";
 import steak from "./steak.png";
+import userComment from "./userComment.png";
+import userCommentIcon from "./userCommentIcon.png";
 
 export {
   logo,
@@ -26,4 +28,6 @@ export {
   noddles,
   subSandwich,
   steak,
+  userComment,
+  userCommentIcon,
 };
