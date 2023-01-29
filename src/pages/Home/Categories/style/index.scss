@@ -64,3 +64,19 @@
   position: relative;
   padding: 75px 0;
 }
+
+@media (max-width: 1000px) {
+  .home__category {
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 500px) {
+  .home__category {
+    max-width: 252px;
+  }
+
+  .home__categories {
+    padding: 60px 25px 50px;
+  }
+}

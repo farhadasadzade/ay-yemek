@@ -59,7 +59,7 @@ const MobileMenu = ({ visible, toggleMobileMenu }) => {
         </Link>
       </Row>
       <Row
-        className="mb-5 pb-2"
+        className="mb-3 pb-2 pt-3"
         justify="center"
         style={{ flexGrow: "1", alignItems: "end" }}
       >
