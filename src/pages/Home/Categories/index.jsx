@@ -38,8 +38,6 @@ const Categories = () => {
           <Link to="/" className="home__categories-link">
             {t("seeAll")}
           </Link>
-        </RenderIf>
-        <RenderIf condition={windowWidth > 1000 || windowWidth === 0}>
           <Carousel
             itemsToShow={3}
             pagination={false}

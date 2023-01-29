@@ -1,0 +1,41 @@
+@import "assets/css/variables.scss";
+
+.howworks {
+  padding: 50px 80px 125px;
+  position: relative;
+
+  &__img {
+    position: absolute;
+    top: -300px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1400px) {
+  .howworks {
+    &__img {
+      top: -200px;
+    }
+  }
+}
+
+@media (max-width: 1150px) {
+  .howworks {
+    &__img {
+      top: -150px;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .howworks {
+    padding:100px 30px 75px;
+    position: relative;
+
+    &__img {
+      position: absolute;
+      top: -300px;
+      width: 100%;
+    }
+  }
+}
