@@ -10,6 +10,7 @@ import whatsappBlack from "./icon_whatsapp-black.svg";
 import instagramBlack from "./icon_instagram-black.svg";
 import arrowLeft from "./icon_arrowleft.svg";
 import arrowRight from "./icon_arrowright.svg";
+import plus from "./icon_plus.svg";
 
 export {
   facebook,
@@ -24,4 +25,5 @@ export {
   instagramBlack,
   arrowLeft,
   arrowRight,
+  plus,
 };

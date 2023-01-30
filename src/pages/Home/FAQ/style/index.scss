@@ -1,0 +1,58 @@
+@import "assets/css/variables";
+
+.home__faq {
+  padding: 135px 250px 100px;
+
+  &-accordion {
+    width: 100%;
+    max-width: 937px;
+    background: none;
+    border: none;
+  }
+
+  &-item {
+    border-radius: 0 !important;
+    border-bottom: 2px solid rgba(136, 150, 166, 0.21) !important;
+    padding-bottom: 25px;
+    padding-top: 32px;
+  }
+
+  &-title {
+    font-family: "Inter";
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 29px;
+    color: #00072d;
+  }
+
+  &-text {
+    font-family: "Manrope";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 29px;
+    color: $primary-color;
+    max-width: 65%;
+    width: 100%;
+  }
+
+  &-expand {
+    background-color: $secondary-color !important;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: 0.5s;
+  }
+
+  &-expand.active {
+    transform: rotate(45deg);
+  }
+}
+
+.ant-collapse-header,
+.ant-collapse-content {
+  background: none !important;
+  border: none !important;
+}

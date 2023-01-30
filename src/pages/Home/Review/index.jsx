@@ -23,8 +23,8 @@ const Review = () => {
           enableMouseSwipe={false}
           pagination={false}
         >
-          {map(comments, (comment) => (
-            <ReviewComment {...comment} />
+          {map(comments, (comment, index) => (
+            <ReviewComment key={index} {...comment} />
           ))}
         </Carousel>
       </div>

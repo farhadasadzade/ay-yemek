@@ -4,6 +4,7 @@ import Categories from "./Categories";
 import HowWorks from "./HowWorks";
 import FavoriteFoods from "./FavoriteFood";
 import Review from "./Review";
+import FAQ from "./FAQ";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <HowWorks />
       <FavoriteFoods />
       <Review />
+      <FAQ />
     </>
   );
 };
