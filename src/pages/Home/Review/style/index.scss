@@ -2,6 +2,12 @@
 
 .home__review {
   padding: 100px 90px 100px;
+
+  &-border {
+    opacity: 0.5;
+    border-bottom: 1px solid #00072d;
+    width: 73%;
+  }
 }
 
 .review__comment {
@@ -76,5 +82,79 @@
       color: #172a14;
       opacity: 0.6;
     }
+  }
+
+  &-controls {
+    position: absolute;
+    top: -12px;
+    right: 5%;
+
+    &:first-child {
+      margin-right: 60px;
+    }
+
+    button {
+      background: none;
+      border: none;
+    }
+
+    button:hover {
+      path {
+        fill: $primary-color;
+        opacity: 1;
+      }
+    }
+  }
+
+  &-pagination {
+    position: absolute;
+    top: -5px;
+    left: 6%;
+    display: flex;
+    align-items: center;
+  }
+
+  &-dot {
+    width: 8px;
+    height: 8px;
+    background: #f75c03;
+    opacity: 0.5;
+    border-radius: 3px;
+    margin: 0 2px;
+
+    &-active {
+      width: 17px;
+      opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .review__comment {
+    width: 318px;
+    height: 302px;
+
+    &-text {
+      max-height: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 6;
+      white-space: pre-wrap;
+  
+      p {
+        font-family: "Inter";
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        color: #172a14;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .home__review {
+    padding: 80px 20px 100px;
   }
 }

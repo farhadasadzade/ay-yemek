@@ -11,6 +11,8 @@ import instagramBlack from "./icon_instagram-black.svg";
 import arrowLeft from "./icon_arrowleft.svg";
 import arrowRight from "./icon_arrowright.svg";
 import plus from "./icon_plus.svg";
+import reviewArrowRight from "./icon__review-arrowright.svg";
+import reviewArrowLeft from "./icon__review-arrowleft.svg";
 
 export {
   facebook,
@@ -26,4 +28,6 @@ export {
   arrowLeft,
   arrowRight,
   plus,
+  reviewArrowRight,
+  reviewArrowLeft,
 };
