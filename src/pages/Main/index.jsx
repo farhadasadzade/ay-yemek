@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { TopHeader, Header } from "modules";
+import { TopHeader, Header, Footer } from "modules";
 import { Home } from "pages";
 
 const Main = () => {
@@ -11,6 +11,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
+      <Footer />
     </>
   );
 };

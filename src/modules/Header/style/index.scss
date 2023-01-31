@@ -4,7 +4,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 52px 0 40px;
+  padding: 9px 52px 16px 40px;
+  background-color: #ffffff;
 
   &__links {
     display: flex;
@@ -122,7 +123,7 @@
 
 @media (max-width: 900px) {
   .header {
-    padding: 0 20px 0 11px;
+    padding: 9px 20px 9px 11px;
   }
 }
 

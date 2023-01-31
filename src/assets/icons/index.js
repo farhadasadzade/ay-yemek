@@ -14,6 +14,9 @@ import plus from "./icon_plus.svg";
 import reviewArrowRight from "./icon__review-arrowright.svg";
 import reviewArrowLeft from "./icon__review-arrowleft.svg";
 import chevronDown from "./icon_chevron-down.svg";
+import facebookOrange from "./icon_facebook-orange.svg";
+import instagramOrange from "./icon_instagram-orange.svg";
+import twitterOrange from "./icon_twitter-orange.svg";
 
 export {
   facebook,
@@ -32,4 +35,7 @@ export {
   reviewArrowRight,
   reviewArrowLeft,
   chevronDown,
+  facebookOrange,
+  instagramOrange,
+  twitterOrange,
 };

@@ -1,0 +1,64 @@
+@import "assets/css/variables.scss";
+
+.footer {
+  padding: 50px 30px;
+  background-color: #f4f4f4;
+
+  &__logo {
+    &-text {
+      font-family: "DM Sans";
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 22px;
+      text-align: center;
+      letter-spacing: -0.231818px;
+      color: #00072d;
+      max-width: 382px;
+      mix-blend-mode: normal;
+      opacity: 0.5;
+    }
+  }
+
+  &__link {
+    font-family: "DM Sans";
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: -0.204545px;
+    color: #00072d;
+    padding: 0 26px;
+
+    &:hover {
+      color: $primary-color !important;
+    }
+  }
+
+  &__social {
+    padding: 0 20px;
+  }
+}
+
+.copyright {
+  background-color: #ebe6e6;
+  font-family: "Nunito";
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 16px;
+  color: #263238;
+  padding: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .footer {
+    &__links {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__link {
+      padding: 12px 0px;
+    }
+  }
+}
