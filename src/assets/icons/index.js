@@ -13,6 +13,7 @@ import arrowRight from "./icon_arrowright.svg";
 import plus from "./icon_plus.svg";
 import reviewArrowRight from "./icon__review-arrowright.svg";
 import reviewArrowLeft from "./icon__review-arrowleft.svg";
+import chevronDown from "./icon_chevron-down.svg";
 
 export {
   facebook,
@@ -30,4 +31,5 @@ export {
   plus,
   reviewArrowRight,
   reviewArrowLeft,
+  chevronDown,
 };

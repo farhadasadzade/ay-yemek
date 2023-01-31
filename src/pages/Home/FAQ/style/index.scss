@@ -49,10 +49,32 @@
   &-expand.active {
     transform: rotate(45deg);
   }
+
+  &-more {
+    background: none;
+    border: none;
+    font-family: "Inter";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #00072d;
+  }
 }
 
 .ant-collapse-header,
 .ant-collapse-content {
   background: none !important;
   border: none !important;
+}
+
+@media (max-width: 1000px) {
+  .home__faq {
+    padding: 135px 25px 100px;
+
+    &-text {
+      font-size: 18px;
+      max-width: 100%;
+    }
+  }
 }
