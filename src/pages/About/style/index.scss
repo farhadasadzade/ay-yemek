@@ -1,0 +1,86 @@
+@import "assets/css/variables.scss";
+
+.about {
+  &__images {
+    justify-content: space-between;
+    margin-bottom: 75px;
+  }
+
+  &__img {
+    height: 520px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50px;
+    background-position: center;
+
+    &:first-child {
+      width: 63%;
+    }
+
+    &:last-child {
+      width: 33%;
+    }
+  }
+
+  &__description {
+    justify-content: center;
+    gap: 100px;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    &-title {
+      font-family: "Inter";
+      font-weight: 600;
+      font-size: 35px;
+      line-height: 110%;
+      color: $secondary-color;
+      word-break: keep-all;
+      white-space: pre;
+    }
+
+    &-text {
+      max-width: 901px;
+      font-family: "Inter";
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 157.4%;
+      color: #797979;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .about {
+    &__images {
+      justify-content: start;
+      flex-direction: column;
+      margin-bottom: 32px;
+    }
+
+    &__img {
+      height: 217px;
+      width: 100% !important;
+
+      &:first-child {
+        margin-bottom: 15px;
+      }
+    }
+
+    &__description {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 24px;
+
+      &-title {
+        font-size: 29px;
+        line-height: 110%;
+      }
+
+      &-text {
+        font-size: 19px;
+        line-height: 157.4%;
+      }
+    }
+  }
+}

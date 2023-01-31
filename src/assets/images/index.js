@@ -13,6 +13,8 @@ import subSandwich from "./subSandwich.png";
 import steak from "./steak.png";
 import userComment from "./userComment.png";
 import userCommentIcon from "./userCommentIcon.png";
+import about1 from "./about1.jpg";
+import about2 from "./about2.jpg";
 
 export {
   logo,
@@ -30,4 +32,6 @@ export {
   steak,
   userComment,
   userCommentIcon,
+  about1,
+  about2,
 };

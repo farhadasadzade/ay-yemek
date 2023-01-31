@@ -3,6 +3,15 @@
 .footer {
   padding: 50px 30px;
   background-color: #f4f4f4;
+  position: relative;
+
+  &__scroll-top {
+    background: none;
+    border: none;
+    position: absolute;
+    top: -47px;
+    right: 50px;
+  }
 
   &__logo {
     &-text {
@@ -59,6 +68,14 @@
 
     &__link {
       padding: 12px 0px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .footer {
+    &__scroll-top {
+      display: none;
     }
   }
 }

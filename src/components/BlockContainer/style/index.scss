@@ -1,0 +1,42 @@
+@import "assets/css/variables.scss";
+
+.blockcontainer {
+  padding: 80px 80px 100px;
+
+  &__title {
+    font-family: "Inter";
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 48px;
+    text-transform: uppercase;
+    color: $primary-color;
+    margin-bottom: 16px;
+  }
+
+  &__subtitle {
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 157.4%;
+    color: #797979;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .blockcontainer {
+    padding: 40px 20px 130px;
+
+    &__title {
+      font-size: 24px;
+      line-height: 29px;
+      margin-bottom: 5px;
+    }
+
+    &__subtitle {
+      font-size: 14px;
+      line-height: 31px;
+      margin-bottom: 5px;
+    }
+  }
+}

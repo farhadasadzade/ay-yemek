@@ -1,11 +1,11 @@
-import { Route, Routes } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { Main } from "pages";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-    </Routes>
+    <Switch>
+      <Route path="/" render={() => <Main />} />
+    </Switch>
   );
 }
 
