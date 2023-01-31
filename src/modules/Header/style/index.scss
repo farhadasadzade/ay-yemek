@@ -6,6 +6,9 @@
   justify-content: space-between;
   padding: 9px 52px 16px 40px;
   background-color: #ffffff;
+  position: sticky;
+  z-index: 999;
+  top: 0;
 
   &__links {
     display: flex;
