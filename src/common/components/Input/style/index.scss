@@ -1,0 +1,25 @@
+@import "assets/css/variables.scss";
+
+.coreinput {
+  background: #ffffff;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  font-family: "Nunito";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 17px;
+  color: #797979;
+  padding: 25px;
+
+  &-error {
+    background: rgba(247, 92, 3, 0.17);
+  }
+
+  &:focus {
+    border: 1px solid $primary-color !important;
+  }
+
+  &:hover {
+    border: 1px solid $primary-color !important;
+  }
+}

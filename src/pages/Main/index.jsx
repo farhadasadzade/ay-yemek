@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { TopHeader, Header, Footer } from "modules";
-import { Home, About } from "pages";
+import { Home, About, Contact } from "pages";
 
 const Main = () => {
   return (
@@ -11,6 +11,7 @@ const Main = () => {
       <Switch>
         <Route path="/" exact render={() => <Home />} />
         <Route path="/about" render={() => <About />} />
+        <Route path="/contact" render={() => <Contact />} />
       </Switch>
       <Footer />
     </>
