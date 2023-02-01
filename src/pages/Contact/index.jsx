@@ -101,7 +101,7 @@ const Contact = () => {
               onChange={(e) => handleChangeInput(e, "message")}
               name="message"
               error={!isEmpty(methods.formState.errors.message)}
-              placeholder={t("yourMessage")}
+              placeholder={`${t("yourMessage")}`}
             />
           </Col>
         </Row>

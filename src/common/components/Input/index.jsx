@@ -28,6 +28,7 @@ const Input = ({
               id={name}
               onChange={onChange}
               rows={rows}
+              placeholder={placeholder}
             />
           </label>
         </>
