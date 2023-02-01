@@ -10,6 +10,8 @@
   line-height: 17px;
   color: #797979;
   padding: 25px;
+  margin-top: 17px;
+  width: 100%;
 
   &-error {
     background: rgba(247, 92, 3, 0.17);
@@ -21,5 +23,23 @@
 
   &:hover {
     border: 1px solid $primary-color !important;
+  }
+
+  &-label {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 150%;
+    text-transform: capitalize;
+    color: #242331;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .coreinput {
+    font-size: 18px;
+    margin-bottom: 20px;
   }
 }

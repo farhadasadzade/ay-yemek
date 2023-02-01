@@ -4,19 +4,50 @@ import "./style/index.scss";
 
 const { TextArea } = CoreInput;
 
-const Input = ({ type, placeholder, error }) => {
+const Input = ({
+  type,
+  placeholder,
+  error,
+  name,
+  label,
+  isRequired,
+  methods,
+  onChange,
+  rows,
+}) => {
   switch (type) {
     case "textarea":
       return (
-        <TextArea className={`coreinput ${error ? "coreinput-error" : ""}`} />
+        <>
+          <label className="coreinput-label" htmlFor={name}>
+            {label}{" "}
+            <span style={{ color: "#D0011A" }}>{isRequired ? "*" : ""}</span>
+            <TextArea
+              className={`coreinput ${error ? "coreinput-error" : ""}`}
+              name={name}
+              id={name}
+              onChange={onChange}
+              rows={rows}
+            />
+          </label>
+        </>
       );
     default:
       return (
-        <CoreInput
-          className={`coreinput ${error ? "coreinput-error" : ""}`}
-          type={type}
-          placeholder={placeholder}
-        />
+        <>
+          <label className="coreinput-label" htmlFor={name}>
+            {label}{" "}
+            <span style={{ color: "#D0011A" }}>{isRequired ? "*" : ""}</span>
+            <CoreInput
+              className={`coreinput ${error ? "coreinput-error" : ""}`}
+              type={type}
+              placeholder={placeholder}
+              name={name}
+              id={name}
+              onChange={onChange}
+            />
+          </label>
+        </>
       );
   }
 };

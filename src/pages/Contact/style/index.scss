@@ -1,1 +1,87 @@
 @import "assets/css/variables.scss";
+
+.contact {
+  &__button {
+    max-width: 416px;
+    width: 100%;
+  }
+
+  &__block {
+    padding: 34px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-info {
+      display: flex;
+      align-items: center;
+    }
+
+    &-img {
+      padding: 30px;
+      background-color: $secondary-color;
+      margin-right: 24px;
+      border-radius: 20px;
+
+      img {
+        height: 26px;
+        width: 26px;
+      }
+    }
+
+    &-name {
+      font-family: "Nunito";
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 321.5%;
+      text-transform: capitalize;
+      color: $primary-color;
+    }
+
+    &-text {
+      p {
+        margin: 8px 0;
+        font-family: "Inter";
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 27px;
+        text-align: right;
+        text-transform: lowercase;
+        color: $secondary-color;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .contact {
+    &__block {
+      &-info {
+        flex-direction: column;
+      }
+
+      &-img {
+        display: flex;
+        justify-content: center;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .contact {
+    &__block {
+      flex-direction: column;
+      margin-bottom: 40px;
+    }
+
+    &__info {
+      flex-direction: column;
+    }
+  }
+}
