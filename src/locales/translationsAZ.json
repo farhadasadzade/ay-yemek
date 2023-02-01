@@ -33,5 +33,9 @@
   "email": "E-Poçt",
   "yourMessage": "Mesajınız",
   "send": "Göndər",
-  "phone": "Telefon"
+  "phone": "Telefon",
+  "registerTitle": "SİZ SEÇİN BİZ İSTƏDİYİNİZ ZAMANDA YEMƏKLƏRİNİZİ ÇATDIRAQ",
+  "registerText": "Sizin həyat tərzinizə və büdcənizə uyğun yemək planları",
+  "name": "Ad",
+  "surname": "Soyad"
 }

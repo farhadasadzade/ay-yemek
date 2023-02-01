@@ -1,5 +1,5 @@
 import React from "react";
-import { Input as CoreInput } from "antd";
+import { Input as CoreInput, DatePicker } from "antd";
 import "./style/index.scss";
 
 const { TextArea } = CoreInput;
@@ -29,6 +29,24 @@ const Input = ({
               onChange={onChange}
               rows={rows}
               placeholder={placeholder}
+            />
+          </label>
+        </>
+      );
+    case "datepicker":
+      return (
+        <>
+          <label className="coreinput-label" htmlFor={name}>
+            {label}{" "}
+            <span style={{ color: "#D0011A" }}>{isRequired ? "*" : ""}</span>
+            <DatePicker
+              className={`coreinput ${error ? "coreinput-error" : ""}`}
+              name={name}
+              id={name}
+              onChange={onChange}
+              placeholder="05.09.1999"
+              format="DD.MM.YYYY"
+              showToday={false}
             />
           </label>
         </>

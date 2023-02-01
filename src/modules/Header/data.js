@@ -1,11 +1,13 @@
+import { urls } from "shared/constants/url";
+
 export const headerLinks = [
   {
     title: "home",
-    link: "/",
+    link: urls.home.base,
   },
   {
     title: "about",
-    link: "/about",
+    link: urls.home.about,
   },
   {
     title: "packets",
@@ -13,6 +15,6 @@ export const headerLinks = [
   },
   {
     title: "contact",
-    link: "/contact",
+    link: urls.home.contact,
   },
 ];

@@ -37,6 +37,40 @@
   }
 }
 
+.ant-picker-cell-selected {
+  .ant-picker-cell-inner {
+    background-color: $primary-color !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+    border-radius: 50% !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #ffffff !important;
+  }
+}
+
+.ant-picker-cell-inner {
+  font-family: "Inter" !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  line-height: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  color: #343c44 !important;
+}
+
+.ant-picker-cell:hover {
+  .ant-picker-cell-inner {
+    border-radius: 50% !important;
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
 @media (max-width: 1000px) {
   .coreinput {
     font-size: 18px;
