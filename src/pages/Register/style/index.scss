@@ -8,6 +8,7 @@
   &__form {
     width: 50%;
     padding: 20px 80px 30px;
+    overflow-y: scroll;
 
     &-back {
       background: rgba(14, 107, 168, 0.25);

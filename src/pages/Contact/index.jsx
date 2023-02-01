@@ -74,7 +74,6 @@ const Contact = () => {
               isRequired
               placeholder="valiyeva fidan"
               name="fullName"
-              methods={methods}
               onChange={(e) => handleChangeInput(e, "fullName")}
               error={!isEmpty(methods.formState.errors.fullName)}
             />
@@ -85,7 +84,6 @@ const Contact = () => {
               isRequired
               placeholder="valiyevaafidann@gmail.com"
               name="email"
-              methods={methods}
               onChange={(e) => handleChangeInput(e, "email")}
               error={!isEmpty(methods.formState.errors.email)}
             />

@@ -37,5 +37,9 @@
   "registerTitle": "SİZ SEÇİN BİZ İSTƏDİYİNİZ ZAMANDA YEMƏKLƏRİNİZİ ÇATDIRAQ",
   "registerText": "Sizin həyat tərzinizə və büdcənizə uyğun yemək planları",
   "name": "Ad",
-  "surname": "Soyad"
+  "surname": "Soyad",
+  "birthDate": "Doğum tarixi",
+  "password": "Parol",
+  "address": "Ünvan",
+  "registerNow": "Qeydiyyatdan keç"
 }

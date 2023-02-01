@@ -11,7 +11,6 @@ const Input = ({
   name,
   label,
   isRequired,
-  methods,
   onChange,
   rows,
 }) => {
@@ -47,6 +46,8 @@ const Input = ({
               placeholder="05.09.1999"
               format="DD.MM.YYYY"
               showToday={false}
+              superNextIcon={<></>}
+              superPrevIcon={<></>}
             />
           </label>
         </>

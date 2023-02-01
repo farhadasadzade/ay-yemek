@@ -1,9 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import i18n from "i18next";
 import { logo } from "assets/images";
-import "./style/index.scss";
 import { Col, Row } from "antd";
-import { Input } from "common/components";
+import { Input, Button } from "common/components";
+import "./style/index.scss";
 
 const BackArrow = () => (
   <svg
@@ -32,17 +33,21 @@ const BackArrow = () => (
 
 const Register = () => {
   const { t } = i18n;
+  const history = useHistory();
 
   return (
     <div className="register">
       <div className="register__form">
         <img className="mb-4" src={logo} alt="logo" />
-        <button className="register__form-back mb-5">
+        <button
+          className="register__form-back mb-5"
+          onClick={() => history.goBack()}
+        >
           <BackArrow />
         </button>
         <h1 className="mb-3">{t("register")}</h1>
         <form>
-          <Row gutter={32}>
+          <Row className="mb-3" gutter={32}>
             <Col span={12}>
               <Input
                 name="name"
@@ -60,8 +65,25 @@ const Register = () => {
               />
             </Col>
           </Row>
-          <Row>
-            <Input type="datepicker" />
+          <Row className="mb-3">
+            <Input type="datepicker" label={t("birthDate")} isRequired />
+          </Row>
+          <Row className="mb-3">
+            <Input type="password" label={t("password")} isRequired />
+          </Row>
+          <Row className="mb-3">
+            <Input type="email" label={t("email")} isRequired />
+          </Row>
+          <Row className="mb-3">
+            <Input type="phone" label={t("phone")} isRequired />
+          </Row>
+          <Row className="mb-3">
+            <Input type="text" label={t("address")} isRequired />
+          </Row>
+          <Row className="mt-5">
+            <Button style={{ width: "100%" }} type="primary">
+              {t("registerNow")}
+            </Button>
           </Row>
         </form>
       </div>
