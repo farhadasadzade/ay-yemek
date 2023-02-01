@@ -50,7 +50,7 @@ const Contact = () => {
 
   return (
     <BlockContainer title={t("contact")} subtitle={t("contactWith")}>
-      <Row className="contact__info mb-4" gutter={100}>
+      <Row className="contact__info mb-4" gutter={windowWidth > 1000 ? 100 : 0}>
         <Col span={windowWidth > 1000 ? 12 : 24}>
           <ContactBlock
             icon={mail}
@@ -67,7 +67,7 @@ const Contact = () => {
         </Col>
       </Row>
       <form onSubmit={methods.handleSubmit()}>
-        <Row className="mb-4" gutter={100}>
+        <Row className="mb-4" gutter={windowWidth > 1000 ? 100 : 0}>
           <Col span={windowWidth > 1000 ? 12 : 24}>
             <Input
               label={t("nameSurname")}

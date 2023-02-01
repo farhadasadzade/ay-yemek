@@ -41,6 +41,10 @@ const Header = () => {
     document.body.style.overflowY = "scroll";
   }, [isMobileMenuVisible]);
 
+  useUpdateEffect(() => {
+    setMobileMenu(false);
+  }, [location.pathname]);
+
   return (
     <header className="header">
       <div className="header__logo">
