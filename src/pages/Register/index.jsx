@@ -87,7 +87,7 @@ const Register = () => {
                 <Col span={12}>
                   <Input
                     name="name"
-                    placeholder="Your Name"
+                    placeholder={t("enterYourName")}
                     isRequired
                     label={t("name")}
                   />
@@ -95,7 +95,7 @@ const Register = () => {
                 <Col span={12}>
                   <Input
                     name="surname"
-                    placeholder="Your Surname"
+                    placeholder={t("enterYourSurname")}
                     isRequired
                     label={t("surname")}
                   />
@@ -106,7 +106,7 @@ const Register = () => {
               <Row className="mb-3">
                 <Input
                   name="name"
-                  placeholder="Your Name"
+                  placeholder={t("enterYourName")}
                   isRequired
                   label={t("name")}
                 />
@@ -114,7 +114,7 @@ const Register = () => {
               <Row className="mb-3">
                 <Input
                   name="surname"
-                  placeholder="Your Surname"
+                  placeholder={t("enterYourSurname")}
                   isRequired
                   label={t("surname")}
                 />
@@ -124,16 +124,36 @@ const Register = () => {
               <Input type="datepicker" label={t("birthDate")} isRequired />
             </Row>
             <Row className="mb-3">
-              <Input type="password" label={t("password")} isRequired />
+              <Input
+                type="password"
+                label={t("password")}
+                isRequired
+                placeholder={t("enterYourPassword")}
+              />
             </Row>
             <Row className="mb-3">
-              <Input type="email" label={t("email")} isRequired />
+              <Input
+                type="email"
+                label={t("email")}
+                isRequired
+                placeholder={t("enterYourEmail")}
+              />
             </Row>
             <Row className="mb-3">
-              <Input type="phone" label={t("phone")} isRequired />
+              <Input
+                type="phone"
+                label={t("phone")}
+                isRequired
+                placeholder={t("enterYourPhone")}
+              />
             </Row>
             <Row className="mb-3">
-              <Input type="text" label={t("address")} isRequired />
+              <Input
+                type="text"
+                label={t("address")}
+                isRequired
+                placeholder={t("enterYourAddress")}
+              />
             </Row>
             <Row className="mt-5">
               <Button style={{ width: "100%" }} type="primary">

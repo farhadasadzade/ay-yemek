@@ -41,5 +41,11 @@
   "birthDate": "Doğum tarixi",
   "password": "Parol",
   "address": "Ünvan",
-  "registerNow": "Qeydiyyatdan keç"
+  "registerNow": "Qeydiyyatdan keç",
+  "enterYourName": "Adınızı daxil edin",
+  "enterYourSurname": "Soyadınızı daxil edin",
+  "enterYourPassword": "Parolunuzu daxil edin",
+  "enterYourEmail": "E-Poçtunuzu daxil edin",
+  "enterYourPhone": "Telefonunuzu daxil edin",
+  "enterYourAddress": "Ünvanınızı daxil edin"
 }

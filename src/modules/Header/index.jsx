@@ -23,6 +23,8 @@ const Header = () => {
     window.addEventListener("resize", (e) =>
       setWindowWidth(e.target.innerWidth)
     );
+
+    document.body.style.overflowY = "scroll";
   });
 
   useUnmount(() => {

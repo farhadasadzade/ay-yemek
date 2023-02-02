@@ -4,7 +4,6 @@ import { TopHeader, Header, Footer } from "modules";
 import { Home, About, Contact } from "pages";
 
 const Main = ({ match: { url } }) => {
-  console.log(url);
   return (
     <>
       <TopHeader />
