@@ -1,14 +1,11 @@
 @import "assets/css/variables.scss";
 
 .howworks {
-  padding: 50px 80px 125px;
+  padding: 50px 80px 0;
   position: relative;
 
   &__img {
-    position: relative;
-    top: -600px;
     width: 100%;
-    z-index: -1;
   }
 }
 
@@ -30,7 +27,7 @@
 
 @media (max-width: 1000px) {
   .howworks {
-    padding:100px 30px 75px;
+    padding: 100px 30px 75px;
     position: relative;
 
     &__img {
