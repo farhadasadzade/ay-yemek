@@ -99,10 +99,14 @@ const Login = () => {
             </Row>
             <Row className="mt-5">
               <Button style={{ width: "100%" }} type="primary">
-                {t("login")}
+                {t("loginNow")}
               </Button>
             </Row>
           </form>
+        </div>
+        <div className="register__back">
+          <h1>{t("registerTitle")}</h1>
+          <p>{t("registerText")}</p>
         </div>
       </div>
       <RenderIf condition={windowWidth < 1000}>
