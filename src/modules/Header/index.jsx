@@ -1,11 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18next";
-import { map } from "lodash";
+import { map, isEmpty } from "lodash";
+import { Row } from "antd";
 import { useToggle, useMount, useUpdateEffect, useUnmount } from "ahooks";
 import { logo } from "assets/images";
-import { menuBar } from "assets/icons";
-import { Typography, Button } from "common/components";
+import { chevronDownBlue, menuBar, user } from "assets/icons";
+import { Typography, Button, RenderIf } from "common/components";
 import MobileMenu from "./MobileMenu";
 import { headerLinks } from "./data";
 import "./style/index.scss";
@@ -13,10 +14,14 @@ import "./style/index.scss";
 const Header = () => {
   const { t } = i18n;
   const location = useLocation();
+  const isUserLogined = !isEmpty(localStorage.getItem("user"));
+
   const [
     isMobileMenuVisible,
     { toggle: toggleMobileMenu, set: setMobileMenu },
   ] = useToggle();
+  const [isUserMenuVisible, { toggle: toggleUserMenu }] = useToggle();
+
   const [windowWidth, setWindowWidth] = React.useState(0);
 
   useMount(() => {
@@ -66,12 +71,57 @@ const Header = () => {
         ))}
       </div>
       <div className="header__links">
-        <Link to="/login">
-          <Typography className="header__link">{t("login")}</Typography>
-        </Link>
-        <Link to="/register">
-          <Button type="primary">{t("register")}</Button>
-        </Link>
+        <RenderIf condition={!isUserLogined}>
+          <Link to="/login">
+            <Typography className="header__link">{t("login")}</Typography>
+          </Link>
+          <Link to="/register">
+            <Button type="primary">{t("register")}</Button>
+          </Link>
+        </RenderIf>
+        <RenderIf condition={isUserLogined}>
+          <Row onClick={toggleUserMenu} className="header__user" align="middle">
+            <img className="me-2" src={user} alt="user-icon" />
+            <p className="header__user-name me-2">
+              Valiyeva Fidan{" "}
+              <img className="ms-2" src={chevronDownBlue} alt="chevron-down" />
+            </p>
+            <RenderIf condition={isUserMenuVisible}>
+              <div className="header__user-menu">
+                <p
+                  style={{
+                    fontFamily: "Inter",
+                    fontStyle: "normal",
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    lineHeight: "15px",
+                    color: "#000000",
+                    padding: "0 16px 13px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {t("myProfileInfo")}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "Inter",
+                    fontStyle: "normal",
+                    fontWeight: "400",
+                    fontSize: "10px",
+                    lineHeight: "13px",
+                    color: "#D81A1A",
+                    padding: "3px 16px 0",
+                    borderTop: "0.5px solid rgba(0, 0, 0, 0.15)",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => localStorage.removeItem("user")}
+                >
+                  {t("logout")}
+                </p>
+              </div>
+            </RenderIf>
+          </Row>
+        </RenderIf>
         <Button type="secondary" className="header__button-lang mx-3">
           Az
         </Button>

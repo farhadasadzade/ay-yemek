@@ -18,6 +18,8 @@ import facebookOrange from "./icon_facebook-orange.svg";
 import instagramOrange from "./icon_instagram-orange.svg";
 import twitterOrange from "./icon_twitter-orange.svg";
 import scrollTop from "./icon_scrollTop.svg";
+import user from "./icon_user.svg";
+import chevronDownBlue from "./icon_chevron-down-blue.svg";
 
 export {
   facebook,
@@ -40,4 +42,6 @@ export {
   instagramOrange,
   twitterOrange,
   scrollTop,
+  user,
+  chevronDownBlue,
 };

@@ -123,8 +123,6 @@ const Register = () => {
           icon: "error",
           title: t("emailIsUsedAlready"),
         });
-
-        return;
       }
     }
   }, [registerState.isLoading]);
