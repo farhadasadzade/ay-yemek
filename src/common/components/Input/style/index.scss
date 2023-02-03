@@ -15,6 +15,10 @@
 
   &-error {
     background: rgba(247, 92, 3, 0.17);
+
+    input {
+      background: rgba(247, 92, 3, 0.17);
+    }
   }
 
   &:focus {

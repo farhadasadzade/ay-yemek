@@ -48,5 +48,7 @@
   "enterYourEmail": "E-Poçtunuzu daxil edin",
   "enterYourPhone": "Telefonunuzu daxil edin",
   "enterYourAddress": "Ünvanınızı daxil edin",
-  "loginNow": "Daxil olun"
+  "loginNow": "Daxil olun",
+  "registrationSuccess": "Qeydiyyat tamamlandı",
+  "emailIsUsedAlready": "Bu E-Poçt artıq istifadə olunub"
 }

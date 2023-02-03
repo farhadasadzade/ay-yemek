@@ -12,7 +12,10 @@ const Input = ({
   label,
   isRequired,
   onChange,
+  onSelect,
   rows,
+  prefix,
+  disabledDate,
 }) => {
   switch (type) {
     case "textarea":
@@ -28,6 +31,7 @@ const Input = ({
               onChange={onChange}
               rows={rows}
               placeholder={placeholder}
+              prefix={prefix}
             />
           </label>
         </>
@@ -48,6 +52,8 @@ const Input = ({
               showToday={false}
               superNextIcon={<></>}
               superPrevIcon={<></>}
+              onSelect={onSelect}
+              disabledDate={disabledDate}
             />
           </label>
         </>
@@ -65,6 +71,7 @@ const Input = ({
               name={name}
               id={name}
               onChange={onChange}
+              prefix={prefix}
             />
           </label>
         </>

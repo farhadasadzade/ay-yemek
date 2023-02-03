@@ -3,6 +3,9 @@
 .button {
   height: auto;
   font-family: "Inter", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &-primary {
     background-color: $primary-color;
@@ -34,5 +37,33 @@
     color: #ffffff !important;
     border: 1px solid $primary-color !important;
     border-color: $primary-color !important;
+  }
+}
+
+.button-loader {
+  border: 5px solid $primary-color;
+  border-radius: 50%;
+  border-top: 5px solid #f3f3f3;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

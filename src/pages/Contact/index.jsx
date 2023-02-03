@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { isEmpty } from "lodash";
+import { isEmpty, trim } from "lodash";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import i18n from "i18next";
@@ -25,6 +25,17 @@ const Contact = () => {
   const { t } = i18n;
   const [windowWidth, setWindowWidth] = React.useState(0);
 
+  const handleChangeInput = useMemoizedFn((e, name) => {
+    methods.setValue(name, trim(e.target.value));
+    methods.clearErrors(name);
+  });
+
+  React.useEffect(() => {
+    methods.register("fullName");
+    methods.register("email");
+    methods.register("message");
+  }, [methods]);
+
   useMount(() => {
     window.addEventListener("resize", (e) =>
       setWindowWidth(e.target.innerWidth)
@@ -36,17 +47,6 @@ const Contact = () => {
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
   });
-
-  const handleChangeInput = useMemoizedFn((e, name) => {
-    methods.setValue(name, e.target.value);
-    methods.clearErrors(name);
-  });
-
-  React.useEffect(() => {
-    methods.register("fullName");
-    methods.register("email");
-    methods.register("message");
-  }, [methods]);
 
   return (
     <BlockContainer title={t("contact")} subtitle={t("contactWith")}>

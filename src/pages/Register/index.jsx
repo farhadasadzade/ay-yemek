@@ -1,12 +1,18 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useMount, useUnmount } from "ahooks";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import moment from "moment/moment";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { isEmpty, trim } from "lodash";
+import { useMount, useUnmount, useMemoizedFn, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
 import { logo } from "assets/images";
 import { Col, Row } from "antd";
-import { Input, Button, RenderIf } from "common/components";
-import "./style/index.scss";
+import { Input, Button, RenderIf, Toast } from "common/components";
 import { Footer, Header } from "modules";
+import { apiAuth } from "common/api/apiAuth";
+import "./style/index.scss";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -34,11 +40,64 @@ const BackArrow = ({ stroke, className }) => (
   </svg>
 );
 
+const PHONE_REGEX =
+  "(?:12|51|50|55|70|77)[^w]{0,2}[2-9][0-9]{2}[^w]{0,2}[0-9]{2}[^w]{0,2}[0-9]{2}";
+
 const Register = () => {
+  const schema = yup.object().shape({
+    email: yup.string().email().required(),
+    name: yup.string().required(),
+    surname: yup.string().required(),
+    password: yup
+      .string()
+      .required()
+      .min(8, "Password too short")
+      .matches(/^(?=.*[a-z])/, "Must contain at least one lowercase character")
+      .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
+      .matches(/^(?=.*[0-9])/, "Must contain at least one number"),
+    birthDate: yup.string().required(),
+    phone: yup
+      .string()
+      .required()
+      .matches(PHONE_REGEX, "Phone number is not valid")
+      .min(9)
+      .max(9),
+    address: yup.string().required(),
+  });
+
   const { t } = i18n;
   const history = useHistory();
+  const methods = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const [register, registerState] = apiAuth.useRegisterMutation();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
+
+  const handleChangeInput = useMemoizedFn((e, name) => {
+    methods.setValue(name, trim(e.target.value));
+    methods.clearErrors(name);
+  });
+
+  const handleSumbitRegistration = useMemoizedFn(() => {
+    const { name, surname, password, email } = methods.getValues();
+
+    register({
+      name: `${name} ${surname}`,
+      email,
+      password,
+    });
+  });
+
+  React.useEffect(() => {
+    methods.register("name");
+    methods.register("surname");
+    methods.register("email");
+    methods.register("password");
+    methods.register("phone");
+    methods.register("address");
+  }, [methods]);
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -47,6 +106,28 @@ const Register = () => {
 
     setWindowWidth(window.innerWidth);
   });
+
+  useUpdateEffect(() => {
+    if (!registerState.isLoading) {
+      if (registerState.isSuccess) {
+        Toast.fire({
+          icon: "success",
+          title: t("registrationSuccess"),
+        });
+
+        setTimeout(() => history.push("/login"), 1000);
+      }
+
+      if (registerState.isError) {
+        Toast.fire({
+          icon: "error",
+          title: t("emailIsUsedAlready"),
+        });
+
+        return;
+      }
+    }
+  }, [registerState.isLoading]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
@@ -81,7 +162,7 @@ const Register = () => {
               <p>Lorem Ipsum is simply dummy text of the printing</p>
             </Row>
           </RenderIf>
-          <form>
+          <form onSubmit={methods.handleSubmit(handleSumbitRegistration)}>
             <RenderIf condition={windowWidth >= 1000}>
               <Row className="mb-3" gutter={32}>
                 <Col span={12}>
@@ -90,6 +171,8 @@ const Register = () => {
                     placeholder={t("enterYourName")}
                     isRequired
                     label={t("name")}
+                    onChange={(e) => handleChangeInput(e, "name")}
+                    error={!isEmpty(methods.formState.errors.name)}
                   />
                 </Col>
                 <Col span={12}>
@@ -98,6 +181,8 @@ const Register = () => {
                     placeholder={t("enterYourSurname")}
                     isRequired
                     label={t("surname")}
+                    onChange={(e) => handleChangeInput(e, "surname")}
+                    error={!isEmpty(methods.formState.errors.surname)}
                   />
                 </Col>
               </Row>
@@ -109,6 +194,8 @@ const Register = () => {
                   placeholder={t("enterYourName")}
                   isRequired
                   label={t("name")}
+                  onChange={(e) => handleChangeInput(e, "name")}
+                  error={!isEmpty(methods.formState.errors.name)}
                 />
               </Row>
               <Row className="mb-3">
@@ -117,11 +204,33 @@ const Register = () => {
                   placeholder={t("enterYourSurname")}
                   isRequired
                   label={t("surname")}
+                  onChange={(e) => handleChangeInput(e, "surname")}
+                  error={!isEmpty(methods.formState.errors.surname)}
                 />
               </Row>
             </RenderIf>
             <Row className="mb-3">
-              <Input type="datepicker" label={t("birthDate")} isRequired />
+              <Input
+                type="datepicker"
+                name="birthDate"
+                isRequired
+                label={t("birthDate")}
+                onSelect={(e) =>
+                  handleChangeInput(
+                    {
+                      target: {
+                        value: e,
+                      },
+                    },
+                    "birthDate"
+                  )
+                }
+                error={!isEmpty(methods.formState.errors.birthDate)}
+                disabledDate={(current) => {
+                  let customDate = moment().format("YYYY-MM-DD");
+                  return current && current >= moment(customDate, "YYYY-MM-DD");
+                }}
+              />
             </Row>
             <Row className="mb-3">
               <Input
@@ -129,6 +238,8 @@ const Register = () => {
                 label={t("password")}
                 isRequired
                 placeholder={t("enterYourPassword")}
+                onChange={(e) => handleChangeInput(e, "password")}
+                error={!isEmpty(methods.formState.errors.password)}
               />
             </Row>
             <Row className="mb-3">
@@ -137,6 +248,8 @@ const Register = () => {
                 label={t("email")}
                 isRequired
                 placeholder={t("enterYourEmail")}
+                onChange={(e) => handleChangeInput(e, "email")}
+                error={!isEmpty(methods.formState.errors.email)}
               />
             </Row>
             <Row className="mb-3">
@@ -145,6 +258,9 @@ const Register = () => {
                 label={t("phone")}
                 isRequired
                 placeholder={t("enterYourPhone")}
+                onChange={(e) => handleChangeInput(e, "phone")}
+                error={!isEmpty(methods.formState.errors.phone)}
+                prefix="+994"
               />
             </Row>
             <Row className="mb-3">
@@ -153,10 +269,17 @@ const Register = () => {
                 label={t("address")}
                 isRequired
                 placeholder={t("enterYourAddress")}
+                onChange={(e) => handleChangeInput(e, "address")}
+                error={!isEmpty(methods.formState.errors.address)}
               />
             </Row>
             <Row className="mt-5">
-              <Button style={{ width: "100%" }} type="primary">
+              <Button
+                htmlType="submit"
+                style={{ width: "100%" }}
+                type="primary"
+                isLoading={registerState.isLoading}
+              >
                 {t("registerNow")}
               </Button>
             </Row>
