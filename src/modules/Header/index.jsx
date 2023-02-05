@@ -3,7 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import i18n from "i18next";
 import { map, isEmpty } from "lodash";
 import { Row } from "antd";
-import { useToggle, useMount, useUpdateEffect, useUnmount } from "ahooks";
+import {
+  useToggle,
+  useMount,
+  useUpdateEffect,
+  useUnmount,
+  useMemoizedFn,
+} from "ahooks";
 import { logo } from "assets/images";
 import { chevronDownBlue, menuBar, user } from "assets/icons";
 import { Typography, Button, RenderIf } from "common/components";
@@ -23,6 +29,15 @@ const Header = () => {
   const [isUserMenuVisible, { toggle: toggleUserMenu }] = useToggle();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
+  const [isLogoutLoading, setLogoutLoading] = React.useState(false);
+
+  const logout = useMemoizedFn(() => {
+    setLogoutLoading(true);
+    setTimeout(() => {
+      localStorage.removeItem("user");
+      setLogoutLoading(false);
+    }, 1000);
+  });
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -81,11 +96,22 @@ const Header = () => {
         </RenderIf>
         <RenderIf condition={isUserLogined}>
           <Row onClick={toggleUserMenu} className="header__user" align="middle">
-            <img className="me-2" src={user} alt="user-icon" />
-            <p className="header__user-name me-2">
-              Valiyeva Fidan{" "}
-              <img className="ms-2" src={chevronDownBlue} alt="chevron-down" />
-            </p>
+            <RenderIf condition={!isLogoutLoading}>
+              <>
+                <img className="me-2" src={user} alt="user-icon" />
+                <p className="header__user-name me-2">
+                  Valiyeva Fidan{" "}
+                  <img
+                    className="ms-2"
+                    src={chevronDownBlue}
+                    alt="chevron-down"
+                  />
+                </p>
+              </>
+            </RenderIf>
+            <RenderIf condition={isLogoutLoading}>
+              <div className="button-loader"></div>
+            </RenderIf>
             <RenderIf condition={isUserMenuVisible}>
               <div className="header__user-menu">
                 <p
@@ -114,7 +140,7 @@ const Header = () => {
                     borderTop: "0.5px solid rgba(0, 0, 0, 0.15)",
                     cursor: "pointer",
                   }}
-                  onClick={() => localStorage.removeItem("user")}
+                  onClick={logout}
                 >
                   {t("logout")}
                 </p>

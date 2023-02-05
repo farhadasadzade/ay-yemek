@@ -74,6 +74,7 @@ const Register = () => {
   const [register, registerState] = apiAuth.useRegisterMutation();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
+  const [birthDate, setBirthDate] = React.useState(null);
 
   const handleChangeInput = useMemoizedFn((e, name) => {
     methods.setValue(name, trim(e.target.value));
@@ -81,13 +82,27 @@ const Register = () => {
   });
 
   const handleSumbitRegistration = useMemoizedFn(() => {
-    const { name, surname, password, email } = methods.getValues();
+    const { name, surname, password, email, phone, address } =
+      methods.getValues();
 
     register({
-      name: `${name} ${surname}`,
+      name,
+      surname,
       email,
       password,
+      phone: `994${phone}`,
+      address,
+      bdate: birthDate,
     });
+  });
+
+  const handleSelectBirthDate = useMemoizedFn((val) => {
+    const day = val.$d.getDate();
+    const month = val.$d.getMonth() + 1;
+    const year = val.$d.getFullYear();
+
+    setBirthDate(`${day}${month}${year}`);
+    methods.setValue("birthDate", val);
   });
 
   React.useEffect(() => {
@@ -115,7 +130,10 @@ const Register = () => {
           title: t("registrationSuccess"),
         });
 
-        setTimeout(() => history.push("/login"), 1000);
+        setTimeout(() => {
+          localStorage.setItem("user", registerState.data?.token);
+          history.push("/home");
+        }, 1000);
       }
 
       if (registerState.isError) {
@@ -213,16 +231,7 @@ const Register = () => {
                 name="birthDate"
                 isRequired
                 label={t("birthDate")}
-                onSelect={(e) =>
-                  handleChangeInput(
-                    {
-                      target: {
-                        value: e,
-                      },
-                    },
-                    "birthDate"
-                  )
-                }
+                onSelect={handleSelectBirthDate}
                 error={!isEmpty(methods.formState.errors.birthDate)}
                 disabledDate={(current) => {
                   let customDate = moment().format("YYYY-MM-DD");
