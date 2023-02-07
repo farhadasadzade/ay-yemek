@@ -10,8 +10,8 @@ export const headerLinks = [
     link: urls.home.about,
   },
   {
-    title: "packets",
-    link: "/packets",
+    title: "categories",
+    link: urls.home.categories,
   },
   {
     title: "contact",
