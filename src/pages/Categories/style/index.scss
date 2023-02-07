@@ -1,11 +1,79 @@
 @import "assets/css/variables.scss";
 
 .categories {
+  --grid-layout-gap: 30px;
+  --grid-column-count: 3;
+  --grid-item--min-width: 321px;
+
+  /**
+   * Calculated values.
+   */
+  --gap-count: calc(var(--grid-column-count) - 1);
+  --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+  --grid-item--max-width: calc(
+    (100% - var(--total-gap-width)) / var(--grid-column-count)
+  );
+
   padding: 20px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(321px, 340px));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr)
+  );
   justify-content: space-around;
+  justify-items: center;
   gap: 30px;
+}
+
+.pagination__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0eaf0;
+  border-radius: 8px;
+  width: 29px;
+  height: 29px;
+
+  &:hover {
+    background-color: $primary-color;
+
+    svg path {
+      fill: #ffffff;
+    }
+  }
+
+  svg path {
+    fill: $primary-color;
+  }
+}
+
+.ant-pagination {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ant-pagination-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #e0eaf0 !important;
+  border-radius: 8px !important;
+  width: 29px !important;
+  height: 29px !important;
+  box-sizing: border-box !important ;
+
+  a {
+    font-family: "Inter" !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    line-height: 13px !important;
+    color: #0e1924 !important;
+  }
+}
+
+.ant-pagination-item-active {
+  border: 1px solid $primary-color !important;
 }
 
 @media (max-width: 500px) {
