@@ -20,6 +20,10 @@ import twitterOrange from "./icon_twitter-orange.svg";
 import scrollTop from "./icon_scrollTop.svg";
 import user from "./icon_user.svg";
 import chevronDownBlue from "./icon_chevron-down-blue.svg";
+import info from "./icon_info.svg";
+import kkal from "./icon_kkal.svg";
+import azn from "./icon_azn.svg";
+import wallet from "./icon_wallet.svg";
 
 export {
   facebook,
@@ -44,4 +48,8 @@ export {
   scrollTop,
   user,
   chevronDownBlue,
+  info,
+  kkal,
+  azn,
+  wallet,
 };

@@ -15,6 +15,7 @@ import userComment from "./userComment.png";
 import userCommentIcon from "./userCommentIcon.png";
 import about1 from "./about1.jpg";
 import about2 from "./about2.jpg";
+import packet1 from "./packet1.png";
 
 export {
   logo,
@@ -34,4 +35,5 @@ export {
   userCommentIcon,
   about1,
   about2,
+  packet1,
 };

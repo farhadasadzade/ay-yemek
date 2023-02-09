@@ -55,5 +55,9 @@
   "dontHaveAccount": "Hesabınız yoxdur?",
   "emailOrPassIncorrect": "E-Poçt və ya Parol yanlışdır",
   "myProfileInfo": "Profil məlumatlarım",
-  "logout": "Çıxış"
+  "logout": "Çıxış",
+  "mainFood": "Ana yemək",
+  "garnir": "Qarnir",
+  "salad": "Salat",
+  "drink": "İçki"
 }
