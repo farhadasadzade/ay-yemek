@@ -37,7 +37,7 @@ const Categories = () => {
       />
       <div className="carousel">
         <RenderIf condition={windowWidth > 1000 || windowWidth === 0}>
-          <Link to="/" className="home__categories-link">
+          <Link to="/home/categories" className="home__categories-link">
             {t("seeAll")}
           </Link>
           <Carousel

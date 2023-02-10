@@ -59,5 +59,15 @@
   "mainFood": "Ana yemək",
   "garnir": "Qarnir",
   "salad": "Salat",
-  "drink": "İçki"
+  "drink": "İçki",
+  "checkPackets": "Paketlərə Bax",
+  "price": "QİYMƏT",
+  "selectPacket": "Paketi seç",
+  "packets": "Paketlər",
+  "payment": "ÖDƏNİŞ",
+  "selectedPacket": "Seçdiyiniz kateqoriya ve paket",
+  "menuDates": "Menyu tarixləri",
+  "includesWeekend": "şənbə və bazar günləri daxil olmaqla",
+  "totalPayment": "Ümumi məbləğ",
+  "pay": "Ödəniş et"
 }

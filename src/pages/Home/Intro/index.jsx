@@ -21,7 +21,7 @@ const Intro = () => {
         >
           {t("introSubtitle")}
         </Typography>
-        <Link to="/about">
+        <Link to="home/about">
           <Button type="secondary">{t("about")}</Button>
         </Link>
       </div>

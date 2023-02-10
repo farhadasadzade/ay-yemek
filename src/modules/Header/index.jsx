@@ -69,9 +69,11 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="header__logo">
-        <img src={logo} alt="logo" />
-      </div>
+      <Link to="/home">
+        <div className="header__logo">
+          <img src={logo} alt="logo" />
+        </div>
+      </Link>
       <div className="header__links">
         {map(headerLinks, ({ link, title }) => (
           <Link to={`${link}`} key={title}>

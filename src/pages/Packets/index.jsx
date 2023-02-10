@@ -98,7 +98,7 @@ const Packets = () => {
         <RenderIf condition={windowWidth <= 700}>
           <Row className="my-3" justify="center">
             <Button onClick={handlePrices} type="primary">
-              Paketlere Bax{" "}
+              {t('checkPackets')}
               <svg
                 style={{ rotate: "180deg" }}
                 width="25"

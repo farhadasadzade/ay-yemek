@@ -37,7 +37,12 @@ const HowWorks = () => {
         <Row align="middle" style={{ flexDirection: "column" }}>
           <img className="mb-5" src={howWorks1} alt="how-works" />
           <img className="mb-5" src={howWorks2} alt="how-works" />
-          <img className="mb-5 pb-5" src={howWorks3} alt="how-works" />
+          <img
+            style={{ width: "100%" }}
+            className="mb-5 pb-5"
+            src={howWorks3}
+            alt="how-works"
+          />
         </Row>
       </RenderIf>
     </>

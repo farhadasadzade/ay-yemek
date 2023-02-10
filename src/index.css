@@ -175,6 +175,26 @@ a {
   animation: spin 2s linear infinite;
 }
 
+.payment__selected {
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+  background: #2bad3f;
+  border-radius: 8px;
+  padding: 15px 65px;
+}
+
+.payment__price {
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.5px;
+  color: #f75c03;
+}
+
 @-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);

@@ -1,10 +1,13 @@
 import React from "react";
+import i18n from "i18next";
 import { Row } from "antd";
 import { map } from "lodash";
 import PriceBlock from "./PriceBlock";
 import { prices } from "./data";
 
 const PricesMobile = ({ onClose }) => {
+  const { t } = i18n;
+
   return (
     <div className={`prices__mobile`}>
       <Row align="middle">
@@ -25,7 +28,7 @@ const PricesMobile = ({ onClose }) => {
             fill="#006DB8"
           />
         </svg>
-        <p className="prices__mobile-back">Paketler</p>
+        <p className="prices__mobile-back">{t("packets")}</p>
       </Row>
       <div>
         {map(prices, (price) => (
