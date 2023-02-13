@@ -1,21 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Carousel from "react-elastic-carousel";
 import i18n from "i18next";
-import { useMount, useUnmount } from "ahooks";
+import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { map } from "lodash";
 import { Row } from "antd";
-import Carousel from "react-elastic-carousel";
-import { RenderIf } from "common/components";
 import { HomeTitle, CarouselArrows } from "components";
+import { RenderIf } from "common/components";
 import { category } from "assets/images";
+import { apiMeals } from "common/api/apiMeals";
 import Category from "./Category";
-import { categories } from "./data";
 import "./style/index.scss";
 
 const Categories = () => {
   const { t } = i18n;
 
   const [windowWidth, setWindowWidth] = React.useState(0);
+  const [categories, setCategories] = React.useState([]);
+
+  const [getCategories, categoriesState] = apiMeals.useLazyGetCategoryQuery();
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -23,7 +26,15 @@ const Categories = () => {
     );
 
     setWindowWidth(window.innerWidth);
+
+    getCategories();
   });
+
+  useUpdateEffect(() => {
+    if (!categoriesState.isFetching && categoriesState.isSuccess) {
+      setCategories(categoriesState.data?.category);
+    }
+  }, [categoriesState.isFetching]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
@@ -49,26 +60,26 @@ const Categories = () => {
             enableSwipe={false}
             enableMouseSwipe={false}
           >
-            {map(categories, ({ title, titleColor }) => (
+            {map(categories, ({ id, name, description }) => (
               <Category
-                key={title}
+                key={id}
                 image={category}
-                title={t(`${title}`)}
-                titleColor={titleColor}
-                text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem "
+                title={name}
+                titleColor={description}
+                text={description}
               />
             ))}
           </Carousel>
         </RenderIf>
         <RenderIf condition={windowWidth <= 1000 && windowWidth !== 0}>
           <Row align="middle" style={{ flexDirection: "column" }}>
-            {map(categories, ({ title, titleColor }) => (
+            {map(categories, ({ id, name, description }) => (
               <Category
-                key={title}
+                key={id}
                 image={category}
-                title={t(`${title}`)}
-                titleColor={titleColor}
-                text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem "
+                title={name}
+                titleColor={description}
+                text={description}
               />
             ))}
           </Row>

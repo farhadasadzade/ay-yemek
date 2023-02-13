@@ -1,9 +1,10 @@
 import React from "react";
 import i18n from "i18next";
-import { useMemoizedFn, useReactive } from "ahooks";
+import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
 import { map, filter } from "lodash";
 import { Pagination, Row } from "antd";
 import { BlockContainer } from "components";
+import { apiMeals } from "common/api/apiMeals";
 import Category from "pages/Home/Categories/Category";
 import { category } from "assets/images";
 import { categories } from "./data";
@@ -52,8 +53,10 @@ const Categories = () => {
     minIndex: 0,
     maxIndex: 6,
     currentPage: 1,
-    categoriesData: categories,
+    categoriesData: [],
   });
+
+  const [getCategories, categoriesState] = apiMeals.useLazyGetCategoryQuery();
 
   const handleChangePagination = useMemoizedFn((page) => {
     state.minIndex = (page - 1) * 6;
@@ -63,12 +66,16 @@ const Categories = () => {
     setTimeout(() => window.scrollTo(0, 0), 200);
   });
 
-  React.useEffect(() => {
-    state.categoriesData = filter(
-      categories,
-      (category, index) => index >= state.minIndex && index < state.maxIndex
-    );
-  }, [state.currentPage, state]);
+  useMount(() => getCategories());
+
+  useUpdateEffect(() => {
+    if (!categoriesState.isFetching && categoriesState.isSuccess) {
+      state.categoriesData = filter(
+        categoriesState.data?.category,
+        (category, index) => index >= state.minIndex && index < state.maxIndex
+      );
+    }
+  }, [categoriesState.isFetching, state.currentPage]);
 
   return (
     <BlockContainer
@@ -76,20 +83,20 @@ const Categories = () => {
       subtitle="Lorem ipsum dolor sit amet consectetur adipiscing elit interdum ullamcorper ."
     >
       <div className="categories">
-        {map(state.categoriesData, ({ title, titleColor }, index) => (
+        {map(state.categoriesData, ({ id, name, description }) => (
           <Category
-            key={index}
+            key={id}
             image={category}
-            title={t(`${title}`)}
-            titleColor={titleColor}
-            text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem "
+            title={name}
+            titleColor={description}
+            text={description}
           />
         ))}
       </div>
       <Row className="py-4" justify="center">
         <Pagination
           responsive
-          total={categories.length}
+          total={state.categoriesData.length}
           pageSize={6}
           nextIcon={<PaginationNextButton />}
           prevIcon={<PaginationPrevButton />}
