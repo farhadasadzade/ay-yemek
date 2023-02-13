@@ -1,5 +1,6 @@
 import React from "react";
 import i18n from "i18next";
+import { Row } from "antd";
 import {
   useMemoizedFn,
   useReactive,
@@ -8,17 +9,16 @@ import {
   useUpdateEffect,
 } from "ahooks";
 import { map } from "lodash";
+import { Button, RenderIf } from "common/components";
 import { BlockContainer } from "components";
 import { packet1 } from "assets/images";
+import DeliverForm from "./DeliverForm";
 import PacketBlock from "./PacketBlock";
-import PriceBlock from "./PriceBlock";
 import PricesMobile from "./PricesMobile";
-import { filterTags, packets, prices } from "./data";
+import { filterTags, packets } from "./data";
 import "./style/index.scss";
-import { Row } from "antd";
-import { Button, RenderIf } from "common/components";
 
-const Packets = () => {
+const FoodChoosing = () => {
   const { t } = i18n;
 
   const state = useReactive({
@@ -87,7 +87,7 @@ const Packets = () => {
               <RenderIf condition={windowWidth <= 700}>
                 <Row className="my-3" justify="center">
                   <Button onClick={handlePrices} type="primary">
-                    {t("checkPackets")}
+                    {t("choosenFoods")}
                     <svg
                       style={{ rotate: "180deg" }}
                       width="25"
@@ -113,9 +113,7 @@ const Packets = () => {
             </div>
           </div>
           <div className="packets__prices">
-            {map(prices, (price) => (
-              <PriceBlock {...price} />
-            ))}
+            <DeliverForm />
           </div>
         </div>
       </BlockContainer>
@@ -126,4 +124,4 @@ const Packets = () => {
   );
 };
 
-export default Packets;
+export default FoodChoosing;

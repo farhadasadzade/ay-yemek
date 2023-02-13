@@ -24,6 +24,8 @@ import info from "./icon_info.svg";
 import kkal from "./icon_kkal.svg";
 import azn from "./icon_azn.svg";
 import wallet from "./icon_wallet.svg";
+import success from "./icon_success.svg";
+import calendar from "./icon_calendar.svg";
 
 export {
   facebook,
@@ -52,4 +54,6 @@ export {
   kkal,
   azn,
   wallet,
+  success,
+  calendar
 };

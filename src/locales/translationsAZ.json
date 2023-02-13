@@ -69,5 +69,13 @@
   "menuDates": "Menyu tarixləri",
   "includesWeekend": "şənbə və bazar günləri daxil olmaqla",
   "totalPayment": "Ümumi məbləğ",
-  "pay": "Ödəniş et"
+  "pay": "Ödəniş et",
+  "paymentIsSuccess": "ÖDƏNİŞİNİZ UĞURLA TAMAMLANMIŞDIR",
+  "willBeDelivered": "Sifarişiniz qeyd etdiyiniz saatda ünvana çatdırılacaqdır",
+  "thanksForChoosingUs": "Bizi seçdiyiniz üçün təşəkkür edirik!",
+  "startChoosingFood": "Yemək seçiminə başla",
+  "add": "Əlavə et",
+  "choosenFoods": "Seçdiyiniz yeməklər",
+  "chooseDeliverTime": "Çatdırılma saatını seçin",
+  "additionalNote": "Əlavə qeydiniz?"
 }

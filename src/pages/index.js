@@ -7,3 +7,4 @@ export { default as Login } from "./Login";
 export { default as Categories } from "./Categories";
 export { default as Packets } from "./Packets";
 export { default as Payment } from "./Payment";
+export { default as FoodChoosing } from "./FoodChoosing";

@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { TopHeader, Header, Footer } from "modules";
-import { Home, About, Contact, Categories, Packets } from "pages";
+import { Home, About, Contact, Categories, Packets, FoodChoosing } from "pages";
 
 const Main = ({ match: { url } }) => {
   return (
@@ -14,6 +14,7 @@ const Main = ({ match: { url } }) => {
         <Route path={`${url}/contact`} render={() => <Contact />} />
         <Route path={`${url}/categories`} render={() => <Categories />} />
         <Route path={`${url}/packets`} render={() => <Packets />} />
+        <Route path={`${url}/food-choosing`} render={() => <FoodChoosing />} />
         <Redirect to="/" />
       </Switch>
       <Footer />

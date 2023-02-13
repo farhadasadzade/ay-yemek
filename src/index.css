@@ -195,6 +195,64 @@ a {
   color: #f75c03;
 }
 
+.payment__success {
+  padding: 150px 20px;
+}
+
+.payment__success-title {
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 39px;
+  color: #00072d;
+}
+
+.payment__success-text {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 34px;
+  text-align: center;
+  color: #404040;
+}
+
+.payment__success-thanks {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 34px;
+  text-align: center;
+  color: #f75c03;
+}
+
+@media (max-width: 800px) {
+  .payment__success-title {
+    font-family: "Inter";
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 27px;
+    text-align: center;
+    color: #00072d;
+  }
+
+  .payment__success-text {
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #404040;
+  }
+
+  .payment__success-thanks {
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 21px;
+    color: #f75c03;
+  }
+}
+
 @-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
