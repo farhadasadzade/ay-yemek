@@ -1,5 +1,6 @@
 import React from "react";
 import i18n from "i18next";
+import { useSelector } from "react-redux";
 import {
   useMemoizedFn,
   useReactive,
@@ -13,23 +14,31 @@ import { packet1 } from "assets/images";
 import PacketBlock from "./PacketBlock";
 import PriceBlock from "./PriceBlock";
 import PricesMobile from "./PricesMobile";
-import { filterTags, packets, prices } from "./data";
+import { filterTags, prices } from "./data";
 import "./style/index.scss";
 import { Row } from "antd";
 import { Button, RenderIf } from "common/components";
+import { apiMeals } from "common/api/apiMeals";
+import { PacketLoader } from "components";
 
 const Packets = () => {
   const { t } = i18n;
+  const selectedCategory = useSelector(
+    (state) => state.category.selectedCategory
+  );
 
   const state = useReactive({
-    activeFilter: "main",
+    activeFilter: 1,
     isPricesActive: false,
   });
 
-  const [windowWidth, setWindowWidth] = React.useState(0);
+  const [getMeals, mealsState] = apiMeals.useGetMealsMutation();
 
-  const handleSelectFilter = useMemoizedFn((type) => {
-    state.activeFilter = type;
+  const [windowWidth, setWindowWidth] = React.useState(0);
+  const [meals, setMeals] = React.useState([]);
+
+  const handleSelectFilter = useMemoizedFn((id) => {
+    state.activeFilter = id;
   });
 
   const handlePrices = useMemoizedFn(() => {
@@ -48,6 +57,8 @@ const Packets = () => {
     );
 
     setWindowWidth(window.innerWidth);
+
+    getMeals({ category_id: selectedCategory.id });
   });
 
   useUpdateEffect(() => {
@@ -56,6 +67,12 @@ const Packets = () => {
     }
   }, [windowWidth]);
 
+  useUpdateEffect(() => {
+    if (!mealsState.isLoading && mealsState.isSuccess) {
+      setMeals(mealsState.data?.data);
+    }
+  }, [mealsState.isLoading]);
+
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
   });
@@ -63,21 +80,21 @@ const Packets = () => {
   return (
     <div className="packet__page">
       <BlockContainer
-        title="EKONOM"
+        title={selectedCategory.name}
         subtitle="Lorem ipsum dolor sit amet lorem ipsum dolor sit "
       >
         <div className="packets">
           <div className="packets__list">
             <div className="packets__filter">
-              {map(filterTags, ({ title, type }) => (
+              {map(filterTags, ({ title, type, id }) => (
                 <div
                   key={type}
                   className={`packets__filter-tag ${
-                    state.activeFilter === type
+                    state.activeFilter === id
                       ? "packets__filter-tag-active"
                       : ""
                   }`}
-                  onClick={() => handleSelectFilter(type)}
+                  onClick={() => handleSelectFilter(id)}
                 >
                   {t(title)}
                 </div>
@@ -107,9 +124,14 @@ const Packets = () => {
                   </Button>
                 </Row>
               </RenderIf>
-              {map(packets, (packet) => (
-                <PacketBlock {...packet} img={packet1} />
-              ))}
+              {mealsState.isLoading
+                ? map(Array(5).fill(0), () => <PacketLoader />)
+                : map(meals, (packet) => {
+                    if (state.activeFilter === Number(packet.meal_type_id)) {
+                      return <PacketBlock {...packet} img={packet1} />;
+                    }
+                    return null;
+                  })}
             </div>
           </div>
           <div className="packets__prices">

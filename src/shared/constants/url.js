@@ -1,4 +1,4 @@
-export const BASE_API_URL = "https://edcode.net/ay/public/api";
+export const BASE_API_URL = "https://edcode.net/ay/public/api/v1";
 
 export const urls = {
   home: {

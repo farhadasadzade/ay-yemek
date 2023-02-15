@@ -1,20 +1,12 @@
 export const filterTags = [
   {
+    id: 1,
     type: "main",
     title: "mainFood",
   },
-  {
-    type: "garnir",
-    title: "garnir",
-  },
-  {
-    type: "salad",
-    title: "salad",
-  },
-  {
-    type: "drink",
-    title: "drink",
-  },
+  { id: 2, type: "garnir", title: "garnir" },
+  { id: 3, type: "salad", title: "salad" },
+  { id: 4, type: "drink", title: "drink" },
 ];
 
 export const packets = [

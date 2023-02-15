@@ -8,7 +8,20 @@ export const apiMeals = createApi({
     getCategory: builder.query({
       query: () => "category",
     }),
+    getMeals: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/meals",
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetCategoryQuery, useLazyGetCategoryQuery } = apiMeals;
+export const {
+  useGetCategoryQuery,
+  useLazyGetCategoryQuery,
+  useGetMealsMutation,
+} = apiMeals;

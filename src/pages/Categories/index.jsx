@@ -3,11 +3,10 @@ import i18n from "i18next";
 import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
 import { map, filter } from "lodash";
 import { Pagination, Row } from "antd";
-import { BlockContainer } from "components";
+import { BlockContainer, CategoryLoader } from "components";
 import { apiMeals } from "common/api/apiMeals";
 import Category from "pages/Home/Categories/Category";
 import { category } from "assets/images";
-import { categories } from "./data";
 import "./style/index.scss";
 
 const PaginationNextButton = () => (
@@ -71,7 +70,7 @@ const Categories = () => {
   useUpdateEffect(() => {
     if (!categoriesState.isFetching && categoriesState.isSuccess) {
       state.categoriesData = filter(
-        categoriesState.data?.category,
+        categoriesState.data?.data,
         (category, index) => index >= state.minIndex && index < state.maxIndex
       );
     }
@@ -83,15 +82,18 @@ const Categories = () => {
       subtitle="Lorem ipsum dolor sit amet consectetur adipiscing elit interdum ullamcorper ."
     >
       <div className="categories">
-        {map(state.categoriesData, ({ id, name, description }) => (
-          <Category
-            key={id}
-            image={category}
-            title={name}
-            titleColor={description}
-            text={description}
-          />
-        ))}
+        {categoriesState.isFetching
+          ? map(Array(6).fill(0), () => <CategoryLoader />)
+          : map(state.categoriesData, ({ id, name, description }) => (
+              <Category
+                key={id}
+                id={id}
+                image={category}
+                title={name}
+                titleColor={description}
+                text={description}
+              />
+            ))}
       </div>
       <Row className="py-4" justify="center">
         <Pagination

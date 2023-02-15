@@ -5,7 +5,7 @@ import i18n from "i18next";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { map } from "lodash";
 import { Row } from "antd";
-import { HomeTitle, CarouselArrows } from "components";
+import { HomeTitle, CarouselArrows, CategoryLoader } from "components";
 import { RenderIf } from "common/components";
 import { category } from "assets/images";
 import { apiMeals } from "common/api/apiMeals";
@@ -32,7 +32,7 @@ const Categories = () => {
 
   useUpdateEffect(() => {
     if (!categoriesState.isFetching && categoriesState.isSuccess) {
-      setCategories(categoriesState.data?.category);
+      setCategories(categoriesState.data?.data);
     }
   }, [categoriesState.isFetching]);
 
@@ -60,15 +60,23 @@ const Categories = () => {
             enableSwipe={false}
             enableMouseSwipe={false}
           >
-            {map(categories, ({ id, name, description }) => (
-              <Category
-                key={id}
-                image={category}
-                title={name}
-                titleColor={description}
-                text={description}
-              />
-            ))}
+            {categoriesState.isFetching
+              ? map(Array(3).fill(0), () => <CategoryLoader />)
+              : map(categories, ({ id, name, description }, index) => {
+                  if (index < 5) {
+                    return (
+                      <Category
+                        key={id}
+                        id={id}
+                        image={category}
+                        title={name}
+                        titleColor={description}
+                        text={description}
+                      />
+                    );
+                  }
+                  return null;
+                })}
           </Carousel>
         </RenderIf>
         <RenderIf condition={windowWidth <= 1000 && windowWidth !== 0}>
