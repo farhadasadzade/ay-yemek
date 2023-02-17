@@ -26,6 +26,7 @@ import azn from "./icon_azn.svg";
 import wallet from "./icon_wallet.svg";
 import success from "./icon_success.svg";
 import calendar from "./icon_calendar.svg";
+import trashBin from "./icon_delete.svg";
 
 export {
   facebook,
@@ -55,5 +56,6 @@ export {
   azn,
   wallet,
   success,
-  calendar
+  calendar,
+  trashBin,
 };

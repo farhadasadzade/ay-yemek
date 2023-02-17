@@ -17,6 +17,9 @@ export const apiMeals = createApi({
         };
       },
     }),
+    getMealTypes: builder.query({
+      query: () => "getMealTypes",
+    }),
   }),
 });
 
@@ -24,4 +27,6 @@ export const {
   useGetCategoryQuery,
   useLazyGetCategoryQuery,
   useGetMealsMutation,
+  useGetMealTypesQuery,
+  useLazyGetMealTypesQuery,
 } = apiMeals;

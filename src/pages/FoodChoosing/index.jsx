@@ -12,6 +12,7 @@ import { map } from "lodash";
 import { Button, RenderIf } from "common/components";
 import { BlockContainer } from "components";
 import { packet1 } from "assets/images";
+import ChoosenMeals from "./ChoosenMeals";
 import DeliverForm from "./DeliverForm";
 import PacketBlock from "./PacketBlock";
 import PricesMobile from "./PricesMobile";
@@ -114,6 +115,7 @@ const FoodChoosing = () => {
           </div>
           <div className="packets__prices">
             <DeliverForm />
+            <ChoosenMeals />
           </div>
         </div>
       </BlockContainer>
