@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedCategory: {
-    name: undefined,
-    id: undefined,
+  selectedPackage: {
+    categoryId: undefined,
+    categoryName: undefined,
+    packageId: undefined,
+    packageName: undefined,
+    price: undefined,
+    isPaymentSuccess: false,
   },
 };
 
@@ -11,12 +15,12 @@ export const categorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
-    selectCategory: (state, payload) => {
-      state.selectedCategory = payload.payload;
+    selectPackage: (state, payload) => {
+      state.selectedPackage = payload.payload;
     },
   },
 });
 
-export const { selectCategory } = categorySlice.actions;
+export const { selectPackage } = categorySlice.actions;
 
 export default categorySlice.reducer;

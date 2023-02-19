@@ -78,5 +78,11 @@
   "choosenFoods": "Seçdiyiniz yeməklər",
   "chooseDeliverTime": "Çatdırılma saatını seçin",
   "additionalNote": "Əlavə qeydiniz?",
-  "choosenMeals": "Seçilən yeməklər"
+  "choosenMeals": "Seçilən yeməklər",
+  "passwordMinLength": "Parol ən azı 8 simvoldan ibarətdir.",
+  "passwordNumber": "Parolda ən azı 1 rəqəm var.",
+  "passwordCapital": "Parolda ən azı 1 böyük hərf var.",
+  "choose": "Seçin",
+  "submitMenu": "Menyunu Təsdiqlə",
+  "foodChoosingSuccess": "Menyunuz Təsdiqləndi"
 }

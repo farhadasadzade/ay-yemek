@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import PasswordChecklist from "react-password-checklist";
 import * as yup from "yup";
 import moment from "moment/moment";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -75,10 +76,15 @@ const Register = () => {
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [birthDate, setBirthDate] = React.useState(null);
+  const [password, setPassword] = React.useState("");
 
   const handleChangeInput = useMemoizedFn((e, name) => {
     methods.setValue(name, trim(e.target.value));
     methods.clearErrors(name);
+
+    if (name === "password") {
+      setPassword(trim(e.target.value));
+    }
   });
 
   const handleSumbitRegistration = useMemoizedFn(() => {
@@ -239,7 +245,7 @@ const Register = () => {
                 }}
               />
             </Row>
-            <Row className="mb-3">
+            <Row className="mb-2">
               <Input
                 type="password"
                 label={t("password")}
@@ -247,6 +253,19 @@ const Register = () => {
                 placeholder={t("enterYourPassword")}
                 onChange={(e) => handleChangeInput(e, "password")}
                 error={!isEmpty(methods.formState.errors.password)}
+                maxLength={15}
+              />
+            </Row>
+            <Row className="mb-3">
+              <PasswordChecklist
+                rules={["minLength", "number", "capital"]}
+                minLength={8}
+                value={password}
+                messages={{
+                  capital: t("passwordCapital"),
+                  number: t("passwordNumber"),
+                  minLength: t("passwordMinLength"),
+                }}
               />
             </Row>
             <Row className="mb-3">
@@ -262,7 +281,7 @@ const Register = () => {
             <Row className="mb-3">
               <Input
                 type="phone"
-                label={t("phone")}
+                label={`${t("phone")} (+994XXXXXXXXX)`}
                 isRequired
                 placeholder={t("enterYourPhone")}
                 onChange={(e) => handleChangeInput(e, "phone")}

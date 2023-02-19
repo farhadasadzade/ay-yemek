@@ -22,6 +22,7 @@ const Input = ({
   value,
   open,
   onOpenChange,
+  maxLength,
 }) => {
   switch (type) {
     case "textarea":
@@ -107,6 +108,7 @@ const Input = ({
               id={name}
               onChange={onChange}
               prefix={prefix}
+              maxLength={maxLength}
             />
           </label>
         </>

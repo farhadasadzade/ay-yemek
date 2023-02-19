@@ -20,6 +20,15 @@ export const apiMeals = createApi({
     getMealTypes: builder.query({
       query: () => "getMealTypes",
     }),
+    getPackagesByCategory: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/getPackagesByCategory",
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 

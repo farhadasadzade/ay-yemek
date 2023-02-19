@@ -1,6 +1,7 @@
 import React from "react";
-import i18n from "i18next";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import i18n from "i18next";
 import {
   useMemoizedFn,
   useReactive,
@@ -14,17 +15,18 @@ import { packet1 } from "assets/images";
 import PacketBlock from "./PacketBlock";
 import PriceBlock from "./PriceBlock";
 import PricesMobile from "./PricesMobile";
-import { filterTags, prices } from "./data";
-import "./style/index.scss";
 import { Row } from "antd";
 import { Button, RenderIf } from "common/components";
 import { apiMeals } from "common/api/apiMeals";
-import { PacketLoader } from "components";
+import { PacketLoader, FilterTagLoader, PriceBlockLoader } from "components";
+import { FoodChoosing } from "pages";
+import "./style/index.scss";
 
 const Packets = () => {
   const { t } = i18n;
-  const selectedCategory = useSelector(
-    (state) => state.category.selectedCategory
+  const { id: categoryId } = useParams();
+  const isPaymentSuccess = useSelector(
+    (state) => state.category.selectedPackage?.isPaymentSuccess
   );
 
   const state = useReactive({
@@ -33,6 +35,9 @@ const Packets = () => {
   });
 
   const [getMeals, mealsState] = apiMeals.useGetMealsMutation();
+  const [getMealTypes, mealTypesState] = apiMeals.useLazyGetMealTypesQuery();
+  const [getPackages, packagesState] =
+    apiMeals.useGetPackagesByCategoryMutation();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [meals, setMeals] = React.useState([]);
@@ -58,7 +63,9 @@ const Packets = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getMeals({ category_id: selectedCategory.id });
+    getMeals({ category_id: categoryId });
+    getMealTypes();
+    getPackages({ category_id: categoryId });
   });
 
   useUpdateEffect(() => {
@@ -77,28 +84,30 @@ const Packets = () => {
     window.removeEventListener("resize", () => {});
   });
 
-  return (
+  return !isPaymentSuccess ? (
     <div className="packet__page">
       <BlockContainer
-        title={selectedCategory.name}
+        title={mealsState.data?.data[0]?.category_name}
         subtitle="Lorem ipsum dolor sit amet lorem ipsum dolor sit "
       >
         <div className="packets">
           <div className="packets__list">
             <div className="packets__filter">
-              {map(filterTags, ({ title, type, id }) => (
-                <div
-                  key={type}
-                  className={`packets__filter-tag ${
-                    state.activeFilter === id
-                      ? "packets__filter-tag-active"
-                      : ""
-                  }`}
-                  onClick={() => handleSelectFilter(id)}
-                >
-                  {t(title)}
-                </div>
-              ))}
+              {mealTypesState.isFetching
+                ? map(Array(4).fill(0), () => <FilterTagLoader />)
+                : map(mealTypesState.data?.data, ({ name, id }) => (
+                    <div
+                      key={id}
+                      className={`packets__filter-tag ${
+                        state.activeFilter === id
+                          ? "packets__filter-tag-active"
+                          : ""
+                      }`}
+                      onClick={() => handleSelectFilter(id)}
+                    >
+                      {name}
+                    </div>
+                  ))}
             </div>
             <div className="packets__foods">
               <RenderIf condition={windowWidth <= 700}>
@@ -135,16 +144,20 @@ const Packets = () => {
             </div>
           </div>
           <div className="packets__prices">
-            {map(prices, (price) => (
-              <PriceBlock {...price} />
-            ))}
+            {packagesState.isLoading
+              ? map(Array(4).fill(0), () => <PriceBlockLoader />)
+              : map(packagesState.data?.data, (price) => (
+                  <PriceBlock {...price} />
+                ))}
           </div>
         </div>
       </BlockContainer>
       <RenderIf condition={state.isPricesActive}>
-        <PricesMobile onClose={onClosePrices} />
+        <PricesMobile data={packagesState.data?.data} onClose={onClosePrices} />
       </RenderIf>
     </div>
+  ) : (
+    <FoodChoosing />
   );
 };
 

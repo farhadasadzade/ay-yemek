@@ -1,21 +1,17 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
 import i18n from "i18next";
 import { categoryShape } from "assets/images";
 import { Row } from "antd";
 import { Typography, Button } from "common/components";
 import { useMemoizedFn } from "ahooks";
-import { selectCategory } from "redux/categories";
 
 const Category = ({ image, title, titleColor, text, id }) => {
   const { t } = i18n;
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const handleClickMore = useMemoizedFn(() => {
-    dispatch(selectCategory({ name: title, id }));
-    history.push("/home/packets");
+    history.push(`/home/category/${id}`);
   });
 
   return (

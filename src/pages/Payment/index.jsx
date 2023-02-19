@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
 import dayjs from "dayjs";
 import i18n from "i18next";
@@ -9,6 +10,7 @@ import { Input, RenderIf, Button } from "common/components";
 import { Header, Footer } from "modules";
 import { logo } from "assets/images";
 import { success } from "assets/icons";
+import { selectPackage } from "redux/categories";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -56,15 +58,21 @@ function addBusinessDays(originalDate, numDaysToAdd) {
 const Payment = () => {
   const { t } = i18n;
   const history = useHistory();
+  const selectedPackage = useSelector(
+    (state) => state.category?.selectedPackage
+  );
+  const dispatch = useDispatch();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [dates, setDates] = React.useState(undefined);
   const [open, setOpen] = React.useState(false);
   const [isIncludingWeekend, setIncludingWeekend] = React.useState(true);
   const [isPaymentSuccess, setPaymentSuccess] = React.useState(false);
+  const [isDateValid, setDateValid] = React.useState(true);
 
   const handleSelectDate = useMemoizedFn((value) => {
     setOpen(false);
+    setDateValid(true);
 
     if (isEmpty(value)) {
       setDates(undefined);
@@ -82,6 +90,15 @@ const Payment = () => {
 
   const onOpenChange = (open) => {
     setOpen(open);
+  };
+
+  const handlePayment = () => {
+    if (!isEmpty(dates)) {
+      setPaymentSuccess(true);
+      dispatch(selectPackage({ ...selectedPackage, isPaymentSuccess: true }));
+      return;
+    }
+    setDateValid(false);
   };
 
   useMount(() => {
@@ -137,7 +154,7 @@ const Payment = () => {
               <p>{t("selectedPacket")}</p>
             </Row>
             <Row className="mb-5">
-              <div className="payment__selected">EKONOM 10 günlük menyu</div>
+              <div className="payment__selected">{`${selectedPackage.categoryName} ${selectedPackage.packageName}`}</div>
             </Row>
             <Row className="mb-2">
               <Col span={18}>
@@ -148,6 +165,7 @@ const Payment = () => {
                   value={dates}
                   open={open}
                   onOpenChange={onOpenChange}
+                  error={!isDateValid}
                 />
               </Col>
             </Row>
@@ -155,7 +173,7 @@ const Payment = () => {
               <Checkbox
                 className="me-2"
                 onChange={(e) => setIncludingWeekend(e.target.checked)}
-                defaultChecked
+                defaultChecked={false}
               />
               <p className="payment__checkbox">{t("includesWeekend")}</p>
             </Row>
@@ -163,7 +181,7 @@ const Payment = () => {
             <Row className="px-3 mb-4" justify="space-between" align="middle">
               <h2 className="payment__price">{t("totalPayment")}</h2>
               <Row align="middle">
-                <h2 className="payment__price pe-2">50</h2>
+                <h2 className="payment__price pe-2">{selectedPackage.price}</h2>
                 <svg
                   width="12"
                   height="11"
@@ -181,7 +199,7 @@ const Payment = () => {
             <Row>
               <Col span={24}>
                 <Button
-                  onClick={() => setPaymentSuccess(true)}
+                  onClick={handlePayment}
                   style={{ width: "100%" }}
                   type="primary"
                 >
@@ -212,7 +230,14 @@ const Payment = () => {
             </p>
           </Row>
           <Row justify="center">
-            <Button type="secondary">{t("startChoosingFood")}</Button>
+            <Button
+              onClick={() =>
+                history.push(`/home/category/${selectedPackage.categoryId}`)
+              }
+              type="secondary"
+            >
+              {t("startChoosingFood")}
+            </Button>
           </Row>
         </div>
       )}

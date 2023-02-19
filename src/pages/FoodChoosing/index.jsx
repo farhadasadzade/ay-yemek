@@ -1,5 +1,6 @@
 import React from "react";
 import i18n from "i18next";
+import { useParams } from "react-router";
 import { Row } from "antd";
 import {
   useMemoizedFn,
@@ -10,24 +11,31 @@ import {
 } from "ahooks";
 import { map } from "lodash";
 import { Button, RenderIf } from "common/components";
-import { BlockContainer } from "components";
+import { BlockContainer, FilterTagLoader, PacketLoader } from "components";
 import { packet1 } from "assets/images";
 import ChoosenMeals from "./ChoosenMeals";
 import DeliverForm from "./DeliverForm";
 import PacketBlock from "./PacketBlock";
 import PricesMobile from "./PricesMobile";
-import { filterTags, packets } from "./data";
+import { apiMeals } from "common/api/apiMeals";
 import "./style/index.scss";
 
 const FoodChoosing = () => {
   const { t } = i18n;
 
+  const { id: categoryId } = useParams();
+
   const state = useReactive({
-    activeFilter: "main",
+    activeFilter: 1,
     isPricesActive: false,
   });
 
+  const [getMeals, mealsState] = apiMeals.useGetMealsMutation();
+  const [getMealTypes, mealTypesState] = apiMeals.useLazyGetMealTypesQuery();
+
   const [windowWidth, setWindowWidth] = React.useState(0);
+  const [meals, setMeals] = React.useState([]);
+  const [selectedMeals, setSelectedMeals] = React.useState({});
 
   const handleSelectFilter = useMemoizedFn((type) => {
     state.activeFilter = type;
@@ -43,12 +51,23 @@ const FoodChoosing = () => {
     state.isPricesActive = false;
   });
 
+  const handleSelectMeal = useMemoizedFn((meal) => {
+    setSelectedMeals({ ...selectedMeals, [meal?.meal_type_id]: meal });
+  });
+
+  const handleDeleteMeal = useMemoizedFn((mealTypeId) => {
+    setSelectedMeals({ ...selectedMeals, [mealTypeId]: undefined });
+  });
+
   useMount(() => {
     window.addEventListener("resize", (e) =>
       setWindowWidth(e.target.innerWidth)
     );
 
     setWindowWidth(window.innerWidth);
+
+    getMeals({ category_id: categoryId });
+    getMealTypes();
   });
 
   useUpdateEffect(() => {
@@ -57,6 +76,12 @@ const FoodChoosing = () => {
     }
   }, [windowWidth]);
 
+  useUpdateEffect(() => {
+    if (!mealsState.isLoading && mealsState.isSuccess) {
+      setMeals(mealsState.data?.data);
+    }
+  }, [mealsState.isLoading]);
+
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
   });
@@ -64,25 +89,27 @@ const FoodChoosing = () => {
   return (
     <div className="packet__page">
       <BlockContainer
-        title="EKONOM"
+        title={mealsState.data?.data[0]?.category_name}
         subtitle="Lorem ipsum dolor sit amet lorem ipsum dolor sit "
       >
         <div className="packets">
           <div className="packets__list">
             <div className="packets__filter">
-              {map(filterTags, ({ title, type }) => (
-                <div
-                  key={type}
-                  className={`packets__filter-tag ${
-                    state.activeFilter === type
-                      ? "packets__filter-tag-active"
-                      : ""
-                  }`}
-                  onClick={() => handleSelectFilter(type)}
-                >
-                  {t(title)}
-                </div>
-              ))}
+              {mealTypesState.isFetching
+                ? map(Array(4).fill(0), () => <FilterTagLoader />)
+                : map(mealTypesState.data?.data, ({ name, id }) => (
+                    <div
+                      key={id}
+                      className={`packets__filter-tag ${
+                        state.activeFilter === id
+                          ? "packets__filter-tag-active"
+                          : ""
+                      }`}
+                      onClick={() => handleSelectFilter(id)}
+                    >
+                      {name}
+                    </div>
+                  ))}
             </div>
             <div className="packets__foods">
               <RenderIf condition={windowWidth <= 700}>
@@ -108,14 +135,28 @@ const FoodChoosing = () => {
                   </Button>
                 </Row>
               </RenderIf>
-              {map(packets, (packet) => (
-                <PacketBlock {...packet} img={packet1} />
-              ))}
+              {mealsState.isLoading
+                ? map(Array(5).fill(0), () => <PacketLoader />)
+                : map(meals, (packet) => {
+                    if (state.activeFilter === Number(packet.meal_type_id)) {
+                      return (
+                        <PacketBlock
+                          handleSelectMeal={handleSelectMeal}
+                          {...packet}
+                          img={packet1}
+                        />
+                      );
+                    }
+                    return null;
+                  })}
             </div>
           </div>
           <div className="packets__prices">
             <DeliverForm />
-            <ChoosenMeals />
+            <ChoosenMeals
+              selectedMeals={selectedMeals}
+              handleDeleteMeal={handleDeleteMeal}
+            />
           </div>
         </div>
       </BlockContainer>

@@ -3,9 +3,8 @@ import i18n from "i18next";
 import { Row } from "antd";
 import { map } from "lodash";
 import PriceBlock from "./PriceBlock";
-import { prices } from "./data";
 
-const PricesMobile = ({ onClose }) => {
+const PricesMobile = ({ data, onClose }) => {
   const { t } = i18n;
 
   return (
@@ -31,7 +30,7 @@ const PricesMobile = ({ onClose }) => {
         <p className="prices__mobile-back">{t("packets")}</p>
       </Row>
       <div>
-        {map(prices, (price) => (
+        {map(data, (price) => (
           <PriceBlock {...price} />
         ))}
       </div>

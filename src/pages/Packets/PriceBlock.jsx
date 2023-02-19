@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useMemoizedFn } from "ahooks";
 import { isEmpty } from "lodash";
@@ -6,12 +7,24 @@ import i18n from "i18next";
 import { Row } from "antd";
 import { Button } from "common/components";
 import { wallet, azn } from "assets/icons";
+import { selectPackage } from "redux/categories";
 
-const PriceBlock = ({ name, price }) => {
+const PriceBlock = ({ id, name, price, category_id, category_name }) => {
   const { t } = i18n;
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleClickPacket = useMemoizedFn(() => {
+    dispatch(
+      selectPackage({
+        categoryId: category_id,
+        categoryName: category_name,
+        packageId: id,
+        packageName: name,
+        price: price,
+      })
+    );
+
     if (isEmpty(localStorage.getItem("user"))) {
       history.push("/register");
       return;

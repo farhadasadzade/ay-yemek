@@ -14,15 +14,17 @@
   width: 100%;
 
   &-error {
-    background: rgba(247, 92, 3, 0.17);
-
-    input {
-      background: rgba(247, 92, 3, 0.17);
-    }
+    border: 1px solid #fa3e3e;
   }
 
   &:focus {
     border: 1px solid $primary-color !important;
+
+    background: rgba(247, 92, 3, 0.17);
+
+    input {
+      background: rgba(247, 92, 3, 0.17) !important;
+    }
   }
 
   &:hover {
@@ -39,6 +41,10 @@
     color: #242331;
     width: 100%;
   }
+}
+
+.ant-input-prefix {
+  margin-top: 4px !important;
 }
 
 @media (max-width: 1000px) {
