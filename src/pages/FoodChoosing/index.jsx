@@ -111,6 +111,9 @@ const FoodChoosing = () => {
                     </div>
                   ))}
             </div>
+            <RenderIf condition={windowWidth <= 700}>
+              <DeliverForm />
+            </RenderIf>
             <div className="packets__foods">
               <RenderIf condition={windowWidth <= 700}>
                 <Row className="my-3" justify="center">
@@ -161,7 +164,11 @@ const FoodChoosing = () => {
         </div>
       </BlockContainer>
       <RenderIf condition={state.isPricesActive}>
-        <PricesMobile onClose={onClosePrices} />
+        <PricesMobile
+          selectedMeals={selectedMeals}
+          handleDeleteMeal={handleDeleteMeal}
+          onClose={onClosePrices}
+        />
       </RenderIf>
     </div>
   );

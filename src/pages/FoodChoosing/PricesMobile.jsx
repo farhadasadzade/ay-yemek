@@ -1,8 +1,9 @@
 import React from "react";
 import i18n from "i18next";
 import { Row } from "antd";
+import ChoosenMeals from "./ChoosenMeals";
 
-const PricesMobile = ({ onClose }) => {
+const PricesMobile = ({ onClose, selectedMeals, handleDeleteMeal }) => {
   const { t } = i18n;
 
   return (
@@ -25,10 +26,14 @@ const PricesMobile = ({ onClose }) => {
             fill="#006DB8"
           />
         </svg>
-        <p className="prices__mobile-back">{t("packets")}</p>
+        <p className="prices__mobile-back">{t("choosenMeals")}</p>
       </Row>
       <div>
-        
+        <ChoosenMeals
+          isTitleHidden
+          selectedMeals={selectedMeals}
+          handleDeleteMeal={handleDeleteMeal}
+        />
       </div>
     </div>
   );

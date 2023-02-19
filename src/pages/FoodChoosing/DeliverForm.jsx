@@ -11,7 +11,7 @@ const DeliverForm = () => {
     <div className="deliver__form pt-5">
       <div className="deliver__form-top mb-3">
         <Row wrap={false} align="middle">
-          <img src={calendar} alt="calendar" />
+          <img className="me-3" src={calendar} alt="calendar" />
           <p className="deliver__form-top-text">
             Seçdiyiniz menyu 17 Yanvar tarixi üçün keçərlidir
           </p>
@@ -28,7 +28,7 @@ const DeliverForm = () => {
               showMinute={false}
               showSecond={false}
               format="HH:mm"
-              style={{ width: "100%", padding: '20px' }}
+              style={{ width: "100%", padding: "20px" }}
             />
           </label>
         </Col>

@@ -5,9 +5,9 @@ import { useMount, useReactive, useUpdateEffect } from "ahooks";
 import { Row } from "antd";
 import { apiMeals } from "common/api/apiMeals";
 import { trashBin } from "assets/icons";
-import { Button, Toast } from "common/components";
+import { Button, RenderIf, Toast } from "common/components";
 
-const ChoosenMeals = ({ selectedMeals, handleDeleteMeal }) => {
+const ChoosenMeals = ({ selectedMeals, handleDeleteMeal, isTitleHidden }) => {
   const { t } = i18n;
 
   const state = useReactive({
@@ -31,7 +31,9 @@ const ChoosenMeals = ({ selectedMeals, handleDeleteMeal }) => {
 
   return (
     <div className="choosen">
-      <h2 className="choosen__title">{t("choosenMeals")}</h2>
+      <RenderIf condition={!isTitleHidden}>
+        <h2 className="choosen__title">{t("choosenMeals")}</h2>
+      </RenderIf>
       {map(state.choosenMeals, (meal) => (
         <div className="choosen__meal">
           <h3 className="choosen__meal-title">{meal?.mealTypeName}</h3>
@@ -42,6 +44,8 @@ const ChoosenMeals = ({ selectedMeals, handleDeleteMeal }) => {
                 : selectedMeals[meal?.mealTypeId]?.name}
             </p>
             <img
+              onMouseOver={(e) => (e.target.style.scale = "1.1")}
+              onMouseLeave={(e) => (e.target.style.scale = "1")}
               style={{ cursor: "pointer" }}
               src={trashBin}
               alt="delete"
