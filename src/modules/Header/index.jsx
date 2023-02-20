@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import i18n from "i18next";
 import { map, isEmpty } from "lodash";
 import { Row } from "antd";
@@ -21,6 +21,7 @@ const Header = () => {
   const { t } = i18n;
   const location = useLocation();
   const isUserLogined = !isEmpty(localStorage.getItem("user"));
+  const history = useHistory();
 
   const [
     isMobileMenuVisible,
@@ -117,6 +118,7 @@ const Header = () => {
             <RenderIf condition={isUserMenuVisible}>
               <div className="header__user-menu">
                 <p
+                  onClick={() => history.push("/profile")}
                   style={{
                     fontFamily: "Inter",
                     fontStyle: "normal",

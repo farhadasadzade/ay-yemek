@@ -50,7 +50,7 @@
 
 .modal {
   position: absolute;
-  z-index: 999999999999999999999;
+  z-index: 9999999999999999999999999999999999999999999;
   top: 0;
   left: 0;
   width: 100%;
@@ -58,12 +58,41 @@
   overflow: hidden;
   background: rgba(34, 31, 31, 0.51);
   display: block;
+  padding: 0 20px;
 
   &__block {
     margin: 250px auto 0;
     max-width: 700px;
     background-color: #ffffff;
     border-radius: 15px;
+    padding: 150px 0 60px;
+    position: relative;
+
+    &-exit {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    button {
+      height: 48px;
+      margin: 0 20px;
+      max-width: 240px;
+      width: 100%;
+    }
+
+    &-title {
+      font-family: "Inter";
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 39px;
+      text-align: center;
+      text-transform: capitalize;
+      color: #00072d;
+      margin-bottom: 90px;
+      padding: 0 150px;
+    }
   }
 }
 
@@ -74,6 +103,21 @@
       font-size: 24px;
       line-height: 29px;
       margin-bottom: 32px;
+    }
+  }
+
+  .modal {
+    &__block {
+      button {
+        margin-bottom: 20px;
+      }
+
+      &-title {
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 27px;
+        padding: 0 50px;
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router";
+import { Switch, Route, Redirect, useHistory } from "react-router";
+import { useMount } from "ahooks";
+import { isEmpty } from "lodash";
 import i18n from "i18next";
 import { Row } from "antd";
 import { Footer, Header } from "modules";
@@ -8,6 +10,13 @@ import "./style/index.scss";
 
 const Profile = ({ match: { url } }) => {
   const { t } = i18n;
+  const history = useHistory();
+
+  useMount(() => {
+    if (isEmpty(localStorage.getItem("user"))) {
+      history.push("/home");
+    }
+  });
 
   return (
     <>

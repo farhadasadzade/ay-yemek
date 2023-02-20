@@ -10,7 +10,7 @@ const FilterTagLoader = (props) => (
     backgroundColor="#c7c7c7"
     foregroundColor="#bfbfbf"
     {...props}
-    className="me-3"
+    className="me-3 mb-3"
   >
     <rect x="0" y="0" rx="14" ry="14" width="117" height="32" />
   </ContentLoader>
