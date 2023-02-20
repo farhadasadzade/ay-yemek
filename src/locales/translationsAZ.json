@@ -54,7 +54,7 @@
   "emailIsUsedAlready": "Bu E-Poçt artıq istifadə olunub",
   "dontHaveAccount": "Hesabınız yoxdur?",
   "emailOrPassIncorrect": "E-Poçt və ya Parol yanlışdır",
-  "myProfileInfo": "Profil məlumatlarım",
+  "myProfileInfo": "Profİl məlumatlarım",
   "logout": "Çıxış",
   "mainFood": "Ana yemək",
   "garnir": "Qarnir",
@@ -84,5 +84,12 @@
   "passwordCapital": "Parolda ən azı 1 böyük hərf var.",
   "choose": "Seçin",
   "submitMenu": "Menyunu Təsdiqlə",
-  "foodChoosingSuccess": "Menyunuz Təsdiqləndi"
+  "foodChoosingSuccess": "Menyunuz Təsdiqləndi",
+  "myInfo": "Məlumatlarım",
+  "activeOrder": "Aktiv Sifarişlərim",
+  "changePassword": "Şifrə dəyişdir",
+  "myPayments": "Ödənişlərim",
+  "doYouWantLogout": "Profildən çıxış etmək İstədiyinizə əminsiniz?",
+  "no": "Xeyr",
+  "yes": "Bəli"
 }

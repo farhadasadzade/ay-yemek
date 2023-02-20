@@ -27,6 +27,10 @@ import wallet from "./icon_wallet.svg";
 import success from "./icon_success.svg";
 import calendar from "./icon_calendar.svg";
 import trashBin from "./icon_delete.svg";
+import lock from "./icon_lock.svg";
+import logout from "./icon_logout.svg";
+import order from "./icon_order.svg";
+import walletOrange from "./icon_walletOrange.svg";
 
 export {
   facebook,
@@ -58,4 +62,8 @@ export {
   success,
   calendar,
   trashBin,
+  lock,
+  order,
+  logout,
+  walletOrange,
 };

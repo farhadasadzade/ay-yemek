@@ -1,0 +1,79 @@
+@import "assets/css/variables.scss";
+
+.profile {
+  padding: 80px 80px 120px;
+
+  &__title {
+    font-family: "Inter";
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 48px;
+    text-transform: uppercase;
+    color: $primary-color;
+    margin-bottom: 55px;
+  }
+
+  &__nav {
+    background-color: #eeeeee;
+    border-radius: 16px;
+    padding: 24px 16px;
+    width: 292px;
+
+    &-item {
+      background: #ffffff;
+      border-radius: 16px;
+      height: 47px;
+      padding: 0 25px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      cursor: pointer;
+
+      &-active {
+        background: rgba(247, 92, 3, 0.14);
+      }
+
+      &:hover {
+        background: rgba(247, 92, 3, 0.14);
+      }
+    }
+
+    &-text {
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 109.4%;
+      color: #35313f;
+    }
+  }
+}
+
+.modal {
+  position: absolute;
+  z-index: 999999999999999999999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba(34, 31, 31, 0.51);
+  display: block;
+
+  &__block {
+    margin: 250px auto 0;
+    max-width: 700px;
+    background-color: #ffffff;
+    border-radius: 15px;
+  }
+}
+
+@media (max-width: 700px) {
+  .profile {
+    padding-bottom: 0;
+    &__title {
+      font-size: 24px;
+      line-height: 29px;
+      margin-bottom: 32px;
+    }
+  }
+}

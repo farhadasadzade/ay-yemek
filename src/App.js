@@ -1,5 +1,5 @@
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Main, Register, Login, Payment } from "pages";
+import { Main, Register, Login, Payment, Profile } from "pages";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Route path="/register" render={(props) => <Register {...props} />} />
       <Route path="/login" render={(props) => <Login {...props} />} />
       <Route path="/payment" render={() => <Payment />} />
+      <Route path="/profile" render={(props) => <Profile {...props} />} />
       <Redirect to="/home" />
     </Switch>
   );
