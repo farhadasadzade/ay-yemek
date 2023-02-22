@@ -18,6 +18,7 @@
     border-radius: 16px;
     padding: 24px 16px;
     width: 292px;
+    margin-right: 60px;
 
     &-item {
       background: #ffffff;
@@ -44,6 +45,22 @@
       font-size: 14px;
       line-height: 109.4%;
       color: #35313f;
+    }
+  }
+
+  &__main {
+    padding: 40px 50px;
+    background-color: #eeeeee;
+    border-radius: 16px;
+    width: calc(100% - 360px);
+
+    &-title {
+      font-family: "Inter";
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 36px;
+      text-align: center;
+      color: $primary-color;
     }
   }
 }
@@ -92,6 +109,18 @@
       color: #00072d;
       margin-bottom: 90px;
       padding: 0 150px;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .profile {
+    &__nav {
+      display: none;
+    }
+
+    &__main {
+      width: 100%;
     }
   }
 }

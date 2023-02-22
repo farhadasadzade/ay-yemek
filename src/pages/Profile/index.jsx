@@ -5,6 +5,7 @@ import { isEmpty } from "lodash";
 import i18n from "i18next";
 import { Row } from "antd";
 import { Footer, Header } from "modules";
+import UserInfo from "./UserInfo";
 import Navbar from "./Navbar";
 import "./style/index.scss";
 
@@ -27,7 +28,7 @@ const Profile = ({ match: { url } }) => {
           <Navbar url={url} />
           <>
             <Switch>
-              <Route path={`${url}/user`} render={() => <></>} />
+              <Route path={`${url}/user`} render={() => <UserInfo />} />
               <Route path={`${url}/active-orders`} render={() => <></>} />
               <Route path={`${url}/change-password`} render={() => <></>} />
               <Route path={`${url}/payments`} render={() => <></>} />

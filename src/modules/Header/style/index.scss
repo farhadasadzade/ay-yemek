@@ -141,6 +141,38 @@
   transition: all 1s;
 }
 
+.mobile__user {
+  position: absolute;
+  width: 0;
+  height: 100vh;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  transition: width 1s;
+  overflow: hidden;
+
+  &-top {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 16px 0px 0px 16px;
+    padding: 35px 40px;
+  }
+
+  &-bottom {
+    width: 100%;
+    height: calc(100vh - 90px);
+    background-color: #ffffff;
+    border-radius: 16px 0px 0px 16px;
+    padding: 60px 40px 0;
+    overflow-y: auto;
+  }
+}
+
+.mobile__user.active {
+  width: 292px;
+  transition: width 1s;
+}
+
 @media (max-width: 1300px) {
   .header {
     &__links {
