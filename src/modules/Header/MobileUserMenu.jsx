@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useUpdateEffect } from "ahooks";
 import { Row } from "antd";
 import Navbar from "pages/Profile/Navbar";
-import { user } from "assets/icons";
+import { user, exitWhite } from "assets/icons";
 
 const MobileUserMenu = ({ visible, toggleMobileUserMenu }) => {
   const [background, setBackground] = React.useState({ background: "none" });
@@ -41,9 +41,16 @@ const MobileUserMenu = ({ visible, toggleMobileUserMenu }) => {
           </Link>
         </div>
         <div className="mobile__user-bottom">
-          <Navbar />
+          <Navbar url="/profile" />
         </div>
       </div>
+      <img
+        style={{ cursor: "pointer" }}
+        onClick={toggleMobileUserMenu}
+        className="mobile__user-exit"
+        src={exitWhite}
+        alt="exit"
+      />
     </>
   );
 };

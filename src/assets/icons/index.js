@@ -31,6 +31,8 @@ import lock from "./icon_lock.svg";
 import logout from "./icon_logout.svg";
 import order from "./icon_order.svg";
 import walletOrange from "./icon_walletOrange.svg";
+import exitWhite from "./icon_exitWhite.svg";
+import plusOrange from "./icon_plusOrange.svg";
 
 export {
   facebook,
@@ -66,4 +68,6 @@ export {
   order,
   logout,
   walletOrange,
+  exitWhite,
+  plusOrange,
 };

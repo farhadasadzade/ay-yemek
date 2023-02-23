@@ -61,6 +61,39 @@
       line-height: 36px;
       text-align: center;
       color: $primary-color;
+      margin-bottom: 17px;
+    }
+
+    &-name {
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 22px;
+      line-height: 27px;
+      color: $secondary-color;
+
+      span {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #75797f;
+      }
+    }
+
+    &-addPacket {
+      padding: 10px 25px;
+      border: 1px dashed $primary-color;
+      filter: drop-shadow(0px 10px 15px rgba(1, 115, 153, 0.2));
+      border-radius: 16px;
+      background: transparent;
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      text-align: center;
+      color: #0e6ba8;
+      margin-bottom: 40px;
     }
   }
 }
@@ -116,7 +149,13 @@
 @media (max-width: 1300px) {
   .profile {
     &__nav {
-      display: none;
+      width: 100%;
+
+      &-item {
+        &-text {
+          font-size: 12px;
+        }
+      }
     }
 
     &__main {

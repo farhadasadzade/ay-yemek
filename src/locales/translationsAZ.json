@@ -92,5 +92,7 @@
   "doYouWantLogout": "Profildən çıxış etmək İstədiyinizə əminsiniz?",
   "no": "Xeyr",
   "yes": "Bəli",
-  "choosenCategory": "Seçdiyiniz Kateqoriya"
+  "choosenCategory": "Seçdiyiniz Kateqoriya",
+  "addNewPackage": "Yeni paket əlavə et",
+  "updatePackage": "Paketi yenilə"
 }
