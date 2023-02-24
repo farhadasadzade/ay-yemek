@@ -9,7 +9,7 @@ import { Button } from "common/components";
 import { wallet, azn } from "assets/icons";
 import { selectPackage } from "redux/categories";
 
-const PriceBlock = ({ id, name, price, category_id, category_name }) => {
+const PriceBlock = ({ id, name, price, category_id, category_name, days }) => {
   const { t } = i18n;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const PriceBlock = ({ id, name, price, category_id, category_name }) => {
         packageId: id,
         packageName: name,
         price: price,
+        days,
       })
     );
 

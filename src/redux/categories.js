@@ -8,6 +8,7 @@ const initialState = {
     packageName: undefined,
     price: undefined,
     isPaymentSuccess: false,
+    days: 0,
   },
 };
 
