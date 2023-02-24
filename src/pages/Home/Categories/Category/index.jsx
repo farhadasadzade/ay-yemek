@@ -1,12 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router";
-import i18n from "i18next";
-import { categoryShape } from "assets/images";
-import { Row } from "antd";
-import { Typography, Button } from "common/components";
 import { useMemoizedFn } from "ahooks";
+import { Row } from "antd";
+import i18n from "i18next";
+import { Typography, Button } from "common/components";
+import { categoryShape } from "assets/images";
+import { BASE_IMG_URL } from "shared/constants/url";
 
-const Category = ({ image, title, titleColor, text, id }) => {
+const Category = ({ title, titleColor, text, id, imageURL }) => {
   const { t } = i18n;
   const history = useHistory();
 
@@ -17,7 +18,7 @@ const Category = ({ image, title, titleColor, text, id }) => {
   return (
     <div className="home__category">
       <div className="home__category-img">
-        <img src={image} alt="category" />
+        <img src={`${BASE_IMG_URL}${imageURL}`} alt="category" />
         <img className="home__category-shape" src={categoryShape} alt="shape" />
       </div>
       <Row align="middle" style={{ flexDirection: "column" }}>
