@@ -84,11 +84,11 @@ const Categories = () => {
       <div className="categories">
         {categoriesState.isFetching
           ? map(Array(6).fill(0), () => <CategoryLoader />)
-          : map(state.categoriesData, ({ id, name, description }) => (
+          : map(state.categoriesData, ({ id, name, description, img_url }) => (
               <Category
                 key={id}
                 id={id}
-                image={category}
+                image={img_url}
                 title={name}
                 titleColor={description}
                 text={description}
