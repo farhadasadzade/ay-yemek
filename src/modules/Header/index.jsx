@@ -16,6 +16,7 @@ import { Typography, Button, RenderIf } from "common/components";
 import MobileMenu from "./MobileMenu";
 import { headerLinks } from "./data";
 import "./style/index.scss";
+import MobileUserMenu from "./MobileUserMenu";
 
 const Header = () => {
   const { t } = i18n;
@@ -26,6 +27,10 @@ const Header = () => {
   const [
     isMobileMenuVisible,
     { toggle: toggleMobileMenu, set: setMobileMenu },
+  ] = useToggle();
+  const [
+    isMobileUserMenuVisible,
+    { toggle: toggleMobileUserMenu, set: setMobileUserMenu },
   ] = useToggle();
   const [isUserMenuVisible, { toggle: toggleUserMenu }] = useToggle();
 
@@ -45,6 +50,7 @@ const Header = () => {
       setWindowWidth(e.target.innerWidth)
     );
 
+    setWindowWidth(window.innerWidth);
     document.body.style.overflowY = "scroll";
   });
 
@@ -53,19 +59,23 @@ const Header = () => {
   });
 
   useUpdateEffect(() => {
-    if (windowWidth > 1300) setMobileMenu(false);
+    if (windowWidth > 1300) {
+      setMobileMenu(false);
+      setMobileUserMenu(false);
+    }
   }, [windowWidth]);
 
   useUpdateEffect(() => {
-    if (isMobileMenuVisible) {
+    if (isMobileMenuVisible || isMobileUserMenuVisible) {
       document.body.style.overflowY = "hidden";
       return;
     }
     document.body.style.overflowY = "scroll";
-  }, [isMobileMenuVisible]);
+  }, [isMobileMenuVisible, isMobileUserMenuVisible]);
 
   useUpdateEffect(() => {
     setMobileMenu(false);
+    setMobileUserMenu(false);
   }, [location.pathname]);
 
   return (
@@ -156,16 +166,33 @@ const Header = () => {
           Az
         </Button>
       </div>
-      <Button
-        className="header__menu-btn"
-        type="secondary"
-        onClick={toggleMobileMenu}
-      >
-        <img src={menuBar} alt="menuBtn" />
-      </Button>
+      <RenderIf condition={windowWidth <= 1300}>
+        <div style={{ display: "flex" }}>
+          <RenderIf condition={isUserLogined}>
+            <Button
+              className="header__menu-btn me-3"
+              type="secondary"
+              onClick={toggleMobileUserMenu}
+            >
+              <img src={user} alt="userBtn" />
+            </Button>
+          </RenderIf>
+          <Button
+            className="header__menu-btn"
+            type="secondary"
+            onClick={toggleMobileMenu}
+          >
+            <img src={menuBar} alt="menuBtn" />
+          </Button>
+        </div>
+      </RenderIf>
       <MobileMenu
         visible={isMobileMenuVisible}
         toggleMobileMenu={toggleMobileMenu}
+      />
+      <MobileUserMenu
+        visible={isMobileUserMenuVisible}
+        toggleMobileUserMenu={toggleMobileUserMenu}
       />
     </header>
   );

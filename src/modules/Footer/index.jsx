@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
 import { Row } from "antd";
 import { map } from "lodash";
@@ -9,6 +10,7 @@ import { facebookOrange, instagramOrange, twitterOrange } from "assets/icons";
 import Copyright from "./Copyright";
 import { footerLinks } from "./data";
 import "./style/index.scss";
+import { RenderIf } from "common/components";
 
 const ScrollToTop = ({ fillCircle, fillPath }) => {
   return (
@@ -31,6 +33,8 @@ const ScrollToTop = ({ fillCircle, fillPath }) => {
 const Footer = () => {
   const { t } = i18n;
 
+  const [windowWidth, setWindowWidth] = React.useState(0);
+  const [isTopVisible, setTopVisible] = React.useState(true);
   const [fillCircle, setFillCircle] = React.useState("white");
   const [fillPath, setFillPath] = React.useState("#F75C03");
 
@@ -43,6 +47,27 @@ const Footer = () => {
     setFillCircle("white");
     setFillPath("#F75C03");
   });
+
+  useMount(() => {
+    window.addEventListener("resize", (e) =>
+      setWindowWidth(e.target.innerWidth)
+    );
+
+    setWindowWidth(window.innerWidth);
+    document.body.style.overflowY = "scroll";
+  });
+
+  useUnmount(() => {
+    window.removeEventListener("resize", () => {});
+  });
+
+  useUpdateEffect(() => {
+    if (document.body.style.overflowY === "hidden") {
+      setTopVisible(false);
+      return;
+    }
+    setTopVisible(true);
+  }, [windowWidth, document.body.style.overflowY]);
 
   return (
     <>
@@ -86,14 +111,16 @@ const Footer = () => {
             </Link>
           </Row>
         </Row>
-        <button
-          onClick={() => window.scroll(0, 0)}
-          className="footer__scroll-top"
-          onMouseOver={onMouseOver}
-          onMouseLeave={onMouseLeave}
-        >
-          <ScrollToTop fillCircle={fillCircle} fillPath={fillPath} />
-        </button>
+        <RenderIf condition={isTopVisible}>
+          <button
+            onClick={() => window.scroll(0, 0)}
+            className="footer__scroll-top"
+            onMouseOver={onMouseOver}
+            onMouseLeave={onMouseLeave}
+          >
+            <ScrollToTop fillCircle={fillCircle} fillPath={fillPath} />
+          </button>
+        </RenderIf>
       </div>
       <Copyright />
     </>

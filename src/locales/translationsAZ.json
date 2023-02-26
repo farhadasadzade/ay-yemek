@@ -92,5 +92,8 @@
   "doYouWantLogout": "Profildən çıxış etmək İstədiyinizə əminsiniz?",
   "no": "Xeyr",
   "yes": "Bəli",
-  "chooseOnMap": "Xəritədə seç"
+  "chooseOnMap": "Xəritədə seç",
+  "choosenCategory": "Seçdiyiniz Kateqoriya",
+  "addNewPackage": "Yeni paket əlavə et",
+  "updatePackage": "Paketi yenilə"
 }

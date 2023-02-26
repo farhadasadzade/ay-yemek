@@ -11,7 +11,6 @@ import {
 } from "ahooks";
 import { map } from "lodash";
 import { BlockContainer } from "components";
-import { packet1 } from "assets/images";
 import PacketBlock from "./PacketBlock";
 import PriceBlock from "./PriceBlock";
 import PricesMobile from "./PricesMobile";
@@ -137,7 +136,7 @@ const Packets = () => {
                 ? map(Array(5).fill(0), () => <PacketLoader />)
                 : map(meals, (packet) => {
                     if (state.activeFilter === Number(packet.meal_type_id)) {
-                      return <PacketBlock {...packet} img={packet1} />;
+                      return <PacketBlock {...packet} />;
                     }
                     return null;
                   })}

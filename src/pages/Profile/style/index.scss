@@ -18,6 +18,7 @@
     border-radius: 16px;
     padding: 24px 16px;
     width: 292px;
+    margin-right: 60px;
 
     &-item {
       background: #ffffff;
@@ -44,6 +45,55 @@
       font-size: 14px;
       line-height: 109.4%;
       color: #35313f;
+    }
+  }
+
+  &__main {
+    padding: 40px 50px;
+    background-color: #eeeeee;
+    border-radius: 16px;
+    width: calc(100% - 360px);
+
+    &-title {
+      font-family: "Inter";
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 36px;
+      text-align: center;
+      color: $primary-color;
+      margin-bottom: 17px;
+    }
+
+    &-name {
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 22px;
+      line-height: 27px;
+      color: $secondary-color;
+
+      span {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #75797f;
+      }
+    }
+
+    &-addPacket {
+      padding: 10px 25px;
+      border: 1px dashed $primary-color;
+      filter: drop-shadow(0px 10px 15px rgba(1, 115, 153, 0.2));
+      border-radius: 16px;
+      background: transparent;
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      text-align: center;
+      color: #0e6ba8;
+      margin-bottom: 40px;
     }
   }
 }
@@ -92,6 +142,24 @@
       color: #00072d;
       margin-bottom: 90px;
       padding: 0 150px;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .profile {
+    &__nav {
+      width: 100%;
+
+      &-item {
+        &-text {
+          font-size: 12px;
+        }
+      }
+    }
+
+    &__main {
+      width: 100%;
     }
   }
 }

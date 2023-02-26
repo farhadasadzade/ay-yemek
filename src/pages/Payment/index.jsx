@@ -66,7 +66,7 @@ const Payment = () => {
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [dates, setDates] = React.useState(undefined);
   const [open, setOpen] = React.useState(false);
-  const [isIncludingWeekend, setIncludingWeekend] = React.useState(true);
+  const [isIncludingWeekend, setIncludingWeekend] = React.useState(false);
   const [isPaymentSuccess, setPaymentSuccess] = React.useState(false);
   const [isDateValid, setDateValid] = React.useState(true);
 
@@ -80,12 +80,12 @@ const Payment = () => {
     }
 
     if (isIncludingWeekend) {
-      const secondDate = dayjs(value[0].add(10, "days"));
+      const secondDate = dayjs(value[0].add(selectedPackage?.days - 1, "days"));
 
       setDates([value[0], secondDate]);
       return;
     }
-    setDates([value[0], addBusinessDays(value[0], 10)]);
+    setDates([value[0], addBusinessDays(value[0], selectedPackage?.days)]);
   });
 
   const onOpenChange = (open) => {
@@ -112,12 +112,14 @@ const Payment = () => {
   useUpdateEffect(() => {
     if (!isEmpty(dates)) {
       if (isIncludingWeekend) {
-        const secondDate = dayjs(dates[0].add(10, "days"));
+        const secondDate = dayjs(
+          dates[0].add(selectedPackage?.days - 1, "days")
+        );
 
         setDates([dates[0], secondDate]);
         return;
       }
-      setDates([dates[0], addBusinessDays(dates[0], 10)]);
+      setDates([dates[0], addBusinessDays(dates[0], selectedPackage?.days)]);
     }
   }, [isIncludingWeekend]);
 

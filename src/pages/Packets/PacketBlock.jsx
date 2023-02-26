@@ -1,12 +1,19 @@
 import React from "react";
 import { Row } from "antd";
 import { info, kkal } from "assets/icons";
+import { BASE_IMG_URL } from "shared/constants/url";
 
-const PacketBlock = ({ img, description, calValue, name, category_name }) => {
+const PacketBlock = ({
+  img_url,
+  description,
+  calValue,
+  name,
+  category_name,
+}) => {
   return (
     <div className="packets__foods-block">
       <div className="packets__foods-img">
-        <img src={img} alt="packet" />
+        <img src={`${BASE_IMG_URL}${img_url}`} alt="packet" />
       </div>
       <div className="packets__foods-about">
         <Row justify="space-between" align="middle">

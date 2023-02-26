@@ -7,7 +7,6 @@ import { map } from "lodash";
 import { Row } from "antd";
 import { HomeTitle, CarouselArrows, CategoryLoader } from "components";
 import { RenderIf } from "common/components";
-import { category } from "assets/images";
 import { apiMeals } from "common/api/apiMeals";
 import Category from "./Category";
 import "./style/index.scss";
@@ -62,16 +61,16 @@ const Categories = () => {
           >
             {categoriesState.isFetching
               ? map(Array(3).fill(0), () => <CategoryLoader />)
-              : map(categories, ({ id, name, description }, index) => {
+              : map(categories, ({ id, name, description, img_url }, index) => {
                   if (index < 5) {
                     return (
                       <Category
                         key={id}
                         id={id}
-                        image={category}
                         title={name}
                         titleColor={description}
                         text={description}
+                        imageURL={img_url}
                       />
                     );
                   }
@@ -81,13 +80,13 @@ const Categories = () => {
         </RenderIf>
         <RenderIf condition={windowWidth <= 1000 && windowWidth !== 0}>
           <Row align="middle" style={{ flexDirection: "column" }}>
-            {map(categories, ({ id, name, description }) => (
+            {map(categories, ({ id, name, description, img_url }) => (
               <Category
                 key={id}
-                image={category}
                 title={name}
                 titleColor={description}
                 text={description}
+                imageURL={img_url}
               />
             ))}
           </Row>
