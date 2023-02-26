@@ -11,7 +11,7 @@ import i18n from "i18next";
 import { logo } from "assets/images";
 import { Col, Row } from "antd";
 import { Input, Button, RenderIf, Toast } from "common/components";
-import { Footer, Header } from "modules";
+import { Footer, Header, Map } from "modules";
 import { apiAuth } from "common/api/apiAuth";
 import "./style/index.scss";
 
@@ -289,7 +289,7 @@ const Register = () => {
                 prefix="+994"
               />
             </Row>
-            <Row className="mb-3">
+            <Row>
               <Input
                 type="text"
                 label={t("address")}
@@ -298,6 +298,9 @@ const Register = () => {
                 onChange={(e) => handleChangeInput(e, "address")}
                 error={!isEmpty(methods.formState.errors.address)}
               />
+            </Row>
+            <Row className="mb-3" justify='end'> 
+                <Map />
             </Row>
             <Row className="mt-5">
               <Button
