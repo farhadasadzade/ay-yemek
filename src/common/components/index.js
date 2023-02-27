@@ -4,3 +4,4 @@ export { default as RenderIf } from "./RenderIf";
 export { default as Input } from "./Input";
 export { default as Loading } from "./Loading";
 export { default as Toast } from "./Toast";
+export { default as Autocomplete } from "./Autocomplete";

@@ -1,14 +1,17 @@
 import React from "react";
+import { GoogleMap, LoadScript, Polygon, Marker } from "@react-google-maps/api";
 import { useMemoizedFn, useToggle, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
-import { GoogleMap, LoadScript, Polygon, Marker } from "@react-google-maps/api";
-import { RenderIf } from "common/components";
+import { map } from "lodash";
+import { Row } from "antd";
+import { apiMap } from "common/api/apiMap";
+import { RenderIf, Autocomplete } from "common/components";
 import { exit } from "assets/icons";
 import { positions } from "./data";
 import "leaflet/dist/leaflet.css";
 import "./style/index.scss";
 
-const Map = () => {
+const Map = ({ methods, handleChangeInput }) => {
   const { t } = i18n;
   const refPoly = React.useRef(null);
 
@@ -17,6 +20,9 @@ const Map = () => {
     lng: 49.9451,
   });
   const [isMapVisible, { toggle: toggleMap }] = useToggle(false);
+  const [addresses, setAddresses] = React.useState([]);
+
+  const [getAddresses, addressesState] = apiMap.useLazyRegisterQuery();
 
   const handleClickOnMap = useMemoizedFn((e) => {
     setMarkerPosition({
@@ -32,17 +38,47 @@ const Map = () => {
     });
   });
 
+  const onAddressEnter = useMemoizedFn((value) => {
+    getAddresses(value);
+  });
+
   useUpdateEffect(() => {}, [markerPosition?.lat, markerPosition?.lng]);
+
+  useUpdateEffect(() => {
+    if (!addressesState.isFetching && addressesState.isSuccess) {
+      setAddresses(
+        map(addressesState.data?.features, (feat) => ({
+          label: feat?.properties?.formatted,
+          value: JSON.stringify({
+            lat: feat?.properties?.lat,
+            lng: feat?.properties?.lon,
+          }),
+        }))
+      );
+    }
+  }, [addressesState.isFetching]);
 
   return (
     <>
-      <p
-        style={{ cursor: "pointer" }}
-        onClick={toggleMap}
-        className="map__choose"
-      >
-        {t("chooseOnMap")}
-      </p>
+      <Row>
+        <Autocomplete
+          label={t("address")}
+          isRequired
+          onChange={onAddressEnter}
+          dataSource={addresses}
+          onSelect={(a) => console.log(a)}
+          placeholder={t("enterYourAddress")}
+        />
+      </Row>
+      <Row justify="end">
+        <p
+          style={{ cursor: "pointer" }}
+          onClick={toggleMap}
+          className="map__choose"
+        >
+          {t("chooseOnMap")}
+        </p>
+      </Row>
       <RenderIf condition={isMapVisible}>
         <div className="map">
           <div className="map__modal">

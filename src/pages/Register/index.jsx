@@ -289,19 +289,7 @@ const Register = () => {
                 prefix="+994"
               />
             </Row>
-            <Row>
-              <Input
-                type="text"
-                label={t("address")}
-                isRequired
-                placeholder={t("enterYourAddress")}
-                onChange={(e) => handleChangeInput(e, "address")}
-                error={!isEmpty(methods.formState.errors.address)}
-              />
-            </Row>
-            <Row className="mb-3" justify='end'> 
-                <Map />
-            </Row>
+            <Map />
             <Row className="mt-5">
               <Button
                 htmlType="submit"

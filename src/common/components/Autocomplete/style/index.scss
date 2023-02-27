@@ -1,0 +1,54 @@
+@import "assets/css/variables.scss";
+
+.autocomplete {
+  & input {
+    background: #ffffff !important;
+    border: 1px solid #d3d3d3 !important;
+    border-radius: 8px !important;
+    font-family: "Nunito" !important;
+    font-weight: 400 !important;
+    font-size: 20px !important;
+    line-height: 17px !important;
+    color: #797979 !important;
+    width: 100% !important;
+    padding: 25px 0 !important;
+    border: none !important;
+    outline: none !important;
+
+    &-error {
+      border: 1px solid #fa3e3e;
+    }
+
+    &:focus {
+      border: 1px solid $primary-color !important;
+      border: none !important;
+      outline: none !important;
+
+      background: rgba(247, 92, 3, 0.17);
+
+      input {
+        background: rgba(247, 92, 3, 0.17) !important;
+      }
+    }
+  }
+}
+
+.ant-select-selector {
+  background: #ffffff !important;
+  border-radius: 8px !important;
+  font-family: "Nunito" !important;
+  font-weight: 400 !important;
+  font-size: 20px !important;
+  line-height: 17px !important;
+  color: #797979 !important;
+  width: 100% !important;
+  padding: 25px 0 !important;
+  position: relative !important;
+}
+
+.ant-select-selection-placeholder {
+  position: absolute !important;
+  top: 21% !important;
+  height: 100% !important;
+  left: 20px !important;
+}
