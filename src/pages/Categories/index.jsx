@@ -6,7 +6,6 @@ import { Pagination, Row } from "antd";
 import { BlockContainer, CategoryLoader } from "components";
 import { apiMeals } from "common/api/apiMeals";
 import Category from "pages/Home/Categories/Category";
-import { category } from "assets/images";
 import "./style/index.scss";
 
 const PaginationNextButton = () => (
@@ -88,7 +87,7 @@ const Categories = () => {
               <Category
                 key={id}
                 id={id}
-                image={img_url}
+                imageURL={img_url}
                 title={name}
                 titleColor={description}
                 text={description}

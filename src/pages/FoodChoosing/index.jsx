@@ -155,11 +155,11 @@ const FoodChoosing = () => {
             </div>
           </div>
           <div className="packets__prices">
-            <DeliverForm />
             <ChoosenMeals
               selectedMeals={selectedMeals}
               handleDeleteMeal={handleDeleteMeal}
             />
+            <DeliverForm />
           </div>
         </div>
       </BlockContainer>
