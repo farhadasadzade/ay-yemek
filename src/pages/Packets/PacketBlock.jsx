@@ -13,7 +13,7 @@ const PacketBlock = ({
     <div className="packets__foods-block">
       <div className="packets__foods-img">
         <img
-          src={`${process.anv.REACT_APP_BASE_IMG_URL}${img_url}`}
+          src={`${process.env.REACT_APP_BASE_IMG_URL}${img_url}`}
           alt="packet"
         />
       </div>

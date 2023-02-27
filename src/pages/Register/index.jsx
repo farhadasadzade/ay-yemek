@@ -97,7 +97,7 @@ const Register = () => {
       email,
       password,
       phone: `994${phone}`,
-      address,
+      address: "a",
       bdate: birthDate,
     });
   });
