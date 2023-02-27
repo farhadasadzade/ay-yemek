@@ -88,10 +88,10 @@ const Categories = () => {
               <Category
                 key={id}
                 id={id}
-                image={img_url}
                 title={name}
                 titleColor={description}
                 text={description}
+                imageURL={img_url}
               />
             ))}
       </div>
