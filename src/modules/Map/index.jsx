@@ -42,7 +42,16 @@ const Map = ({ methods, handleChangeInput }) => {
     getAddresses(value);
   });
 
-  useUpdateEffect(() => {}, [markerPosition?.lat, markerPosition?.lng]);
+  const onAddressSelect = useMemoizedFn((coordinates) => {
+    console.log(JSON.parse(`${coordinates}`));
+    setMarkerPosition(JSON.parse(coordinates));
+  });
+
+  useUpdateEffect(() => {
+    console.log(markerPosition);
+  }, [markerPosition?.lat, markerPosition?.lng]);
+
+  console.log({ markerPosition });
 
   useUpdateEffect(() => {
     if (!addressesState.isFetching && addressesState.isSuccess) {
@@ -66,7 +75,7 @@ const Map = ({ methods, handleChangeInput }) => {
           isRequired
           onChange={onAddressEnter}
           dataSource={addresses}
-          onSelect={(a) => console.log(a)}
+          onSelect={onAddressSelect}
           placeholder={t("enterYourAddress")}
         />
       </Row>

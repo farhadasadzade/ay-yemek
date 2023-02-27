@@ -63,7 +63,7 @@ const Register = () => {
       .matches(PHONE_REGEX, "Phone number is not valid")
       .min(9)
       .max(9),
-    address: yup.string().required(),
+    // address: yup.string().required(),
   });
 
   const { t } = i18n;
@@ -117,7 +117,7 @@ const Register = () => {
     methods.register("email");
     methods.register("password");
     methods.register("phone");
-    methods.register("address");
+    // methods.register("address");
   }, [methods]);
 
   useMount(() => {
