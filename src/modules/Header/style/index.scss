@@ -156,6 +156,7 @@
     background-color: #ffffff;
     border-radius: 16px 0px 0px 16px;
     padding: 35px 40px;
+    overflow-x: hidden;
   }
 
   &-bottom {
@@ -163,7 +164,13 @@
     height: calc(100vh - 90px);
     background-color: #ffffff;
     border-radius: 16px 0px 0px 16px;
-    padding: 60px 25px 0;
+    padding: 60px 10px 0;
+    overflow-x: hidden;
+
+    & .profile__nav {
+      margin-right: 0 !important;
+      width: 275px;
+    }
   }
 
   &-exit {

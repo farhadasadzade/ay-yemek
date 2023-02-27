@@ -63,7 +63,7 @@ const Register = () => {
       .matches(PHONE_REGEX, "Phone number is not valid")
       .min(9)
       .max(9),
-    address: yup.string().required(),
+    // address: yup.string().required(),
   });
 
   const { t } = i18n;
@@ -97,7 +97,7 @@ const Register = () => {
       email,
       password,
       phone: `994${phone}`,
-      address,
+      address: "a",
       bdate: birthDate,
     });
   });
@@ -117,7 +117,7 @@ const Register = () => {
     methods.register("email");
     methods.register("password");
     methods.register("phone");
-    methods.register("address");
+    // methods.register("address");
   }, [methods]);
 
   useMount(() => {
@@ -289,19 +289,7 @@ const Register = () => {
                 prefix="+994"
               />
             </Row>
-            <Row>
-              <Input
-                type="text"
-                label={t("address")}
-                isRequired
-                placeholder={t("enterYourAddress")}
-                onChange={(e) => handleChangeInput(e, "address")}
-                error={!isEmpty(methods.formState.errors.address)}
-              />
-            </Row>
-            <Row className="mb-3" justify='end'> 
-                <Map />
-            </Row>
+            <Map />
             <Row className="mt-5">
               <Button
                 htmlType="submit"

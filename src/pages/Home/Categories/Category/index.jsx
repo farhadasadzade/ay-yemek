@@ -5,7 +5,6 @@ import { Row } from "antd";
 import i18n from "i18next";
 import { Typography, Button } from "common/components";
 import { categoryShape } from "assets/images";
-import { BASE_IMG_URL } from "shared/constants/url";
 
 const Category = ({ title, titleColor, text, id, imageURL }) => {
   const { t } = i18n;
@@ -18,7 +17,10 @@ const Category = ({ title, titleColor, text, id, imageURL }) => {
   return (
     <div className="home__category">
       <div className="home__category-img">
-        <img src={`${BASE_IMG_URL}${imageURL}`} alt="category" />
+        <img
+          src={`${process.env.REACT_APP_BASE_IMG_URL}${imageURL}`}
+          alt="category"
+        />
         <img className="home__category-shape" src={categoryShape} alt="shape" />
       </div>
       <Row align="middle" style={{ flexDirection: "column" }}>

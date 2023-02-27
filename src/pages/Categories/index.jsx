@@ -91,6 +91,7 @@ const Categories = () => {
                 title={name}
                 titleColor={description}
                 text={description}
+                imageURL={img_url}
               />
             ))}
       </div>
