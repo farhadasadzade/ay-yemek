@@ -91,6 +91,7 @@ const Input = ({
               activePickerIndex={0}
               open={open}
               onOpenChange={onOpenChange}
+              hideDisabledOptions
             />
           </label>
         </>

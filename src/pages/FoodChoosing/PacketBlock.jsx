@@ -5,7 +5,7 @@ import { info, kkal } from "assets/icons";
 
 const PacketBlock = ({
   handleSelectMeal,
-  img,
+  img_url,
   description,
   id,
   name,
@@ -17,7 +17,10 @@ const PacketBlock = ({
   return (
     <div className="packets__foods-block">
       <div className="packets__foods-img">
-        <img src={img} alt="packet" />
+        <img
+          src={`${process.env.REACT_APP_BASE_IMG_URL}${img_url}`}
+          alt="packet"
+        />
       </div>
       <div className="packets__foods-about">
         <Row justify="space-between" align="middle">

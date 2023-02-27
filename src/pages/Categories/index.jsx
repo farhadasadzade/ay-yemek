@@ -87,7 +87,6 @@ const Categories = () => {
               <Category
                 key={id}
                 id={id}
-                imageURL={img_url}
                 title={name}
                 titleColor={description}
                 text={description}

@@ -109,9 +109,13 @@ const Packets = () => {
                   ))}
             </div>
             <div className="packets__foods">
-              <RenderIf condition={windowWidth <= 700}>
+              <RenderIf condition={windowWidth <= 1200}>
                 <Row className="my-3" justify="center">
-                  <Button onClick={handlePrices} type="primary">
+                  <Button
+                    onClick={handlePrices}
+                    type="primary"
+                    style={{ width: "100%" }}
+                  >
                     {t("checkPackets")}
                     <svg
                       style={{ rotate: "180deg" }}

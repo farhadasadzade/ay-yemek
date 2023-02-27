@@ -12,7 +12,6 @@ import {
 import { map } from "lodash";
 import { Button, RenderIf } from "common/components";
 import { BlockContainer, FilterTagLoader, PacketLoader } from "components";
-import { packet1 } from "assets/images";
 import ChoosenMeals from "./ChoosenMeals";
 import DeliverForm from "./DeliverForm";
 import PacketBlock from "./PacketBlock";
@@ -111,13 +110,17 @@ const FoodChoosing = () => {
                     </div>
                   ))}
             </div>
-            <RenderIf condition={windowWidth <= 700}>
+            <RenderIf condition={windowWidth <= 1200}>
               <DeliverForm />
             </RenderIf>
             <div className="packets__foods">
-              <RenderIf condition={windowWidth <= 700}>
+              <RenderIf condition={windowWidth <= 1200}>
                 <Row className="my-3" justify="center">
-                  <Button onClick={handlePrices} type="primary">
+                  <Button
+                    onClick={handlePrices}
+                    type="primary"
+                    style={{ width: "100%" }}
+                  >
                     {t("choosenFoods")}
                     <svg
                       style={{ rotate: "180deg" }}
@@ -146,7 +149,6 @@ const FoodChoosing = () => {
                         <PacketBlock
                           handleSelectMeal={handleSelectMeal}
                           {...packet}
-                          img={packet1}
                         />
                       );
                     }

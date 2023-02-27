@@ -83,6 +83,7 @@ const Categories = () => {
             {map(categories, ({ id, name, description, img_url }) => (
               <Category
                 key={id}
+                id={id}
                 title={name}
                 titleColor={description}
                 text={description}
