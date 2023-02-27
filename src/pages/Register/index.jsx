@@ -107,7 +107,7 @@ const Register = () => {
     const month = val.$d.getMonth() + 1;
     const year = val.$d.getFullYear();
 
-    setBirthDate(`${day}${month}${year}`);
+    setBirthDate(`${day}.${month}.${year}`);
     methods.setValue("birthDate", val);
   });
 
