@@ -6,10 +6,11 @@ import * as yup from "yup";
 import moment from "moment/moment";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, trim } from "lodash";
+import Swal from "sweetalert2";
 import { useMount, useUnmount, useMemoizedFn, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
 import { logo } from "assets/images";
-import { Col, Row } from "antd";
+import { Checkbox, Col, Row } from "antd";
 import { Input, Button, RenderIf, Toast } from "common/components";
 import { Footer, Header, Map } from "modules";
 import { apiAuth } from "common/api/apiAuth";
@@ -63,7 +64,10 @@ const Register = () => {
       .matches(PHONE_REGEX, "Phone number is not valid")
       .min(9)
       .max(9),
-    // address: yup.string().required(),
+    rule: yup
+      .boolean()
+      .required("The terms and conditions must be accepted.")
+      .oneOf([true], "The terms and conditions must be accepted."),
   });
 
   const { t } = i18n;
@@ -77,6 +81,9 @@ const Register = () => {
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [birthDate, setBirthDate] = React.useState(null);
   const [password, setPassword] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [isAddressDenied, setAddressDenied] = React.useState(true);
+  const [addressError, setAddressError] = React.useState(false);
 
   const handleChangeInput = useMemoizedFn((e, name) => {
     methods.setValue(name, trim(e.target.value));
@@ -87,9 +94,35 @@ const Register = () => {
     }
   });
 
+  const handleChangeRule = useMemoizedFn((val) => {
+    methods.setValue("rule", val);
+    methods.clearErrors("rule");
+  });
+
+  const getPosition = useMemoizedFn((pos) => {
+    setAddress(pos);
+
+    if (!isEmpty(pos)) {
+      setAddressError(false);
+    }
+  });
+
+  const getIsAddressDenied = useMemoizedFn((denied) => {
+    setAddressDenied(denied);
+  });
+
   const handleSumbitRegistration = useMemoizedFn(() => {
-    const { name, surname, password, email, phone, address } =
-      methods.getValues();
+    const { name, surname, password, email, phone } = methods.getValues();
+
+    if (isAddressDenied) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+
+      return;
+    }
 
     register({
       name,
@@ -97,7 +130,7 @@ const Register = () => {
       email,
       password,
       phone: `994${phone}`,
-      address: "a",
+      address,
       bdate: birthDate,
     });
   });
@@ -117,7 +150,7 @@ const Register = () => {
     methods.register("email");
     methods.register("password");
     methods.register("phone");
-    // methods.register("address");
+    methods.register("rule");
   }, [methods]);
 
   useMount(() => {
@@ -142,10 +175,19 @@ const Register = () => {
         }, 1000);
       }
 
-      if (registerState.isError) {
+      if (registerState.error.status === 401) {
         Toast.fire({
           icon: "error",
           title: t("emailIsUsedAlready"),
+        });
+
+        return;
+      }
+
+      if (registerState.isError) {
+        Toast.fire({
+          icon: "error",
+          title: t("anErrorOccurred"),
         });
       }
     }
@@ -154,6 +196,8 @@ const Register = () => {
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
   });
+
+  console.log(methods.formState.errors);
 
   return (
     <>
@@ -289,13 +333,36 @@ const Register = () => {
                 prefix="+994"
               />
             </Row>
-            <Map />
+            <Map
+              getPosition={getPosition}
+              getIsAddressDenied={getIsAddressDenied}
+              status={addressError}
+            />
+            <Row className="my-3">
+              <Checkbox
+                name="rule"
+                className={`${
+                  !isEmpty(methods.formState.errors.rule)
+                    ? "error-checkbox"
+                    : ""
+                }`}
+                defaultChecked={false}
+                onChange={(e) => handleChangeRule(e.target.checked)}
+              />
+            </Row>
             <Row className="mt-5">
               <Button
                 htmlType="submit"
                 style={{ width: "100%" }}
                 type="primary"
                 isLoading={registerState.isLoading}
+                onClick={() => {
+                  if (isEmpty(address)) {
+                    setAddressError(true);
+                    return;
+                  }
+                  setAddressError(false);
+                }}
               >
                 {t("registerNow")}
               </Button>

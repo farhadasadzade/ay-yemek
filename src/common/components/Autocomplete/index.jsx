@@ -9,6 +9,8 @@ const Autocomplete = ({
   placeholder,
   label,
   isRequired,
+  value,
+  status,
 }) => {
   return (
     <label className="coreinput-label">
@@ -24,6 +26,8 @@ const Autocomplete = ({
         onSelect={onSelect}
         style={{ width: "100%" }}
         placeholder={placeholder}
+        value={value}
+        status={status}
       />
     </label>
   );

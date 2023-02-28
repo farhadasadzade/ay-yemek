@@ -2,20 +2,20 @@ import React from "react";
 import { GoogleMap, Polygon, Marker } from "@react-google-maps/api";
 import { useMemoizedFn, useToggle, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
+import Swal from "sweetalert2";
 import { map } from "lodash";
 import { Row } from "antd";
 import { apiMap } from "common/api/apiMap";
-import { RenderIf, Autocomplete } from "common/components";
+import { RenderIf, Autocomplete, Button } from "common/components";
 import { exit } from "assets/icons";
 import { positions } from "./data";
 import "leaflet/dist/leaflet.css";
 import "./style/index.scss";
 import pointInPolygon from "point-in-polygon";
 
-const Map = ({ methods, handleChangeInput }) => {
+const Map = ({ getPosition, getIsAddressDenied, status }) => {
   const { t } = i18n;
   const refPoly = React.useRef(null);
-  const google = (window.google = window.google ? window.google : {});
 
   const [markerPosition, setMarkerPosition] = React.useState({
     lat: 40.3785,
@@ -23,19 +23,19 @@ const Map = ({ methods, handleChangeInput }) => {
   });
   const [isMapVisible, { toggle: toggleMap }] = useToggle(false);
   const [addresses, setAddresses] = React.useState([]);
+  const [isAddressDenied, setAddressDenied] = React.useState(false);
+  const [selectedPosition, setSelectedPosition] = React.useState();
+  const [selectedAddress, setSelectedAddress] = React.useState(undefined);
 
-  const [getAddresses, addressesState] = apiMap.useLazyRegisterQuery();
+  const [getAddresses, addressesState] = apiMap.useLazyGetAddressesQuery();
+  const [getAddressByPosition, addressByPositionState] =
+    apiMap.useLazyGetAddressByPositionQuery();
 
   const handleClickOnMap = useMemoizedFn((e) => {
     setMarkerPosition({
       lng: e.latLng.lng(),
       lat: e.latLng.lat(),
     });
-
-    pointInPolygon(
-      [e.latLng.lng(), e.latLng.lat()],
-      positions.map((pos) => [Number(pos[0]), Number(pos[1])])
-    );
   });
 
   const handleDragMarker = useMemoizedFn((e) => {
@@ -47,30 +47,38 @@ const Map = ({ methods, handleChangeInput }) => {
 
   const onAddressEnter = useMemoizedFn((value) => {
     getAddresses(value);
+    setSelectedAddress(value);
   });
 
   const onAddressSelect = useMemoizedFn((coordinates) => {
-    console.log(JSON.parse(`${coordinates}`));
     setMarkerPosition(JSON.parse(coordinates));
+    setSelectedAddress(undefined);
+    getAddressByPosition(JSON.parse(coordinates));
+    getPosition(markerPosition);
   });
 
-  const checkIfPosInside = useMemoizedFn((point, vs) => {
-    var x = point[0],
-      y = point[1];
+  const handleSelectPosition = useMemoizedFn(() => {
+    const isInsidePolygon = pointInPolygon(
+      [markerPosition?.lng, markerPosition?.lat],
+      positions.map((pos) => [Number(pos[0]), Number(pos[1])])
+    );
 
-    var inside = false;
-    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-      var xi = vs[i][0],
-        yi = vs[i][1];
-      var xj = vs[j][0],
-        yj = vs[j][1];
+    toggleMap();
+    setSelectedPosition(markerPosition);
+    getPosition(markerPosition);
+    setAddressDenied(isInsidePolygon);
+    getIsAddressDenied(!isInsidePolygon);
 
-      var intersect =
-        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
-      if (intersect) inside = !inside;
+    if (!isInsidePolygon) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+      return;
     }
 
-    return inside;
+    getAddressByPosition(markerPosition);
   });
 
   useUpdateEffect(() => {
@@ -87,6 +95,17 @@ const Map = ({ methods, handleChangeInput }) => {
     }
   }, [addressesState.isFetching]);
 
+  useUpdateEffect(() => {
+    if (
+      !addressByPositionState.isFetching &&
+      addressByPositionState.isSuccess
+    ) {
+      setSelectedAddress(
+        addressByPositionState.data?.features?.[0]?.properties?.formatted
+      );
+    }
+  }, [addressByPositionState.isFetching]);
+
   return (
     <>
       <Row>
@@ -97,6 +116,8 @@ const Map = ({ methods, handleChangeInput }) => {
           dataSource={addresses}
           onSelect={onAddressSelect}
           placeholder={t("enterYourAddress")}
+          value={selectedAddress}
+          status={status ? "error" : ""}
         />
       </Row>
       <Row justify="end">
@@ -114,7 +135,7 @@ const Map = ({ methods, handleChangeInput }) => {
             <GoogleMap
               mapContainerStyle={{
                 width: "100%",
-                height: "530px",
+                height: "87%",
               }}
               center={{
                 lat: 40.3785,
@@ -149,11 +170,19 @@ const Map = ({ methods, handleChangeInput }) => {
               />
             </GoogleMap>
             <img
-              onClick={toggleMap}
+              onClick={() => {
+                toggleMap();
+                setMarkerPosition(selectedPosition);
+              }}
               className="map__exit"
               src={exit}
               alt="exit"
             />
+            <Row className="mt-2" justify="center">
+              <Button onClick={handleSelectPosition} type="primary">
+                {t("choose")}
+              </Button>
+            </Row>
           </div>
         </div>
       </RenderIf>

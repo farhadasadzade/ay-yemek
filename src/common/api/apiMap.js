@@ -6,11 +6,15 @@ export const apiMap = createApi({
     baseUrl: `https://api.geoapify.com/v1/geocode`,
   }),
   endpoints: (builder) => ({
-    register: builder.query({
+    getAddresses: builder.query({
       query: (searchKey) =>
         `/autocomplete?text=${searchKey}&apiKey=${process.env.REACT_APP_GEOPIFY_API_KEY}`,
+    }),
+    getAddressByPosition: builder.query({
+      query: ({ lat, lng }) =>
+        `/reverse?lat=${lat}&lon=${lng}&apiKey=${process.env.REACT_APP_GEOPIFY_API_KEY}`,
     }),
   }),
 });
 
-export const { useLazyRegisterQuery } = apiMap;
+export const { useLazyGetAddressesQuery } = apiMap;

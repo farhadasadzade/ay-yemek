@@ -230,6 +230,10 @@ a {
   border-color: #f75c03 !important;
 }
 
+.error-checkbox .ant-checkbox-inner {
+  border: 1px solid red !important;
+}
+
 @media (max-width: 800px) {
   .payment__success-title {
     font-family: "Inter";
