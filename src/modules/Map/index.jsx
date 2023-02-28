@@ -1,5 +1,5 @@
 import React from "react";
-import { GoogleMap, LoadScript, Polygon, Marker } from "@react-google-maps/api";
+import { GoogleMap, Polygon, Marker } from "@react-google-maps/api";
 import { useMemoizedFn, useToggle, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
 import { map } from "lodash";
@@ -10,10 +10,12 @@ import { exit } from "assets/icons";
 import { positions } from "./data";
 import "leaflet/dist/leaflet.css";
 import "./style/index.scss";
+import pointInPolygon from "point-in-polygon";
 
 const Map = ({ methods, handleChangeInput }) => {
   const { t } = i18n;
   const refPoly = React.useRef(null);
+  const google = (window.google = window.google ? window.google : {});
 
   const [markerPosition, setMarkerPosition] = React.useState({
     lat: 40.3785,
@@ -26,15 +28,20 @@ const Map = ({ methods, handleChangeInput }) => {
 
   const handleClickOnMap = useMemoizedFn((e) => {
     setMarkerPosition({
-      lat: e.latLng.lat(),
       lng: e.latLng.lng(),
+      lat: e.latLng.lat(),
     });
+
+    pointInPolygon(
+      [e.latLng.lng(), e.latLng.lat()],
+      positions.map((pos) => [Number(pos[0]), Number(pos[1])])
+    );
   });
 
   const handleDragMarker = useMemoizedFn((e) => {
     setMarkerPosition({
-      lat: e.latLng.lat(),
       lng: e.latLng.lng(),
+      lat: e.latLng.lat(),
     });
   });
 
@@ -47,11 +54,24 @@ const Map = ({ methods, handleChangeInput }) => {
     setMarkerPosition(JSON.parse(coordinates));
   });
 
-  useUpdateEffect(() => {
-    console.log(markerPosition);
-  }, [markerPosition?.lat, markerPosition?.lng]);
+  const checkIfPosInside = useMemoizedFn((point, vs) => {
+    var x = point[0],
+      y = point[1];
 
-  console.log({ markerPosition });
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+      var xi = vs[i][0],
+        yi = vs[i][1];
+      var xj = vs[j][0],
+        yj = vs[j][1];
+
+      var intersect =
+        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+
+    return inside;
+  });
 
   useUpdateEffect(() => {
     if (!addressesState.isFetching && addressesState.isSuccess) {
@@ -91,45 +111,43 @@ const Map = ({ methods, handleChangeInput }) => {
       <RenderIf condition={isMapVisible}>
         <div className="map">
           <div className="map__modal">
-            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API}>
-              <GoogleMap
-                mapContainerStyle={{
-                  width: "100%",
-                  height: "530px",
+            <GoogleMap
+              mapContainerStyle={{
+                width: "100%",
+                height: "530px",
+              }}
+              center={{
+                lat: 40.3785,
+                lng: 49.9451,
+              }}
+              zoom={12}
+              onClick={handleClickOnMap}
+            >
+              <Polygon
+                ref={refPoly}
+                options={{
+                  fillColor: "lightblue",
+                  fillOpacity: 0.3,
+                  strokeColor: "red",
+                  strokeOpacity: 1,
+                  strokeWeight: 2,
+                  clickable: false,
+                  draggable: false,
+                  editable: false,
+                  geodesic: false,
+                  zIndex: 1,
                 }}
-                center={{
-                  lat: 40.3785,
-                  lng: 49.9451,
-                }}
-                zoom={12}
-                onClick={handleClickOnMap}
-              >
-                <Polygon
-                  ref={refPoly}
-                  options={{
-                    fillColor: "lightblue",
-                    fillOpacity: 0.3,
-                    strokeColor: "red",
-                    strokeOpacity: 1,
-                    strokeWeight: 2,
-                    clickable: false,
-                    draggable: false,
-                    editable: false,
-                    geodesic: false,
-                    zIndex: 1,
-                  }}
-                  paths={positions.map((a) => ({
-                    lat: Number(a[1]),
-                    lng: Number(a[0]),
-                  }))}
-                />
-                <Marker
-                  position={markerPosition}
-                  draggable
-                  onDragEnd={handleDragMarker}
-                />
-              </GoogleMap>
-            </LoadScript>
+                paths={positions.map((a) => ({
+                  lat: Number(a[1]),
+                  lng: Number(a[0]),
+                }))}
+              />
+              <Marker
+                position={markerPosition}
+                draggable
+                onDragEnd={handleDragMarker}
+              />
+            </GoogleMap>
             <img
               onClick={toggleMap}
               className="map__exit"

@@ -44,15 +44,18 @@ function addBusinessDays(originalDate, numDaysToAdd) {
   let daysRemaining = numDaysToAdd;
 
   let newDate = originalDate.clone();
+  let disabledDays = [];
 
   while (daysRemaining > 1) {
     newDate = newDate.add(1, "days");
     if (newDate.day() !== Sunday && newDate.day() !== Saturday) {
       daysRemaining--;
+    } else {
+      disabledDays.push(newDate);
     }
   }
 
-  return newDate;
+  return { newDate, disabledDays };
 }
 
 const Payment = () => {
@@ -65,6 +68,7 @@ const Payment = () => {
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [dates, setDates] = React.useState(undefined);
+  const [disabledDates, setDisabledDates] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [isIncludingWeekend, setIncludingWeekend] = React.useState(false);
   const [isPaymentSuccess, setPaymentSuccess] = React.useState(false);
@@ -85,7 +89,12 @@ const Payment = () => {
       setDates([value[0], secondDate]);
       return;
     }
-    setDates([value[0], addBusinessDays(value[0], selectedPackage?.days)]);
+    const { newDate, disabledDays } = addBusinessDays(
+      value[0],
+      selectedPackage?.days
+    );
+    setDates([value[0], newDate]);
+    setDisabledDates(disabledDays);
   });
 
   const onOpenChange = (open) => {
@@ -117,9 +126,15 @@ const Payment = () => {
         );
 
         setDates([dates[0], secondDate]);
+        setDisabledDates([]);
         return;
       }
-      setDates([dates[0], addBusinessDays(dates[0], selectedPackage?.days)]);
+      const { newDate, disabledDays } = addBusinessDays(
+        dates[0],
+        selectedPackage?.days
+      );
+      setDates([dates[0], newDate]);
+      setDisabledDates(disabledDays);
     }
   }, [isIncludingWeekend]);
 
@@ -168,6 +183,7 @@ const Payment = () => {
                   open={open}
                   onOpenChange={onOpenChange}
                   error={!isDateValid}
+                  disabledDates={disabledDates}
                 />
               </Col>
             </Row>

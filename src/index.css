@@ -225,6 +225,11 @@ a {
   color: #f75c03;
 }
 
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #f75c03 !important;
+  border-color: #f75c03 !important;
+}
+
 @media (max-width: 800px) {
   .payment__success-title {
     font-family: "Inter";

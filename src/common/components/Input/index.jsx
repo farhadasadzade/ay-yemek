@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { includes } from "lodash";
 import { Input as CoreInput, DatePicker } from "antd";
 import "./style/index.scss";
 
@@ -24,6 +25,7 @@ const Input = ({
   onOpenChange,
   maxLength,
   ref,
+  disabledDates,
 }) => {
   switch (type) {
     case "textarea":
@@ -85,7 +87,15 @@ const Input = ({
               onCalendarChange={onSelect}
               disabledDate={(current) => {
                 let customDate = moment().format("YYYY-MM-DD");
-                return current && current < moment(customDate, "YYYY-MM-DD");
+
+                return (
+                  (current && current < moment(customDate, "YYYY-MM-DD")) ||
+                  (current &&
+                    includes(
+                      disabledDates.map((date) => date.format("YYYY-MM-DD")),
+                      current.format("YYYY-MM-DD")
+                    ))
+                );
               }}
               value={value}
               activePickerIndex={0}

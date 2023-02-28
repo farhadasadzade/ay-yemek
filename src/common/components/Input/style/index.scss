@@ -69,6 +69,10 @@
   & .ant-picker-cell-inner {
     background: $primary-color !important;
     color: #ffffff !important;
+    border-start-start-radius: 4px !important;
+    border-end-start-radius: 4px !important;
+    border-start-end-radius: 4px !important;
+    border-end-end-radius: 4px !important;
   }
 }
 
@@ -80,6 +84,10 @@
   & .ant-picker-cell-inner {
     background: $primary-color !important;
     color: #ffffff !important;
+    border-start-start-radius: 4px !important;
+    border-end-start-radius: 4px !important;
+    border-start-end-radius: 4px !important;
+    border-end-end-radius: 4px !important;
   }
 }
 
@@ -91,6 +99,27 @@
   & .ant-picker-cell-inner {
     background: $primary-color !important;
     color: #ffffff !important;
+  }
+}
+
+.ant-picker-cell-disabled.ant-picker-cell-in-range {
+  & .ant-picker-cell-inner {
+    background: none !important;
+    color: rgba(0, 0, 0, 0.25) !important;
+  }
+}
+
+.ant-picker-cell-disabled.ant-picker-cell-range-start {
+  & .ant-picker-cell-inner {
+    background: none !important;
+    color: rgba(0, 0, 0, 0.25) !important;
+  }
+}
+
+.ant-picker-cell-disabled.ant-picker-cell-range-end {
+  & .ant-picker-cell-inner {
+    background: none !important;
+    color: rgba(0, 0, 0, 0.25) !important;
   }
 }
 
