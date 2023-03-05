@@ -9,28 +9,29 @@ import {
   useUnmount,
   useUpdateEffect,
 } from "ahooks";
-import { map } from "lodash";
+import { map, lowerCase } from "lodash";
 import { Button, RenderIf } from "common/components";
 import { BlockContainer, FilterTagLoader, PacketLoader } from "components";
 import ChoosenMeals from "./ChoosenMeals";
 import DeliverForm from "./DeliverForm";
 import PacketBlock from "./PacketBlock";
 import PricesMobile from "./PricesMobile";
-import { apiMeals } from "common/api/apiMeals";
+import { api } from "common/api/api";
 import "./style/index.scss";
 
 const FoodChoosing = () => {
   const { t } = i18n;
 
   const { id: categoryId } = useParams();
+  const language = lowerCase(localStorage.getItem("lang"));
 
   const state = useReactive({
     activeFilter: 1,
     isPricesActive: false,
   });
 
-  const [getMeals, mealsState] = apiMeals.useGetMealsMutation();
-  const [getMealTypes, mealTypesState] = apiMeals.useLazyGetMealTypesQuery();
+  const [getMeals, mealsState] = api.useLazyGetMealsQuery();
+  const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [meals, setMeals] = React.useState([]);
@@ -65,8 +66,8 @@ const FoodChoosing = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getMeals({ category_id: categoryId });
-    getMealTypes();
+    getMeals(language);
+    getMealTypes(language);
   });
 
   useUpdateEffect(() => {

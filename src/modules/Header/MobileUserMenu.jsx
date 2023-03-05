@@ -6,7 +6,12 @@ import { RenderIf } from "common/components";
 import Navbar from "pages/Profile/Navbar";
 import { user, exitWhite } from "assets/icons";
 
-const MobileUserMenu = ({ visible, toggleMobileUserMenu }) => {
+const MobileUserMenu = ({
+  visible,
+  toggleMobileUserMenu,
+  isLogoutModalVisible,
+  setLogoutModalVisible,
+}) => {
   const [background, setBackground] = React.useState({ background: "none" });
 
   useUpdateEffect(() => {
@@ -42,7 +47,11 @@ const MobileUserMenu = ({ visible, toggleMobileUserMenu }) => {
           </Link>
         </div>
         <div className="mobile__user-bottom">
-          <Navbar url="/profile" />
+          <Navbar
+            url="/profile"
+            isLogoutModalVisible={isLogoutModalVisible}
+            setLogoutModalVisible={setLogoutModalVisible}
+          />
         </div>
       </div>
       <RenderIf condition={visible}>

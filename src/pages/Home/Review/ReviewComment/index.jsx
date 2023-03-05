@@ -1,20 +1,23 @@
 import React from "react";
 import { userCommentIcon } from "assets/images";
 
-const ReviewComment = ({ comment, userImg, userName, userInfo }) => {
+const ReviewComment = ({ description, image, name, surname, job }) => {
   return (
     <div className="review__comment">
       <div className="review__comment-text">
-        <p>{comment}</p>
+        <p>{description}</p>
       </div>
       <div className="review__comment-user">
         <div className="review__comment-img">
-          <img src={userImg} alt="user" />
+          <img
+            src={`${process.env.REACT_APP_BASE_IMG_URL}reviews/${image}`}
+            alt="user"
+          />
           <img src={userCommentIcon} alt="user-icon" />
         </div>
         <div className="review__comment-info">
-          <h4>{userName}</h4>
-          <p>{userInfo}</p>
+          <h4>{`${name} ${surname}`}</h4>
+          <p>{job}</p>
         </div>
       </div>
     </div>

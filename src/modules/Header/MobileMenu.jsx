@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18next";
-import { map } from "lodash";
+import { map, lowerCase } from "lodash";
+import { useMemoizedFn } from "ahooks";
 import { Row } from "antd";
 import {
   exit,
@@ -13,8 +14,14 @@ import { Typography, Button } from "common/components";
 import { headerLinks } from "./data";
 
 const MobileMenu = ({ visible, toggleMobileMenu }) => {
-  const { t } = i18n;
+  const { t, changeLanguage } = i18n;
   const location = useLocation();
+
+  const handleSelectLang = useMemoizedFn((lang) => {
+    localStorage.setItem("lang", lang);
+    window.location.reload(true);
+    changeLanguage(lowerCase(lang));
+  });
 
   return (
     <div className={`mobile__menu ${visible ? "active" : ""}`}>
@@ -89,17 +96,26 @@ const MobileMenu = ({ visible, toggleMobileMenu }) => {
         </Link>
       </Row>
       <Row className="mb-5 pb-3" justify="center">
-        <button className="mobile__menu-lang">
+        <button
+          onClick={() => handleSelectLang("AZ")}
+          className="mobile__menu-lang"
+        >
           <Typography size={16} weight={700}>
             Az
           </Typography>
         </button>
-        <button className="mobile__menu-lang">
+        <button
+          onClick={() => handleSelectLang("EN")}
+          className="mobile__menu-lang"
+        >
           <Typography size={16} weight={700}>
             En
           </Typography>
         </button>
-        <button className="mobile__menu-lang">
+        <button
+          onClick={() => handleSelectLang("RU")}
+          className="mobile__menu-lang"
+        >
           <Typography size={16} weight={700}>
             Ru
           </Typography>

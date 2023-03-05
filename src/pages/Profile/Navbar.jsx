@@ -1,30 +1,15 @@
 import React from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { useMemoizedFn, useUpdateEffect } from "ahooks";
+import { Link, useLocation } from "react-router-dom";
+import { useUpdateEffect } from "ahooks";
 import { map } from "lodash";
 import i18n from "i18next";
 import { Row } from "antd";
-import { RenderIf, Button } from "common/components";
-import { exit, logout } from "assets/icons";
+import { logout } from "assets/icons";
 import { navbarItems } from "./data";
 
-const Navbar = ({ url }) => {
+const Navbar = ({ url, isLogoutModalVisible, setLogoutModalVisible }) => {
   const { t } = i18n;
   const { pathname } = useLocation();
-  const history = useHistory();
-
-  const [isLogoutModalVisible, setLogoutModalVisible] = React.useState(false);
-  const [isLogoutLoading, setLogoutLoading] = React.useState(false);
-
-  const handleLogout = useMemoizedFn(() => {
-    setLogoutLoading(true);
-    setTimeout(() => {
-      localStorage.clear("user");
-      setLogoutLoading(false);
-      setLogoutModalVisible(false);
-      history.push("/home");
-    }, 500);
-  });
 
   useUpdateEffect(() => {
     if (isLogoutModalVisible) {
@@ -63,35 +48,6 @@ const Navbar = ({ url }) => {
           </Row>
         </div>
       </div>
-
-      <RenderIf condition={isLogoutModalVisible}>
-        <div className="modal">
-          <div className="modal__block">
-            <h1 className="modal__block-title">{t("doYouWantLogout")}</h1>
-            <Row wrap align="middle" justify="center">
-              <Button
-                onClick={() => setLogoutModalVisible(false)}
-                type="secondary"
-              >
-                {t("no")}
-              </Button>
-              <Button
-                isLoading={isLogoutLoading}
-                onClick={handleLogout}
-                type="primary"
-              >
-                {t("yes")}
-              </Button>
-            </Row>
-            <img
-              onClick={() => setLogoutModalVisible(false)}
-              className="modal__block-exit"
-              src={exit}
-              alt="exit"
-            />
-          </div>
-        </div>
-      </RenderIf>
     </>
   );
 };

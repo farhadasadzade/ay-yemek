@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import i18n from "i18next";
-import { map, isEmpty } from "lodash";
-import { Row } from "antd";
+import { map, isEmpty, lowerCase } from "lodash";
+import { Row, Dropdown } from "antd";
 import {
   useToggle,
   useMount,
@@ -11,7 +11,7 @@ import {
   useMemoizedFn,
 } from "ahooks";
 import { logo } from "assets/images";
-import { chevronDownBlue, menuBar, user } from "assets/icons";
+import { chevronDownBlue, menuBar, user, exit } from "assets/icons";
 import { Typography, Button, RenderIf } from "common/components";
 import MobileMenu from "./MobileMenu";
 import { headerLinks } from "./data";
@@ -19,7 +19,7 @@ import "./style/index.scss";
 import MobileUserMenu from "./MobileUserMenu";
 
 const Header = () => {
-  const { t } = i18n;
+  const { t, changeLanguage } = i18n;
   const location = useLocation();
   const isUserLogined = !isEmpty(localStorage.getItem("user"));
   const history = useHistory();
@@ -36,6 +36,10 @@ const Header = () => {
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [isLogoutLoading, setLogoutLoading] = React.useState(false);
+  const [selectedLang, setSelectedLang] = React.useState(
+    localStorage.getItem("lang")
+  );
+  const [isLogoutModalVisible, setLogoutModalVisible] = React.useState(false);
 
   const logout = useMemoizedFn(() => {
     setLogoutLoading(true);
@@ -45,6 +49,24 @@ const Header = () => {
     }, 1000);
   });
 
+  const handleSelectLang = useMemoizedFn((lang) => {
+    localStorage.setItem("lang", lang);
+    setSelectedLang(lang);
+    window.location.reload(true);
+    changeLanguage(lowerCase(lang));
+  });
+
+  const handleLogout = useMemoizedFn(() => {
+    setLogoutLoading(true);
+    setTimeout(() => {
+      localStorage.removeItem("user");
+      setLogoutLoading(false);
+      setLogoutModalVisible(false);
+      toggleMobileUserMenu();
+      history.push("/home");
+    }, 500);
+  });
+
   useMount(() => {
     window.addEventListener("resize", (e) =>
       setWindowWidth(e.target.innerWidth)
@@ -52,6 +74,9 @@ const Header = () => {
 
     setWindowWidth(window.innerWidth);
     document.body.style.overflowY = "scroll";
+
+    setSelectedLang(localStorage.getItem("lang"));
+    changeLanguage(lowerCase(localStorage.getItem("lang")));
   });
 
   useUnmount(() => {
@@ -77,6 +102,24 @@ const Header = () => {
     setMobileMenu(false);
     setMobileUserMenu(false);
   }, [location.pathname]);
+
+  const languageItems = [
+    {
+      key: 0,
+      label: "AZ",
+      onClick: () => handleSelectLang("AZ"),
+    },
+    {
+      key: 1,
+      label: "EN",
+      onClick: () => handleSelectLang("EN"),
+    },
+    {
+      key: 2,
+      label: "RU",
+      onClick: () => handleSelectLang("RU"),
+    },
+  ];
 
   return (
     <header className="header">
@@ -162,9 +205,17 @@ const Header = () => {
             </RenderIf>
           </Row>
         </RenderIf>
-        <Button type="secondary" className="header__button-lang mx-3">
-          Az
-        </Button>
+        <Dropdown
+          trigger={["click"]}
+          menu={{
+            items: languageItems,
+            defaultValue: "AZ",
+          }}
+        >
+          <div className="header__button-lang">
+            <Button type="secondary">{selectedLang}</Button>
+          </div>
+        </Dropdown>
       </div>
       <RenderIf condition={windowWidth <= 1300}>
         <div style={{ display: "flex" }}>
@@ -193,7 +244,37 @@ const Header = () => {
       <MobileUserMenu
         visible={isMobileUserMenuVisible}
         toggleMobileUserMenu={toggleMobileUserMenu}
+        isLogoutModalVisible={isLogoutModalVisible}
+        setLogoutModalVisible={setLogoutModalVisible}
       />
+      <RenderIf condition={isLogoutModalVisible}>
+        <div className="modal">
+          <div className="modal__block">
+            <h1 className="modal__block-title">{t("doYouWantLogout")}</h1>
+            <Row wrap align="middle" justify="center">
+              <Button
+                onClick={() => setLogoutModalVisible(false)}
+                type="secondary"
+              >
+                {t("no")}
+              </Button>
+              <Button
+                isLoading={isLogoutLoading}
+                onClick={handleLogout}
+                type="primary"
+              >
+                {t("yes")}
+              </Button>
+            </Row>
+            <img
+              onClick={() => setLogoutModalVisible(false)}
+              className="modal__block-exit"
+              src={exit}
+              alt="exit"
+            />
+          </div>
+        </div>
+      </RenderIf>
     </header>
   );
 };

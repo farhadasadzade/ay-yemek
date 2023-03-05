@@ -17,13 +17,13 @@ const Accordion = ({ items }) => {
       expandIconPosition="end"
       expandIcon={(props) => <ExpandIcon {...props} />}
     >
-      {map(items, ({ header, text }, index) => (
+      {map(items, ({ question, answer, id }) => (
         <Collapse.Panel
           className="home__faq-item"
-          key={index}
-          header={<h2 className="home__faq-title">{header}</h2>}
+          key={id}
+          header={<h2 className="home__faq-title">{question}</h2>}
         >
-          <p className="home__faq-text">{text}</p>
+          <p className="home__faq-text">{answer}</p>
         </Collapse.Panel>
       ))}
     </Collapse>

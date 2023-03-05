@@ -1,10 +1,10 @@
 import React from "react";
 import i18n from "i18next";
 import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
-import { map, filter } from "lodash";
+import { map, filter, lowerCase } from "lodash";
 import { Pagination, Row } from "antd";
 import { BlockContainer, CategoryLoader } from "components";
-import { apiMeals } from "common/api/apiMeals";
+import { api } from "common/api/api";
 import Category from "pages/Home/Categories/Category";
 import "./style/index.scss";
 
@@ -47,6 +47,8 @@ const PaginationPrevButton = () => (
 const Categories = () => {
   const { t } = i18n;
 
+  const language = lowerCase(localStorage.getItem("lang"));
+
   const state = useReactive({
     minIndex: 0,
     maxIndex: 6,
@@ -54,7 +56,7 @@ const Categories = () => {
     categoriesData: [],
   });
 
-  const [getCategories, categoriesState] = apiMeals.useLazyGetCategoryQuery();
+  const [getCategories, categoriesState] = api.useLazyGetCategoriesQuery();
 
   const handleChangePagination = useMemoizedFn((page) => {
     state.minIndex = (page - 1) * 6;
@@ -64,7 +66,7 @@ const Categories = () => {
     setTimeout(() => window.scrollTo(0, 0), 200);
   });
 
-  useMount(() => getCategories());
+  useMount(() => getCategories(language));
 
   useUpdateEffect(() => {
     if (!categoriesState.isFetching && categoriesState.isSuccess) {
@@ -83,14 +85,14 @@ const Categories = () => {
       <div className="categories">
         {categoriesState.isFetching
           ? map(Array(6).fill(0), () => <CategoryLoader />)
-          : map(state.categoriesData, ({ id, name, description, img_url }) => (
+          : map(state.categoriesData, ({ id, name, description, image }) => (
               <Category
                 key={id}
                 id={id}
                 title={name}
                 titleColor={description}
                 text={description}
-                imageURL={img_url}
+                imageURL={image}
               />
             ))}
       </div>

@@ -18,7 +18,7 @@ const Category = ({ title, titleColor, text, id, imageURL }) => {
     <div className="home__category">
       <div className="home__category-img">
         <img
-          src={`${process.env.REACT_APP_BASE_IMG_URL}${imageURL}`}
+          src={`${process.env.REACT_APP_BASE_IMG_URL}categories/${imageURL}`}
           alt="category"
         />
         <img className="home__category-shape" src={categoryShape} alt="shape" />

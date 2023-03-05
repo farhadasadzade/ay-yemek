@@ -2,18 +2,12 @@ import React from "react";
 import { Row } from "antd";
 import { info, kkal } from "assets/icons";
 
-const PacketBlock = ({
-  img_url,
-  description,
-  calValue,
-  name,
-  category_name,
-}) => {
+const PacketBlock = ({ image, description, calValue, name, category_name }) => {
   return (
     <div className="packets__foods-block">
       <div className="packets__foods-img">
         <img
-          src={`${process.env.REACT_APP_BASE_IMG_URL}${img_url}`}
+          src={`${process.env.REACT_APP_BASE_IMG_URL}meals/${image}`}
           alt="packet"
         />
       </div>

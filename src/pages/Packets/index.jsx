@@ -9,14 +9,14 @@ import {
   useUnmount,
   useUpdateEffect,
 } from "ahooks";
-import { map } from "lodash";
+import { map, lowerCase } from "lodash";
 import { BlockContainer } from "components";
 import PacketBlock from "./PacketBlock";
 import PriceBlock from "./PriceBlock";
 import PricesMobile from "./PricesMobile";
 import { Row } from "antd";
 import { Button, RenderIf } from "common/components";
-import { apiMeals } from "common/api/apiMeals";
+import { api } from "common/api/api";
 import { PacketLoader, FilterTagLoader, PriceBlockLoader } from "components";
 import { FoodChoosing } from "pages";
 import "./style/index.scss";
@@ -28,15 +28,16 @@ const Packets = () => {
     (state) => state.category.selectedPackage?.isPaymentSuccess
   );
 
+  const language = lowerCase(localStorage.getItem("lang"));
+
   const state = useReactive({
     activeFilter: 1,
     isPricesActive: false,
   });
 
-  const [getMeals, mealsState] = apiMeals.useGetMealsMutation();
-  const [getMealTypes, mealTypesState] = apiMeals.useLazyGetMealTypesQuery();
-  const [getPackages, packagesState] =
-    apiMeals.useGetPackagesByCategoryMutation();
+  const [getMeals, mealsState] = api.useLazyGetMealsQuery();
+  const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
+  const [getPackages, packagesState] = api.useLazyGetPackagesQuery();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [meals, setMeals] = React.useState([]);
@@ -62,9 +63,9 @@ const Packets = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getMeals({ category_id: categoryId });
-    getMealTypes();
-    getPackages({ category_id: categoryId });
+    getMeals(language);
+    getMealTypes(language);
+    getPackages({ language, categoryId: categoryId });
   });
 
   useUpdateEffect(() => {
@@ -74,10 +75,10 @@ const Packets = () => {
   }, [windowWidth]);
 
   useUpdateEffect(() => {
-    if (!mealsState.isLoading && mealsState.isSuccess) {
+    if (!mealsState.isFetching && mealsState.isSuccess) {
       setMeals(mealsState.data?.data);
     }
-  }, [mealsState.isLoading]);
+  }, [mealsState.isFetching]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
@@ -136,7 +137,7 @@ const Packets = () => {
                   </Button>
                 </Row>
               </RenderIf>
-              {mealsState.isLoading
+              {mealsState.isFetching
                 ? map(Array(5).fill(0), () => <PacketLoader />)
                 : map(meals, (packet) => {
                     if (state.activeFilter === Number(packet.meal_type_id)) {

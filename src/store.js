@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { apiAuth } from "common/api/apiAuth";
 import { apiMeals } from "common/api/apiMeals";
 import { apiMap } from "common/api/apiMap";
+import { api } from "common/api/api";
 import categoryReducer from "redux/categories";
 
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
     [apiAuth.reducerPath]: apiAuth.reducer,
     [apiMeals.reducerPath]: apiMeals.reducer,
     [apiMap.reducerPath]: apiMap.reducer,
+    [api.reducerPath]: api.reducer,
     category: categoryReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -17,6 +19,7 @@ export const store = configureStore({
       apiAuth.middleware,
       apiMeals.middleware,
       apiMap.middleware,
+      api.middleware,
     ]),
 });
 

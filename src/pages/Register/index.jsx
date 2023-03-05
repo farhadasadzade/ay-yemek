@@ -197,8 +197,6 @@ const Register = () => {
     window.removeEventListener("resize", () => {});
   });
 
-  console.log(methods.formState.errors);
-
   return (
     <>
       <RenderIf condition={windowWidth < 1000}>

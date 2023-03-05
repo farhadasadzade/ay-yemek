@@ -3,21 +3,23 @@ import { Link } from "react-router-dom";
 import Carousel from "react-elastic-carousel";
 import i18n from "i18next";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
-import { map } from "lodash";
+import { map, lowerCase } from "lodash";
 import { Row } from "antd";
 import { HomeTitle, CarouselArrows, CategoryLoader } from "components";
 import { RenderIf } from "common/components";
-import { apiMeals } from "common/api/apiMeals";
+import { api } from "common/api/api";
 import Category from "./Category";
 import "./style/index.scss";
 
 const Categories = () => {
   const { t } = i18n;
 
+  const language = lowerCase(localStorage.getItem("lang"));
+
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [categories, setCategories] = React.useState([]);
 
-  const [getCategories, categoriesState] = apiMeals.useLazyGetCategoryQuery();
+  const [getCategories, categoriesState] = api.useLazyGetCategoriesQuery();
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -26,7 +28,7 @@ const Categories = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getCategories();
+    getCategories(language);
   });
 
   useUpdateEffect(() => {
@@ -61,7 +63,7 @@ const Categories = () => {
           >
             {categoriesState.isFetching
               ? map(Array(3).fill(0), () => <CategoryLoader />)
-              : map(categories, ({ id, name, description, img_url }, index) => {
+              : map(categories, ({ id, name, description, image }, index) => {
                   if (index < 5) {
                     return (
                       <Category
@@ -70,7 +72,7 @@ const Categories = () => {
                         title={name}
                         titleColor={description}
                         text={description}
-                        imageURL={img_url}
+                        imageURL={image}
                       />
                     );
                   }
@@ -80,14 +82,14 @@ const Categories = () => {
         </RenderIf>
         <RenderIf condition={windowWidth <= 1000 && windowWidth !== 0}>
           <Row align="middle" style={{ flexDirection: "column" }}>
-            {map(categories, ({ id, name, description, img_url }) => (
+            {map(categories, ({ id, name, description, image }) => (
               <Category
                 key={id}
                 id={id}
                 title={name}
                 titleColor={description}
                 text={description}
-                imageURL={img_url}
+                imageURL={image}
               />
             ))}
           </Row>

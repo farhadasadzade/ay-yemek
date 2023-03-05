@@ -1,23 +1,27 @@
 import React from "react";
 import i18n from "i18next";
-import { map } from "lodash";
+import { map, lowerCase } from "lodash";
 import { Row } from "antd";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { HomeTitle } from "components";
 import Carousel from "react-elastic-carousel";
 import CarouselArrows from "./CarouselArrows";
 import { CarouselArrows as MobileCarouselArrows } from "components";
+import { api } from "common/api/api";
 import CarouselPagination from "./CarouselPagination";
 import ReviewComment from "./ReviewComment";
-import { comments } from "./data";
 import "./style/index.scss";
 import { RenderIf } from "common/components";
 
 const Review = () => {
   const { t } = i18n;
 
+  const language = lowerCase(localStorage.getItem("lang"));
+
   const [itemsToShow, setItemsToShow] = React.useState(2);
   const [windowWidth, setWindowWidth] = React.useState(0);
+
+  const { data: rewiews } = api.useGetReviewsQuery(language);
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -71,8 +75,8 @@ const Review = () => {
             itemPadding={[0, 20]}
             itemPosition={windowWidth <= 1000 ? "START" : "CENTER"}
           >
-            {map(comments, (comment, index) => (
-              <ReviewComment key={comment?.userName + index} {...comment} />
+            {map(rewiews?.data, (comment) => (
+              <ReviewComment key={comment?.id} {...comment} />
             ))}
           </Carousel>
         </div>
