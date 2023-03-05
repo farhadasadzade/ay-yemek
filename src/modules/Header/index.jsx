@@ -75,6 +75,10 @@ const Header = () => {
     setWindowWidth(window.innerWidth);
     document.body.style.overflowY = "scroll";
 
+    if (isEmpty(localStorage.getItem("lang"))) {
+      localStorage.setItem("lang", "AZ");
+    }
+
     setSelectedLang(localStorage.getItem("lang"));
     changeLanguage(lowerCase(localStorage.getItem("lang")));
   });
