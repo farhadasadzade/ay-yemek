@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import translationsAZ from "locales/translationsAZ.json";
 import translationsEN from "locales/translationsEN.json";
+import translationsRU from "locales/translationsRU.json";
 import { ScrollToTop } from "components";
 import { store } from "store";
 import "./index.css";
@@ -19,6 +20,9 @@ i18n.use(initReactI18next).init({
     },
     en: {
       translation: translationsEN,
+    },
+    ru: {
+      translation: translationsRU,
     },
   },
   lng: "az",
