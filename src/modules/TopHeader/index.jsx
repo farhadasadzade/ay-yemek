@@ -1,18 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import i18n from 'i18next'
+import { useTranslation } from "react-i18next";
 import { Typography } from "common/components";
 import { facebook, instagram, mail, phone, whatsapp } from "assets/icons";
 import "./style/index.scss";
 
 const TopHeader = () => {
-
-  const { t } = i18n
+  const { t } = useTranslation();
 
   return (
     <div className="top-header">
       <div className="top-header-block">
-        <Typography className="top-header-text me-3">{t('forCall')}</Typography>
+        <Typography className="top-header-text me-3">{t("forCall")}</Typography>
         <img className="me-3" src={phone} alt="phone" />
         <Typography className="top-header-text top-header-info me-3">
           +99412 409 40 94
@@ -26,7 +25,9 @@ const TopHeader = () => {
         </Typography>
       </div>
       <div className="top-header-block">
-        <Typography className="top-header-text me-2">{t('followUs')}</Typography>
+        <Typography className="top-header-text me-2">
+          {t("followUs")}
+        </Typography>
         <Link to="facebook">
           <img className="mx-2 top-header-link" src={facebook} alt="mail" />
         </Link>

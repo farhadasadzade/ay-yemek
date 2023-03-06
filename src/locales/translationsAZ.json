@@ -96,5 +96,7 @@
   "choosenCategory": "Seçdiyiniz Kateqoriya",
   "addNewPackage": "Yeni paket əlavə et",
   "updatePackage": "Paketi yenilə",
-  "anErrorOccurred": "Səhv baş verdi"
+  "anErrorOccurred": "Səhv baş verdi",
+  "mapPolygonError": "Əfsuslar olsun ki, seçdiyiniz əraziyə xidmət göstərilmir.",
+  "error": "Xəta"
 }

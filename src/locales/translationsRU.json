@@ -96,5 +96,7 @@
   "choosenCategory": "Выбранная категория",
   "addNewPackage": "Добавить новый пакет",
   "updatePackage": "Пакет обновлений",
-  "anErrorOccurred": "Произошла ошибка"
+  "anErrorOccurred": "Произошла ошибка",
+  "mapPolygonError": "К сожалению, выбранный вами район не обслуживается.",
+  "error": "Ошибка"
 }

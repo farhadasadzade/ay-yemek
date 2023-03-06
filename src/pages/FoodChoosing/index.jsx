@@ -77,10 +77,10 @@ const FoodChoosing = () => {
   }, [windowWidth]);
 
   useUpdateEffect(() => {
-    if (!mealsState.isLoading && mealsState.isSuccess) {
+    if (!mealsState.isFetching && mealsState.isSuccess) {
       setMeals(mealsState.data?.data);
     }
-  }, [mealsState.isLoading]);
+  }, [mealsState.isFetching]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});

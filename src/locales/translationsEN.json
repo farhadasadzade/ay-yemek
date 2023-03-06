@@ -96,5 +96,7 @@
   "choosenCategory": "Choosen category",
   "addNewPackage": "Add new package",
   "updatePackage": "Update package",
-  "anErrorOccurred": "An error occurred"
+  "anErrorOccurred": "An error occurred",
+  "mapPolygonError": "Unfortunately, the area you selected is not serviced.",
+  "error": "Error"
 }

@@ -72,8 +72,8 @@ const Map = ({ getPosition, getIsAddressDenied, status }) => {
     if (!isInsidePolygon) {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
+        title: t("error"),
+        text: t("mapPolygonError"),
       });
       return;
     }
@@ -94,6 +94,14 @@ const Map = ({ getPosition, getIsAddressDenied, status }) => {
       );
     }
   }, [addressesState.isFetching]);
+
+  useUpdateEffect(() => {
+    if (isMapVisible) {
+      document.body.style.overflowY = "hidden";
+      return;
+    }
+    document.body.style.overflowY = "scroll";
+  }, [isMapVisible]);
 
   useUpdateEffect(() => {
     if (

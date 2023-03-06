@@ -1,23 +1,25 @@
 import React from "react";
 import i18n from "i18next";
-import { isEmpty, map } from "lodash";
+import { isEmpty, map, lowerCase } from "lodash";
 import { useMount, useReactive, useUpdateEffect } from "ahooks";
 import { Row } from "antd";
-import { apiMeals } from "common/api/apiMeals";
+import { api } from "common/api/api";
 import { trashBin } from "assets/icons";
 import { Button, RenderIf, Toast } from "common/components";
 
 const ChoosenMeals = ({ selectedMeals, handleDeleteMeal, isTitleHidden }) => {
   const { t } = i18n;
 
+  const language = lowerCase(localStorage.getItem("lang"));
+
   const state = useReactive({
     choosenMeals: [],
   });
 
-  const [getMealTypes, mealTypesState] = apiMeals.useLazyGetMealTypesQuery();
+  const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
 
   useMount(() => {
-    getMealTypes();
+    getMealTypes(language);
   });
 
   useUpdateEffect(() => {
