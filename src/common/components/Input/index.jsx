@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import { includes } from "lodash";
 import { Input as CoreInput, DatePicker } from "antd";
 import "./style/index.scss";
@@ -78,30 +77,22 @@ const Input = ({
               className={`coreinput ${error ? "coreinput-error" : ""}`}
               name={name}
               id={name}
-              onChange={onChange}
               placeholder={["05.09.1999", "05.09.1999"]}
               format="DD/MM/YYYY"
               showToday={false}
               superNextIcon={<></>}
               superPrevIcon={<></>}
-              onCalendarChange={onSelect}
-              disabledDate={(current) => {
-                let customDate = moment().format("YYYY-MM-DD");
-
-                return (
-                  (current && current < moment(customDate, "YYYY-MM-DD")) ||
-                  (current &&
-                    includes(
-                      disabledDates.map((date) => date.format("YYYY-MM-DD")),
-                      current.format("YYYY-MM-DD")
-                    ))
-                );
-              }}
+              disabledDate={(current) =>
+                includes(
+                  disabledDates.map((date) => date.format("YYYY-MM-DD")),
+                  current.format("YYYY-MM-DD")
+                ) ||
+                current.format("YYYY-MM-DD") < value[0].format("YYYY-MM-DD") ||
+                current.format("YYYY-MM-DD") > value[1].format("YYYY-MM-DD")
+              }
               value={value}
-              activePickerIndex={0}
               open={open}
               onOpenChange={onOpenChange}
-              hideDisabledOptions
             />
           </label>
         </>

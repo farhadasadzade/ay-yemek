@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
 import dayjs from "dayjs";
 import i18n from "i18next";
-import { useMemoizedFn, useMount, useUnmount, useUpdateEffect } from "ahooks";
+import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { Col, Row, Checkbox } from "antd";
 import { Input, RenderIf, Button } from "common/components";
 import { Header, Footer } from "modules";
@@ -74,29 +74,6 @@ const Payment = () => {
   const [isPaymentSuccess, setPaymentSuccess] = React.useState(false);
   const [isDateValid, setDateValid] = React.useState(true);
 
-  const handleSelectDate = useMemoizedFn((value) => {
-    setOpen(false);
-    setDateValid(true);
-
-    if (isEmpty(value)) {
-      setDates(undefined);
-      return;
-    }
-
-    if (isIncludingWeekend) {
-      const secondDate = dayjs(value[0].add(selectedPackage?.days - 1, "days"));
-
-      setDates([value[0], secondDate]);
-      return;
-    }
-    const { newDate, disabledDays } = addBusinessDays(
-      value[0],
-      selectedPackage?.days
-    );
-    setDates([value[0], newDate]);
-    setDisabledDates(disabledDays);
-  });
-
   const onOpenChange = (open) => {
     setOpen(open);
   };
@@ -116,23 +93,24 @@ const Payment = () => {
     );
 
     setWindowWidth(window.innerWidth);
+
+    const currentDate = dayjs();
+
+    const { newDate, disabledDays } = addBusinessDays(currentDate, 10);
+    setDates([currentDate, newDate]);
+    setDisabledDates(disabledDays);
   });
 
   useUpdateEffect(() => {
     if (!isEmpty(dates)) {
       if (isIncludingWeekend) {
-        const secondDate = dayjs(
-          dates[0].add(selectedPackage?.days - 1, "days")
-        );
+        const secondDate = dayjs(dates[0].add(10 - 1, "days"));
 
         setDates([dates[0], secondDate]);
         setDisabledDates([]);
         return;
       }
-      const { newDate, disabledDays } = addBusinessDays(
-        dates[0],
-        selectedPackage?.days
-      );
+      const { newDate, disabledDays } = addBusinessDays(dates[0], 10);
       setDates([dates[0], newDate]);
       setDisabledDates(disabledDays);
     }
@@ -178,7 +156,6 @@ const Payment = () => {
                 <Input
                   type="rangeDatepicker"
                   label={t("menuDates")}
-                  onSelect={handleSelectDate}
                   value={dates}
                   open={open}
                   onOpenChange={onOpenChange}
