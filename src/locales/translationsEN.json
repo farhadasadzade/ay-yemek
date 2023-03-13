@@ -98,5 +98,7 @@
   "updatePackage": "Update package",
   "anErrorOccurred": "An error occurred",
   "mapPolygonError": "Unfortunately, the area you selected is not serviced.",
-  "error": "Error"
+  "error": "Error",
+  "rules": "the rules",
+  "agree": "I agree with"
 }

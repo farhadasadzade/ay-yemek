@@ -98,5 +98,7 @@
   "updatePackage": "Paketi yenilə",
   "anErrorOccurred": "Səhv baş verdi",
   "mapPolygonError": "Əfsuslar olsun ki, seçdiyiniz əraziyə xidmət göstərilmir.",
-  "error": "Xəta"
+  "error": "Xəta",
+  "rules": "Qaydalarla",
+  "agree": "razıyam"
 }
