@@ -20,7 +20,7 @@ import { Checkbox, Col, Row } from "antd";
 import { Input, Button, RenderIf, Toast } from "common/components";
 import Rules from "./Rules";
 import { Footer, Header, Map } from "modules";
-import { apiAuth } from "common/api/apiAuth";
+import OTP from "./OTP";
 import "./style/index.scss";
 import { api } from "common/api/api";
 
@@ -94,6 +94,7 @@ const Register = () => {
   const [address, setAddress] = React.useState("");
   const [isAddressDenied, setAddressDenied] = React.useState(true);
   const [addressError, setAddressError] = React.useState(false);
+  const [isRegistrationSuccess, setRegistrationSuccess] = React.useState(false);
 
   const handleChangeInput = useMemoizedFn((e, name) => {
     methods.setValue(name, trim(e.target.value));
@@ -115,6 +116,7 @@ const Register = () => {
     if (!isEmpty(pos)) {
       setAddressError(false);
     }
+    return { pos, address };
   });
 
   const getIsAddressDenied = useMemoizedFn((denied) => {
@@ -156,7 +158,7 @@ const Register = () => {
         : val.$d.getMonth() + 1;
     const year = val.$d.getFullYear();
 
-    setBirthDate(`${year}-${month}-${year}`);
+    setBirthDate(`${year}-${month}-${day}`);
     methods.setValue("birthDate", val);
   });
 
@@ -180,15 +182,17 @@ const Register = () => {
   useUpdateEffect(() => {
     if (!registerState.isLoading) {
       if (registerState.isSuccess) {
-        Toast.fire({
-          icon: "success",
-          title: t("registrationSuccess"),
-        });
+        // Toast.fire({
+        //   icon: "success",
+        //   title: t("registrationSuccess"),
+        // });
 
-        setTimeout(() => {
-          localStorage.setItem("user", registerState.data?.token);
-          history.push("/home");
-        }, 1000);
+        // setTimeout(() => {
+        //   localStorage.setItem("user", registerState.data?.token);
+        //   history.push("/home");
+        // }, 1000);
+
+        setRegistrationSuccess(true);
       }
 
       if (registerState.error.status === 401) {
@@ -219,34 +223,74 @@ const Register = () => {
         <RenderIf condition={windowWidth < 1000}>
           <Header />
         </RenderIf>
-        <div className="register">
-          <div className="register__form">
-            <RenderIf condition={windowWidth >= 1000}>
-              <img className="mb-4" src={logo} alt="logo" />
-            </RenderIf>
-            <RenderIf condition={windowWidth >= 1000}>
-              <button
-                className="register__form-back mb-5"
-                onClick={() => history.goBack()}
-              >
-                <BackArrow stroke="black" />
-              </button>
-            </RenderIf>
-            <Row align="middle" className="mb-3">
-              <RenderIf condition={windowWidth < 1000}>
-                <BackArrow className="me-3" stroke="#006DB8" />
-              </RenderIf>
-              <h1>{t("register")}</h1>
-            </Row>
-            <RenderIf condition={windowWidth < 1000}>
-              <Row className="mb-3">
-                <p>Lorem Ipsum is simply dummy text of the printing</p>
-              </Row>
-            </RenderIf>
-            <form onSubmit={methods.handleSubmit(handleSumbitRegistration)}>
+        {isRegistrationSuccess ? (
+          <div
+            className="otp"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <h2 className="mb-3">{t("verifyOTP")}</h2>
+            <OTP />
+            <Button className="mt-3" type="primary">
+              {t("verify")}
+            </Button>
+          </div>
+        ) : (
+          <div className="register">
+            <div className="register__form">
               <RenderIf condition={windowWidth >= 1000}>
-                <Row className="mb-3" gutter={32}>
-                  <Col span={12}>
+                <img className="mb-4" src={logo} alt="logo" />
+              </RenderIf>
+              <RenderIf condition={windowWidth >= 1000}>
+                <button
+                  className="register__form-back mb-5"
+                  onClick={() => history.goBack()}
+                >
+                  <BackArrow stroke="black" />
+                </button>
+              </RenderIf>
+              <Row align="middle" className="mb-3">
+                <RenderIf condition={windowWidth < 1000}>
+                  <BackArrow className="me-3" stroke="#006DB8" />
+                </RenderIf>
+                <h1>{t("register")}</h1>
+              </Row>
+              <RenderIf condition={windowWidth < 1000}>
+                <Row className="mb-3">
+                  <p>Lorem Ipsum is simply dummy text of the printing</p>
+                </Row>
+              </RenderIf>
+              <form onSubmit={methods.handleSubmit(handleSumbitRegistration)}>
+                <RenderIf condition={windowWidth >= 1000}>
+                  <Row className="mb-3" gutter={32}>
+                    <Col span={12}>
+                      <Input
+                        name="name"
+                        placeholder={t("enterYourName")}
+                        isRequired
+                        label={t("name")}
+                        onChange={(e) => handleChangeInput(e, "name")}
+                        error={!isEmpty(methods.formState.errors.name)}
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Input
+                        name="surname"
+                        placeholder={t("enterYourSurname")}
+                        isRequired
+                        label={t("surname")}
+                        onChange={(e) => handleChangeInput(e, "surname")}
+                        error={!isEmpty(methods.formState.errors.surname)}
+                      />
+                    </Col>
+                  </Row>
+                </RenderIf>
+                <RenderIf condition={windowWidth < 1000}>
+                  <Row className="mb-3">
                     <Input
                       name="name"
                       placeholder={t("enterYourName")}
@@ -255,8 +299,8 @@ const Register = () => {
                       onChange={(e) => handleChangeInput(e, "name")}
                       error={!isEmpty(methods.formState.errors.name)}
                     />
-                  </Col>
-                  <Col span={12}>
+                  </Row>
+                  <Row className="mb-3">
                     <Input
                       name="surname"
                       placeholder={t("enterYourSurname")}
@@ -265,153 +309,131 @@ const Register = () => {
                       onChange={(e) => handleChangeInput(e, "surname")}
                       error={!isEmpty(methods.formState.errors.surname)}
                     />
-                  </Col>
-                </Row>
-              </RenderIf>
-              <RenderIf condition={windowWidth < 1000}>
+                  </Row>
+                </RenderIf>
                 <Row className="mb-3">
                   <Input
-                    name="name"
-                    placeholder={t("enterYourName")}
+                    type="datepicker"
+                    name="birthDate"
                     isRequired
-                    label={t("name")}
-                    onChange={(e) => handleChangeInput(e, "name")}
-                    error={!isEmpty(methods.formState.errors.name)}
+                    label={t("birthDate")}
+                    onSelect={handleSelectBirthDate}
+                    error={!isEmpty(methods.formState.errors.birthDate)}
+                    disabledDate={(current) => {
+                      let customDate = moment().format("YYYY-MM-DD");
+                      return (
+                        current && current >= moment(customDate, "YYYY-MM-DD")
+                      );
+                    }}
+                  />
+                </Row>
+                <Row className="mb-2">
+                  <Input
+                    type="password"
+                    label={t("password")}
+                    isRequired
+                    placeholder={t("enterYourPassword")}
+                    onChange={(e) => handleChangeInput(e, "password")}
+                    error={!isEmpty(methods.formState.errors.password)}
+                    maxLength={15}
+                  />
+                </Row>
+                <Row className="mb-3">
+                  <PasswordChecklist
+                    rules={["minLength", "number", "capital"]}
+                    minLength={8}
+                    value={password}
+                    messages={{
+                      capital: t("passwordCapital"),
+                      number: t("passwordNumber"),
+                      minLength: t("passwordMinLength"),
+                    }}
                   />
                 </Row>
                 <Row className="mb-3">
                   <Input
-                    name="surname"
-                    placeholder={t("enterYourSurname")}
+                    type="email"
+                    label={t("email")}
                     isRequired
-                    label={t("surname")}
-                    onChange={(e) => handleChangeInput(e, "surname")}
-                    error={!isEmpty(methods.formState.errors.surname)}
+                    placeholder={t("enterYourEmail")}
+                    onChange={(e) => handleChangeInput(e, "email")}
+                    error={!isEmpty(methods.formState.errors.email)}
                   />
                 </Row>
-              </RenderIf>
-              <Row className="mb-3">
-                <Input
-                  type="datepicker"
-                  name="birthDate"
-                  isRequired
-                  label={t("birthDate")}
-                  onSelect={handleSelectBirthDate}
-                  error={!isEmpty(methods.formState.errors.birthDate)}
-                  disabledDate={(current) => {
-                    let customDate = moment().format("YYYY-MM-DD");
-                    return (
-                      current && current >= moment(customDate, "YYYY-MM-DD")
-                    );
-                  }}
+                <Row className="mb-3">
+                  <Input
+                    type="phone"
+                    label={`${t("phone")} (+994XXXXXXXXX)`}
+                    isRequired
+                    placeholder={t("enterYourPhone")}
+                    onChange={(e) => handleChangeInput(e, "phone")}
+                    error={!isEmpty(methods.formState.errors.phone)}
+                    prefix="+994"
+                  />
+                </Row>
+                <Map
+                  getPosition={getPosition}
+                  getIsAddressDenied={getIsAddressDenied}
+                  status={addressError}
                 />
-              </Row>
-              <Row className="mb-2">
-                <Input
-                  type="password"
-                  label={t("password")}
-                  isRequired
-                  placeholder={t("enterYourPassword")}
-                  onChange={(e) => handleChangeInput(e, "password")}
-                  error={!isEmpty(methods.formState.errors.password)}
-                  maxLength={15}
-                />
-              </Row>
-              <Row className="mb-3">
-                <PasswordChecklist
-                  rules={["minLength", "number", "capital"]}
-                  minLength={8}
-                  value={password}
-                  messages={{
-                    capital: t("passwordCapital"),
-                    number: t("passwordNumber"),
-                    minLength: t("passwordMinLength"),
-                  }}
-                />
-              </Row>
-              <Row className="mb-3">
-                <Input
-                  type="email"
-                  label={t("email")}
-                  isRequired
-                  placeholder={t("enterYourEmail")}
-                  onChange={(e) => handleChangeInput(e, "email")}
-                  error={!isEmpty(methods.formState.errors.email)}
-                />
-              </Row>
-              <Row className="mb-3">
-                <Input
-                  type="phone"
-                  label={`${t("phone")} (+994XXXXXXXXX)`}
-                  isRequired
-                  placeholder={t("enterYourPhone")}
-                  onChange={(e) => handleChangeInput(e, "phone")}
-                  error={!isEmpty(methods.formState.errors.phone)}
-                  prefix="+994"
-                />
-              </Row>
-              <Map
-                getPosition={getPosition}
-                getIsAddressDenied={getIsAddressDenied}
-                status={addressError}
-              />
-              <Row className="my-3" align="middle">
-                <Checkbox
-                  name="rule"
-                  className={`me-2 ${
-                    !isEmpty(methods.formState.errors.rule)
-                      ? "error-checkbox"
-                      : ""
-                  }`}
-                  defaultChecked={false}
-                  onChange={(e) => handleChangeRule(e.target.checked)}
-                />
-                {language === "az" ? (
-                  <p>
-                    <span
-                      onClick={toggleRuleModal}
-                      style={{ color: "#f75c03", cursor: "pointer" }}
-                    >
-                      {t("rules")}
-                    </span>{" "}
-                    {t("agree")}
-                  </p>
-                ) : (
-                  <p>
-                    {t("agree")}{" "}
-                    <span
-                      onClick={toggleRuleModal}
-                      style={{ color: "#f75c03", cursor: "pointer" }}
-                    >
-                      {t("rules")}
-                    </span>
-                  </p>
-                )}
-              </Row>
-              <Row className="mt-5">
-                <Button
-                  htmlType="submit"
-                  style={{ width: "100%" }}
-                  type="primary"
-                  isLoading={registerState.isLoading}
-                  onClick={() => {
-                    if (isEmpty(address)) {
-                      setAddressError(true);
-                      return;
-                    }
-                    setAddressError(false);
-                  }}
-                >
-                  {t("registerNow")}
-                </Button>
-              </Row>
-            </form>
+                <Row className="my-3" align="middle">
+                  <Checkbox
+                    name="rule"
+                    className={`me-2 ${
+                      !isEmpty(methods.formState.errors.rule)
+                        ? "error-checkbox"
+                        : ""
+                    }`}
+                    defaultChecked={false}
+                    onChange={(e) => handleChangeRule(e.target.checked)}
+                  />
+                  {language === "az" ? (
+                    <p>
+                      <span
+                        onClick={toggleRuleModal}
+                        style={{ color: "#f75c03", cursor: "pointer" }}
+                      >
+                        {t("rules")}
+                      </span>{" "}
+                      {t("agree")}
+                    </p>
+                  ) : (
+                    <p>
+                      {t("agree")}{" "}
+                      <span
+                        onClick={toggleRuleModal}
+                        style={{ color: "#f75c03", cursor: "pointer" }}
+                      >
+                        {t("rules")}
+                      </span>
+                    </p>
+                  )}
+                </Row>
+                <Row className="mt-5">
+                  <Button
+                    htmlType="submit"
+                    style={{ width: "100%" }}
+                    type="primary"
+                    isLoading={registerState.isLoading}
+                    onClick={() => {
+                      if (isEmpty(address)) {
+                        setAddressError(true);
+                        return;
+                      }
+                      setAddressError(false);
+                    }}
+                  >
+                    {t("registerNow")}
+                  </Button>
+                </Row>
+              </form>
+            </div>
+            <div className="register__back">
+              <h1>{t("registerTitle")}</h1>
+              <p>{t("registerText")}</p>
+            </div>
           </div>
-          <div className="register__back">
-            <h1>{t("registerTitle")}</h1>
-            <p>{t("registerText")}</p>
-          </div>
-        </div>
+        )}
         <RenderIf condition={windowWidth < 1000}>
           <Footer />
         </RenderIf>

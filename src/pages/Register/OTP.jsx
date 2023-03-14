@@ -6,7 +6,14 @@ const OTP = () => {
 
   const handleChange = (otp) => setOtp(otp);
 
-  return <OtpInput value={otp} onChange={handleChange} numInputs={4} />;
+  return (
+    <OtpInput
+      value={otp}
+      onChange={handleChange}
+      numInputs={4}
+      separator={<span>-</span>}
+    />
+  );
 };
 
 export default OTP;

@@ -111,6 +111,10 @@ const Map = ({ getPosition, getIsAddressDenied, status }) => {
       setSelectedAddress(
         addressByPositionState.data?.features?.[0]?.properties?.formatted
       );
+      getPosition(
+        markerPosition,
+        addressByPositionState.data?.features?.[0]?.properties?.formatted
+      );
     }
   }, [addressByPositionState.isFetching]);
 
