@@ -22,6 +22,7 @@ import Rules from "./Rules";
 import { Footer, Header, Map } from "modules";
 import { apiAuth } from "common/api/apiAuth";
 import "./style/index.scss";
+import { api } from "common/api/api";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -85,7 +86,7 @@ const Register = () => {
 
   const [isRuleModalVisible, { toggle: toggleRuleModal }] = useToggle();
 
-  const [register, registerState] = apiAuth.useRegisterMutation();
+  const [register, registerState] = api.useRegisterMutation();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [birthDate, setBirthDate] = React.useState(null);
@@ -108,8 +109,8 @@ const Register = () => {
     methods.clearErrors("rule");
   });
 
-  const getPosition = useMemoizedFn((pos) => {
-    setAddress(pos);
+  const getPosition = useMemoizedFn((pos, address) => {
+    setAddress({ pos, address });
 
     if (!isEmpty(pos)) {
       setAddressError(false);
@@ -126,8 +127,8 @@ const Register = () => {
     if (isAddressDenied) {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
+        title: t("error"),
+        text: t("mapPolygonError"),
       });
 
       return;
@@ -138,18 +139,24 @@ const Register = () => {
       surname,
       email,
       password,
-      phone: `994${phone}`,
-      address,
-      bdate: birthDate,
+      phone: `+994${phone}`,
+      address: address?.address,
+      birthdate: birthDate,
+      latitude: address?.pos?.lat,
+      longitude: address?.pos?.lng,
     });
   });
 
   const handleSelectBirthDate = useMemoizedFn((val) => {
-    const day = val.$d.getDate();
-    const month = val.$d.getMonth() + 1;
+    const day =
+      val.$d.getDate() < 9 ? `0${val.$d.getDate()}` : val.$d.getDate();
+    const month =
+      val.$d.getMonth() < 9
+        ? `0${val.$d.getMonth() + 1}`
+        : val.$d.getMonth() + 1;
     const year = val.$d.getFullYear();
 
-    setBirthDate(`${day}.${month}.${year}`);
+    setBirthDate(`${year}-${month}-${year}`);
     methods.setValue("birthDate", val);
   });
 

@@ -32,6 +32,7 @@
     "react-i18next": "^12.2.0",
     "react-leaflet": "^4.2.0",
     "react-leaflet-search": "^2.0.1",
+    "react-otp-input": "^2.4.0",
     "react-page-scroller": "^2.3.1",
     "react-password-checklist": "^1.4.3",
     "react-redux": "^8.0.5",

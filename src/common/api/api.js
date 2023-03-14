@@ -58,5 +58,14 @@ export const api = createApi({
         },
       }),
     }),
+    register: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/register",
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });

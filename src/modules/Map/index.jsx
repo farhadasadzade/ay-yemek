@@ -54,7 +54,7 @@ const Map = ({ getPosition, getIsAddressDenied, status }) => {
     setMarkerPosition(JSON.parse(coordinates));
     setSelectedAddress(undefined);
     getAddressByPosition(JSON.parse(coordinates));
-    getPosition(markerPosition);
+    getPosition(markerPosition, selectedAddress);
   });
 
   const handleSelectPosition = useMemoizedFn(() => {
@@ -65,7 +65,7 @@ const Map = ({ getPosition, getIsAddressDenied, status }) => {
 
     toggleMap();
     setSelectedPosition(markerPosition);
-    getPosition(markerPosition);
+    getPosition(markerPosition, selectedAddress);
     setAddressDenied(isInsidePolygon);
     getIsAddressDenied(!isInsidePolygon);
 
