@@ -100,5 +100,9 @@
   "mapPolygonError": "Unfortunately, the area you selected is not serviced.",
   "error": "Error",
   "rules": "the rules",
-  "agree": "I agree with"
+  "agree": "I agree with",
+  "verify": "Confirm",
+  "verifyOTP": "Enter the code received on your phone:",
+  "codeIsInvalid": "The code is incorrect",
+  "resend": "Send again"
 }

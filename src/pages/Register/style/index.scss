@@ -138,11 +138,25 @@
 }
 
 .otp {
+  width: 100%;
+  height: 100vh;
+
   h2 {
     font-family: "Inter";
     font-weight: 600;
     font-size: 20px;
     margin-bottom: 10px;
     color: $primary-color;
+  }
+
+  input {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  p {
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 16px;
   }
 }

@@ -25,6 +25,7 @@ const Input = ({
   maxLength,
   ref,
   disabledDates,
+  defaultPickerValue,
 }) => {
   switch (type) {
     case "textarea":
@@ -56,13 +57,14 @@ const Input = ({
               name={name}
               id={name}
               onChange={onChange}
-              placeholder="05.09.1999"
-              format="DD.MM.YYYY"
+              placeholder="2000-01-01"
+              format="YYYY-MM-DD"
               showToday={false}
               superNextIcon={<></>}
               superPrevIcon={<></>}
               onSelect={onSelect}
               disabledDate={disabledDate}
+              value={defaultPickerValue}
             />
           </label>
         </>

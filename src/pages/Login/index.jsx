@@ -8,7 +8,7 @@ import { isEmpty, trim } from "lodash";
 import { Toast } from "common/components";
 import i18n from "i18next";
 import { logo } from "assets/images";
-import { apiAuth } from "common/api/apiAuth";
+import { api } from "common/api/api";
 import { Row } from "antd";
 import { Input, Button, RenderIf } from "common/components";
 import { Footer, Header } from "modules";
@@ -49,9 +49,17 @@ const linkStyle = {
   color: "#00072D",
 };
 
+const PHONE_REGEX =
+  "(?:12|51|50|55|70|77)[^w]{0,2}[2-9][0-9]{2}[^w]{0,2}[0-9]{2}[^w]{0,2}[0-9]{2}";
+
 const Login = () => {
   const schema = yup.object().shape({
-    email: yup.string().email().required(),
+    phone: yup
+      .string()
+      .required()
+      .matches(PHONE_REGEX, "Phone number is not valid")
+      .min(9)
+      .max(9),
     password: yup.string().required(),
   });
 
@@ -61,7 +69,7 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const [login, loginState] = apiAuth.useLoginMutation();
+  const [login, loginState] = api.useLoginMutation();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
 
@@ -71,17 +79,17 @@ const Login = () => {
   });
 
   const handleSumbitLogin = useMemoizedFn(() => {
-    const { password, email } = methods.getValues();
+    const { password, phone } = methods.getValues();
 
     login({
-      email,
+      phone: `+994${phone}`,
       password,
     });
   });
 
   React.useEffect(() => {
     methods.register("email");
-    methods.register("password");
+    methods.register("phone");
   }, [methods]);
 
   useMount(() => {
@@ -95,7 +103,7 @@ const Login = () => {
   useUpdateEffect(() => {
     if (!loginState.isLoading) {
       if (loginState.isSuccess) {
-        localStorage.setItem("user", loginState.data?.token);
+        localStorage.setItem("userToken", loginState.data?.data);
 
         setTimeout(() => history.push("/home"), 1000);
       }
@@ -145,13 +153,13 @@ const Login = () => {
           <form onSubmit={methods.handleSubmit(handleSumbitLogin)}>
             <Row className="mb-3">
               <Input
-                type="email"
-                label={t("email")}
-                name="email"
+                type="phone"
+                label={`${t("phone")} (+994XXXXXXXXX)`}
                 isRequired
-                placeholder={t("enterYourEmail")}
-                onChange={(e) => handleChangeInput(e, "email")}
-                error={!isEmpty(methods.formState.errors.email)}
+                placeholder={t("enterYourPhone")}
+                onChange={(e) => handleChangeInput(e, "phone")}
+                error={!isEmpty(methods.formState.errors.phone)}
+                prefix="+994"
               />
             </Row>
             <Row className="mb-3">

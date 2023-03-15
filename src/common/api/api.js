@@ -67,5 +67,23 @@ export const api = createApi({
         };
       },
     }),
+    login: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/login",
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    verify: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/verify",
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });

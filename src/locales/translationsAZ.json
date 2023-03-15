@@ -100,5 +100,9 @@
   "mapPolygonError": "Əfsuslar olsun ki, seçdiyiniz əraziyə xidmət göstərilmir.",
   "error": "Xəta",
   "rules": "Qaydalarla",
-  "agree": "razıyam"
+  "agree": "razıyam",
+  "verify": "Təsdiqlə",
+  "verifyOTP": "Telefonunuza gələn kodu daxil edin:",
+  "codeIsInvalid": "Kod səhvdir",
+  "resend": "Yenidən göndər"
 }

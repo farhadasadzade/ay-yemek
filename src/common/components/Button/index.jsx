@@ -10,6 +10,7 @@ const Button = ({
   htmlType,
   style,
   isLoading,
+  disabled,
 }) => {
   return (
     <CoreButton
@@ -17,6 +18,7 @@ const Button = ({
       onClick={onClick}
       htmlType={htmlType}
       style={{ ...style }}
+      disabled={disabled}
     >
       {isLoading ? <div className="button-loader"></div> : children}
     </CoreButton>

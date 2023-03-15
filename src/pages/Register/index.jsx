@@ -78,6 +78,8 @@ const Register = () => {
       .oneOf([true], "The terms and conditions must be accepted."),
   });
 
+  const currentYear = moment().subtract(16, "years").year();
+
   const { t, language } = i18n;
   const history = useHistory();
   const methods = useForm({
@@ -88,6 +90,7 @@ const Register = () => {
 
   const [register, registerState] = api.useRegisterMutation();
 
+  const [phoneState, setPhoneState] = React.useState("");
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [birthDate, setBirthDate] = React.useState(null);
   const [password, setPassword] = React.useState("");
@@ -136,6 +139,8 @@ const Register = () => {
       return;
     }
 
+    setPhoneState(`+994${phone}`);
+
     register({
       name,
       surname,
@@ -182,20 +187,10 @@ const Register = () => {
   useUpdateEffect(() => {
     if (!registerState.isLoading) {
       if (registerState.isSuccess) {
-        // Toast.fire({
-        //   icon: "success",
-        //   title: t("registrationSuccess"),
-        // });
-
-        // setTimeout(() => {
-        //   localStorage.setItem("user", registerState.data?.token);
-        //   history.push("/home");
-        // }, 1000);
-
         setRegistrationSuccess(true);
       }
 
-      if (registerState.error.status === 401) {
+      if (registerState.error?.status === 401) {
         Toast.fire({
           icon: "error",
           title: t("emailIsUsedAlready"),
@@ -224,21 +219,7 @@ const Register = () => {
           <Header />
         </RenderIf>
         {isRegistrationSuccess ? (
-          <div
-            className="otp"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}
-          >
-            <h2 className="mb-3">{t("verifyOTP")}</h2>
-            <OTP />
-            <Button className="mt-3" type="primary">
-              {t("verify")}
-            </Button>
-          </div>
+          <OTP phone={phoneState} />
         ) : (
           <div className="register">
             <div className="register__form">
@@ -320,9 +301,8 @@ const Register = () => {
                     onSelect={handleSelectBirthDate}
                     error={!isEmpty(methods.formState.errors.birthDate)}
                     disabledDate={(current) => {
-                      let customDate = moment().format("YYYY-MM-DD");
                       return (
-                        current && current >= moment(customDate, "YYYY-MM-DD")
+                        current && current >= moment().subtract(16, "years")
                       );
                     }}
                   />
