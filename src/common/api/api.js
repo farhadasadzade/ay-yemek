@@ -11,10 +11,11 @@ export const api = createApi({
   }),
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: (language) => ({
+      query: ({ language, userToken }) => ({
         url: "categories",
         headers: {
           "Content-Language": language,
+          Authorization: userToken,
         },
       }),
     }),

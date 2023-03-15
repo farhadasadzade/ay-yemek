@@ -26,7 +26,7 @@ const PriceBlock = ({ id, name, price, category_id, category_name, days }) => {
       })
     );
 
-    if (isEmpty(localStorage.getItem("user"))) {
+    if (isEmpty(localStorage.getItem("userToken"))) {
       history.push("/register");
       return;
     }

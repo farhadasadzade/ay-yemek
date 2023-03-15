@@ -21,7 +21,7 @@ import MobileUserMenu from "./MobileUserMenu";
 const Header = () => {
   const { t, changeLanguage } = i18n;
   const location = useLocation();
-  const isUserLogined = !isEmpty(localStorage.getItem("user"));
+  const isUserLogined = !isEmpty(localStorage.getItem("userToken"));
   const history = useHistory();
 
   const [

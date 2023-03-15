@@ -17,7 +17,7 @@ const Profile = ({ match: { url } }) => {
   const [windowWidth, setWindowWidth] = React.useState(0);
 
   useMount(() => {
-    if (isEmpty(localStorage.getItem("user"))) {
+    if (isEmpty(localStorage.getItem("userToken"))) {
       history.push("/home");
     }
 

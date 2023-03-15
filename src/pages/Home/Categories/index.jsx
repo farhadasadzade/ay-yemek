@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Carousel from "react-elastic-carousel";
 import i18n from "i18next";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
-import { map, lowerCase } from "lodash";
+import { map, lowerCase, isEmpty } from "lodash";
 import { Row } from "antd";
 import { HomeTitle, CarouselArrows, CategoryLoader } from "components";
 import { RenderIf } from "common/components";
@@ -15,6 +15,7 @@ const Categories = () => {
   const { t } = i18n;
 
   const language = lowerCase(localStorage.getItem("lang"));
+  const userToken = localStorage.getItem("userToken");
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [categories, setCategories] = React.useState([]);
@@ -28,7 +29,10 @@ const Categories = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getCategories(language);
+    getCategories({
+      language,
+      userToken: userToken || process.env.REACT_APP_DEFAULT_USER_TOKEN,
+    });
   });
 
   useUpdateEffect(() => {
