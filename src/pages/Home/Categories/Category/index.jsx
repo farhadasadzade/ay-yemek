@@ -17,10 +17,7 @@ const Category = ({ title, titleColor, text, id, imageURL }) => {
   return (
     <div className="home__category">
       <div className="home__category-img">
-        <img
-          src={`${process.env.REACT_APP_BASE_IMG_URL}categories/${imageURL}`}
-          alt="category"
-        />
+        <img src={imageURL} alt="category" />
         <img className="home__category-shape" src={categoryShape} alt="shape" />
       </div>
       <Row align="middle" style={{ flexDirection: "column" }}>

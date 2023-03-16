@@ -3,6 +3,7 @@ import OtpInput from "react-otp-input";
 import { useTimer } from "react-timer-hook";
 import { useHistory } from "react-router-dom";
 import i18n from "i18next";
+import { lowerCase } from "lodash";
 import { Button, Toast } from "common/components";
 import { api } from "common/api/api";
 import { useUpdateEffect } from "ahooks";
@@ -19,15 +20,20 @@ const OTP = ({ phone }) => {
   });
 
   const history = useHistory();
+  const language = lowerCase(localStorage.getItem("lang"));
 
   const [otp, setOtp] = React.useState("");
 
   const [verify, verifyState] = api.useVerifyMutation();
+  const [resend, resendState] = api.useResendMutation();
 
   const handleChange = (otp) => setOtp(otp);
 
   const submitVerify = () => {
-    verify({ phone, otp_code: otp });
+    verify({
+      body: { phone, otp_code: otp },
+      language,
+    });
   };
 
   const resendOtp = () => {
@@ -36,7 +42,10 @@ const OTP = ({ phone }) => {
     const newTime = new Date();
     newTime.setSeconds(newTime.getSeconds() + 300);
     restart(newTime);
-    verify({ phone, otp_code: otp });
+    resend({
+      body: { phone },
+      language,
+    });
   };
 
   useUpdateEffect(() => {

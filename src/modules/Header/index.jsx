@@ -13,6 +13,7 @@ import {
 import { logo } from "assets/images";
 import { chevronDownBlue, menuBar, user, exit } from "assets/icons";
 import { Typography, Button, RenderIf } from "common/components";
+import { api } from "common/api/api";
 import MobileMenu from "./MobileMenu";
 import { headerLinks } from "./data";
 import "./style/index.scss";
@@ -22,7 +23,9 @@ const Header = () => {
   const { t, changeLanguage } = i18n;
   const location = useLocation();
   const isUserLogined = !isEmpty(localStorage.getItem("userToken"));
+  const userToken = localStorage.getItem("userToken");
   const history = useHistory();
+  const language = lowerCase(localStorage.getItem("lang"));
 
   const [
     isMobileMenuVisible,
@@ -41,30 +44,13 @@ const Header = () => {
   );
   const [isLogoutModalVisible, setLogoutModalVisible] = React.useState(false);
 
-  const logout = useMemoizedFn(() => {
-    setLogoutLoading(true);
-    setTimeout(() => {
-      localStorage.removeItem("user");
-      setLogoutLoading(false);
-    }, 1000);
-  });
+  const [logout, logoutState] = api.useLogoutMutation();
 
   const handleSelectLang = useMemoizedFn((lang) => {
     localStorage.setItem("lang", lang);
     setSelectedLang(lang);
     window.location.reload(true);
     changeLanguage(lowerCase(lang));
-  });
-
-  const handleLogout = useMemoizedFn(() => {
-    setLogoutLoading(true);
-    setTimeout(() => {
-      localStorage.removeItem("user");
-      setLogoutLoading(false);
-      setLogoutModalVisible(false);
-      toggleMobileUserMenu();
-      history.push("/home");
-    }, 500);
   });
 
   useMount(() => {
@@ -106,6 +92,16 @@ const Header = () => {
     setMobileMenu(false);
     setMobileUserMenu(false);
   }, [location.pathname]);
+
+  useUpdateEffect(() => {
+    if (!logoutState.isLoading && logoutState.isSuccess) {
+      localStorage.removeItem("userToken");
+      setLogoutLoading(false);
+      setLogoutModalVisible(false);
+      setMobileUserMenu(false);
+      history.push("/home");
+    }
+  }, [logoutState.isLoading]);
 
   const languageItems = [
     {
@@ -156,7 +152,7 @@ const Header = () => {
         </RenderIf>
         <RenderIf condition={isUserLogined}>
           <Row onClick={toggleUserMenu} className="header__user" align="middle">
-            <RenderIf condition={!isLogoutLoading}>
+            <RenderIf condition={!logoutState.isLoading}>
               <>
                 <img className="me-2" src={user} alt="user-icon" />
                 <p className="header__user-name me-2">
@@ -169,7 +165,7 @@ const Header = () => {
                 </p>
               </>
             </RenderIf>
-            <RenderIf condition={isLogoutLoading}>
+            <RenderIf condition={logoutState.isLoading}>
               <div className="button-loader"></div>
             </RenderIf>
             <RenderIf condition={isUserMenuVisible}>
@@ -201,7 +197,9 @@ const Header = () => {
                     borderTop: "0.5px solid rgba(0, 0, 0, 0.15)",
                     cursor: "pointer",
                   }}
-                  onClick={logout}
+                  onClick={() =>
+                    logout({ language, userToken: `Bearer ${userToken}` })
+                  }
                 >
                   {t("logout")}
                 </p>
@@ -263,8 +261,10 @@ const Header = () => {
                 {t("no")}
               </Button>
               <Button
-                isLoading={isLogoutLoading}
-                onClick={handleLogout}
+                isLoading={logoutState.isLoading}
+                onClick={() =>
+                  logout({ language, userToken: `Bearer ${userToken}` })
+                }
                 type="primary"
               >
                 {t("yes")}

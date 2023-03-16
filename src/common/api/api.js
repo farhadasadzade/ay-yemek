@@ -44,47 +44,91 @@ export const api = createApi({
       }),
     }),
     getFaqs: builder.query({
-      query: (language) => ({
+      query: ({language, userToken}) => ({
         url: "faqs",
         headers: {
           "Content-Language": language,
+          Authorization: userToken
         },
       }),
     }),
     getReviews: builder.query({
-      query: (language) => ({
+      query: ({ language, userToken }) => ({
         url: "reviews",
         headers: {
           "Content-Language": language,
+          Authorization: userToken,
         },
       }),
     }),
     register: builder.mutation({
-      query: (body) => {
+      query: ({ body, language }) => {
         return {
           url: "/register",
           method: "POST",
+          headers: {
+            "Content-Language": language,
+          },
           body,
         };
       },
     }),
     login: builder.mutation({
-      query: (body) => {
+      query: ({ body, language }) => {
         return {
           url: "/login",
           method: "POST",
+          headers: {
+            "Content-Language": language,
+          },
           body,
         };
       },
     }),
     verify: builder.mutation({
-      query: (body) => {
+      query: ({ body, language }) => {
         return {
           url: "/verify",
           method: "POST",
+          headers: {
+            "Content-Language": language,
+          },
           body,
         };
       },
+    }),
+    resend: builder.mutation({
+      query: ({ body, language }) => {
+        return {
+          url: "/verify",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+          },
+          body,
+        };
+      },
+    }),
+    logout: builder.mutation({
+      query: ({ language, userToken }) => {
+        return {
+          url: "/logout",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+            Authorization: userToken,
+          },
+        };
+      },
+    }),
+    getFavoriteMeals: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "meals/favourite",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
     }),
   }),
 });

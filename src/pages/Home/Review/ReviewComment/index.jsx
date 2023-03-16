@@ -9,10 +9,7 @@ const ReviewComment = ({ description, image, name, surname, job }) => {
       </div>
       <div className="review__comment-user">
         <div className="review__comment-img">
-          <img
-            src={`${process.env.REACT_APP_BASE_IMG_URL}reviews/${image}`}
-            alt="user"
-          />
+          <img src={image} alt="user" />
           <img src={userCommentIcon} alt="user-icon" />
         </div>
         <div className="review__comment-info">

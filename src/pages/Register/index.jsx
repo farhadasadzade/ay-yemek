@@ -5,7 +5,7 @@ import PasswordChecklist from "react-password-checklist";
 import * as yup from "yup";
 import moment from "moment/moment";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { isEmpty, trim } from "lodash";
+import { isEmpty, trim, lowerCase } from "lodash";
 import Swal from "sweetalert2";
 import {
   useMount,
@@ -78,9 +78,9 @@ const Register = () => {
       .oneOf([true], "The terms and conditions must be accepted."),
   });
 
-  const currentYear = moment().subtract(16, "years").year();
+  const language = lowerCase(localStorage.getItem("lang"));
 
-  const { t, language } = i18n;
+  const { t } = i18n;
   const history = useHistory();
   const methods = useForm({
     resolver: yupResolver(schema),
@@ -142,15 +142,18 @@ const Register = () => {
     setPhoneState(`+994${phone}`);
 
     register({
-      name,
-      surname,
-      email,
-      password,
-      phone: `+994${phone}`,
-      address: address?.address,
-      birthdate: birthDate,
-      latitude: address?.pos?.lat,
-      longitude: address?.pos?.lng,
+      body: {
+        name,
+        surname,
+        email,
+        password,
+        phone: `+994${phone}`,
+        address: address?.address,
+        birthdate: birthDate,
+        latitude: address?.pos?.lat,
+        longitude: address?.pos?.lng,
+      },
+      language,
     });
   });
 
@@ -188,6 +191,12 @@ const Register = () => {
     if (!registerState.isLoading) {
       if (registerState.isSuccess) {
         setRegistrationSuccess(true);
+      }
+
+      if (registerState.error?.status === 302) {
+        setRegistrationSuccess(true);
+
+        return;
       }
 
       if (registerState.error?.status === 401) {

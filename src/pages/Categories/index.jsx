@@ -48,6 +48,9 @@ const Categories = () => {
   const { t } = i18n;
 
   const language = lowerCase(localStorage.getItem("lang"));
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
     minIndex: 0,
@@ -66,7 +69,7 @@ const Categories = () => {
     setTimeout(() => window.scrollTo(0, 0), 200);
   });
 
-  useMount(() => getCategories(language));
+  useMount(() => getCategories({ language, userToken: `Bearer ${userToken}` }));
 
   useUpdateEffect(() => {
     if (!categoriesState.isFetching && categoriesState.isSuccess) {

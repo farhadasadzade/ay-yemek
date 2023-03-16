@@ -13,6 +13,9 @@ import "./style/index.scss";
 const FAQ = () => {
   const { t } = i18n;
 
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
   const language = lowerCase(localStorage.getItem("lang"));
 
   const [faqNumber, setFaqNumber] = React.useState(4);
@@ -32,7 +35,7 @@ const FAQ = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getFaqs(language);
+    getFaqs({ language, userToken: `Bearer ${userToken}` });
   });
 
   useUnmount(() => {

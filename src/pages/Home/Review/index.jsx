@@ -17,11 +17,17 @@ const Review = () => {
   const { t } = i18n;
 
   const language = lowerCase(localStorage.getItem("lang"));
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [itemsToShow, setItemsToShow] = React.useState(2);
   const [windowWidth, setWindowWidth] = React.useState(0);
 
-  const { data: rewiews } = api.useGetReviewsQuery(language);
+  const { data: rewiews } = api.useGetReviewsQuery({
+    language,
+    userToken: `Bearer ${userToken}`,
+  });
 
   useMount(() => {
     window.addEventListener("resize", (e) =>

@@ -1,9 +1,10 @@
 import React from "react";
 import Carousel from "react-elastic-carousel";
 import i18n from "i18next";
-import { map } from "lodash";
+import { map, lowerCase } from "lodash";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { HomeTitle, CarouselArrows } from "components";
+import { api } from "common/api/api";
 import { favoriteFoods } from "./data";
 import "./style/index.scss";
 import { RenderIf } from "common/components";
@@ -11,8 +12,18 @@ import { RenderIf } from "common/components";
 const FavoriteFoods = () => {
   const { t } = i18n;
 
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+  const language = lowerCase(localStorage.getItem("lang"));
+
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [itemsToShow, setItemsToShow] = React.useState(5);
+
+  const { data: favoriteMeals } = api.useGetFavoriteMealsQuery({
+    language,
+    userToken: `Bearer ${userToken}`,
+  });
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -39,6 +50,7 @@ const FavoriteFoods = () => {
     }
   }, [windowWidth]);
 
+
   return (
     <RenderIf condition={windowWidth > 1000}>
       <div className="home__favorite">
@@ -50,18 +62,16 @@ const FavoriteFoods = () => {
           <Carousel
             itemsToShow={itemsToShow}
             pagination={false}
-            renderArrow={(props) =>
-              itemsToShow !== 5 ? <CarouselArrows {...props} /> : <></>
-            }
+            renderArrow={(props) => <CarouselArrows {...props} />}
             enableSwipe={false}
             enableMouseSwipe={false}
           >
-            {map(favoriteFoods, ({ title, image }) => (
-              <div key={title} className="home__favorite-food">
+            {map(favoriteMeals?.data, ({ id, name, image }) => (
+              <div key={id} className="home__favorite-food">
                 <div className="home__favorite-img">
                   <img src={image} alt="food" />
                 </div>
-                <p className="home__favorite-title">{t(`${title}`)}</p>
+                <p className="home__favorite-title">{name}</p>
               </div>
             ))}
           </Carousel>

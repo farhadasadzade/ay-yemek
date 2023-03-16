@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMount, useUnmount, useMemoizedFn, useUpdateEffect } from "ahooks";
-import { isEmpty, trim } from "lodash";
+import { isEmpty, trim, lowerCase } from "lodash";
 import { Toast } from "common/components";
 import i18n from "i18next";
 import { logo } from "assets/images";
@@ -64,6 +64,7 @@ const Login = () => {
   });
 
   const { t } = i18n;
+  const language = lowerCase(localStorage.getItem("lang"));
   const history = useHistory();
   const methods = useForm({
     resolver: yupResolver(schema),
@@ -82,8 +83,11 @@ const Login = () => {
     const { password, phone } = methods.getValues();
 
     login({
-      phone: `+994${phone}`,
-      password,
+      body: {
+        phone: `+994${phone}`,
+        password,
+      },
+      language,
     });
   });
 
