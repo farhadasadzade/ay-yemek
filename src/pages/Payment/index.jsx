@@ -149,7 +149,7 @@ const Payment = () => {
               <p>{t("selectedPacket")}</p>
             </Row>
             <Row className="mb-5">
-              <div className="payment__selected">{`${selectedPackage.categoryName} ${selectedPackage.packageName}`}</div>
+              <div className="payment__selected">{`${selectedPackage.packageName}`}</div>
             </Row>
             <Row className="mb-2">
               <Col span={18}>
