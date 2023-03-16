@@ -44,11 +44,11 @@ export const api = createApi({
       }),
     }),
     getFaqs: builder.query({
-      query: ({language, userToken}) => ({
+      query: ({ language, userToken }) => ({
         url: "faqs",
         headers: {
           "Content-Language": language,
-          Authorization: userToken
+          Authorization: userToken,
         },
       }),
     }),
@@ -124,6 +124,15 @@ export const api = createApi({
     getFavoriteMeals: builder.query({
       query: ({ language, userToken }) => ({
         url: "meals/favourite",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
+    getSliders: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "sliders",
         headers: {
           "Content-Language": language,
           Authorization: userToken,

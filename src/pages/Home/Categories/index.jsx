@@ -15,7 +15,9 @@ const Categories = () => {
   const { t } = i18n;
 
   const language = lowerCase(localStorage.getItem("lang"));
-  const userToken = localStorage.getItem("userToken");
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [categories, setCategories] = React.useState([]);
@@ -29,10 +31,7 @@ const Categories = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getCategories({
-      language,
-      userToken: userToken || process.env.REACT_APP_DEFAULT_USER_TOKEN,
-    });
+    getCategories({ language, userToken: `Bearer ${userToken}` });
   });
 
   useUpdateEffect(() => {
