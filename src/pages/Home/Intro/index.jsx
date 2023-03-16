@@ -29,12 +29,16 @@ const Intro = () => {
       enableSwipe={true}
       enableMouseSwipe={true}
       enableAutoPlay
+      itemPadding={[0, 0, 0, 0]}
     >
       {map(
         sliderItems?.data,
         ({ title, description, button_text, slug, image }) => (
           <div className="intro">
-            <div className="intro__info">
+            <div
+              className="intro__info"
+              style={{ backgroundImage: `url(${image})` }}
+            >
               <Typography className="intro__info-title" size={40} weight={600}>
                 {title}
               </Typography>
@@ -48,9 +52,6 @@ const Intro = () => {
               <Link to={`home/${slug}`}>
                 <Button type="secondary">{button_text}</Button>
               </Link>
-            </div>
-            <div className="intro__image">
-              <img src={image} alt="intro" />
             </div>
           </div>
         )

@@ -1,35 +1,43 @@
 @import "assets/css/variables.scss";
 
+.rec .rec-slider-container {
+  margin: 0 !important;
+}
+
 .intro {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 57px 80px 80px;
 
   &__info {
-    max-width: calc((100% - 160px) / 2);
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    padding: 300px 100px 20px;
+
     &-title {
-      color: $secondary-color !important;
+      color: #fff;
     }
 
     &-subtitle {
-      color: $primary-color !important;
+      color: #fff;
+      max-width: 70%;
     }
 
     button {
-      border: 2px solid $secondary-color !important;
-      color: $secondary-color !important;
+      border: 2px solid #fff !important;
+      color: #fff !important;
       font-size: 16px !important;
       font-weight: 600 !important;
       border-radius: 16px !important;
     }
 
     button:hover {
-      border: 2px solid $secondary-color !important;
+      border: 2px solid #fff !important;
       color: #ffffff !important;
       font-size: 16px !important;
       font-weight: 600 !important;
-      background-color: $secondary-color !important;
+      background-color: $primary-color !important;
     }
   }
 
@@ -49,7 +57,6 @@
 @media (max-width: 1000px) {
   .intro {
     flex-direction: column;
-    padding: 44px 20px 60px;
 
     &__info {
       width: 100%;
@@ -57,12 +64,12 @@
       margin-bottom: 56px;
 
       &-title {
-        color: $secondary-color !important;
+        color: #fff;
         font-size: 22px !important;
       }
 
       &-subtitle {
-        color: $primary-color !important;
+        color: #fff;
         font-size: 15px;
       }
 
