@@ -113,8 +113,17 @@ const Packets = () => {
   return !isPaymentSuccess ? (
     <div className="packet__page">
       <BlockContainer
-        title={mealTypesState.data?.data?.[0]?.meals?.[0].category?.name}
-        subtitle="Lorem ipsum dolor sit amet lorem ipsum dolor sit "
+        title={
+          mealTypesState.data?.data?.[0]?.meals?.find(
+            (meal) => Number(meal?.category?.id) === Number(categoryId)
+          )?.category?.name
+        }
+        titleColor={
+          mealTypesState.data?.data?.[0]?.meals?.find(
+            (meal) => Number(meal?.category?.id) === Number(categoryId)
+          )?.category?.color
+        }
+        subtitle="Lorem ipsum dolor sit amet lorem ipsum dolor sit"
       >
         <div className="packets">
           <div className="packets__list">

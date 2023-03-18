@@ -6,7 +6,7 @@ import i18n from "i18next";
 import { Typography, Button } from "common/components";
 import { categoryShape } from "assets/images";
 
-const Category = ({ title, titleColor, text, id, imageURL }) => {
+const Category = ({ title, text, id, imageURL, color }) => {
   const { t } = i18n;
   const history = useHistory();
 
@@ -21,7 +21,7 @@ const Category = ({ title, titleColor, text, id, imageURL }) => {
         <img className="home__category-shape" src={categoryShape} alt="shape" />
       </div>
       <Row align="middle" style={{ flexDirection: "column" }}>
-        <p style={{ color: titleColor }} className="home__category-title py-3">
+        <p style={{ color: color }} className="home__category-title py-3">
           {title}
         </p>
         <Typography className="home__category-text px-3" size={17} weight={400}>

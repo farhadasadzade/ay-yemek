@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Carousel from "react-elastic-carousel";
 import i18n from "i18next";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
-import { map, lowerCase, isEmpty } from "lodash";
+import { map, lowerCase } from "lodash";
 import { Row } from "antd";
 import { HomeTitle, CarouselArrows, CategoryLoader } from "components";
 import { RenderIf } from "common/components";
@@ -66,21 +66,24 @@ const Categories = () => {
           >
             {categoriesState.isFetching
               ? map(Array(3).fill(0), () => <CategoryLoader />)
-              : map(categories, ({ id, name, description, image }, index) => {
-                  if (index < 5) {
-                    return (
-                      <Category
-                        key={id}
-                        id={id}
-                        title={name}
-                        titleColor={description}
-                        text={description}
-                        imageURL={image}
-                      />
-                    );
+              : map(
+                  categories,
+                  ({ id, name, description, image, color }, index) => {
+                    if (index < 5) {
+                      return (
+                        <Category
+                          key={id}
+                          id={id}
+                          title={name}
+                          text={description}
+                          imageURL={image}
+                          color={color}
+                        />
+                      );
+                    }
+                    return null;
                   }
-                  return null;
-                })}
+                )}
           </Carousel>
         </RenderIf>
         <RenderIf condition={windowWidth <= 1000 && windowWidth !== 0}>
