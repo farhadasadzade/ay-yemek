@@ -46,12 +46,12 @@ function addBusinessDays(originalDate, numDaysToAdd) {
   let disabledDays = [];
 
   while (daysRemaining > 1) {
-    newDate = newDate.add(1, "days");
     if (newDate.day() !== Sunday && newDate.day() !== Saturday) {
       daysRemaining--;
     } else {
       disabledDays.push(newDate);
     }
+    newDate = newDate.add(1, "days");
   }
 
   return { newDate, disabledDays };
@@ -85,7 +85,7 @@ const Payment = () => {
     if (!isEmpty(dates)) {
       orderPackage({
         body: {
-          category_id: packageState?.category?.id,
+          category_id: packageState.data?.data?.category?.id,
           package_id: selectedPackageId,
           start_date: dates[0].toISOString().slice(0, 10),
           end_date: dates[1].toISOString().slice(0, 10),
@@ -105,25 +105,52 @@ const Payment = () => {
     );
 
     setWindowWidth(window.innerWidth);
-
-    const currentDate = dayjs();
-
-    const { newDate, disabledDays } = addBusinessDays(currentDate, 10);
-    setDates([currentDate, newDate]);
-    setDisabledDates(disabledDays);
   });
 
+  React.useEffect(() => {
+    const currentDate = dayjs();
+    let clonedCurrentDate = currentDate.clone();
+
+    if (clonedCurrentDate.day() === 0) {
+      clonedCurrentDate = clonedCurrentDate.add(2, "days");
+    } else if (clonedCurrentDate.day() === 6) {
+      clonedCurrentDate = clonedCurrentDate.add(1, "days");
+    }
+
+    const { newDate, disabledDays } = addBusinessDays(
+      clonedCurrentDate,
+      Number(packageState.data?.data?.day)
+    );
+    setDates([clonedCurrentDate, newDate]);
+    setDisabledDates(disabledDays);
+  }, [packageState.data?.data?.day]);
+
   useUpdateEffect(() => {
+    const currentDate = dayjs();
     if (!isEmpty(dates)) {
       if (isIncludingWeekend) {
-        const secondDate = dayjs(dates[0].add(10 - 1, "days"));
+        const secondDate = dayjs(
+          currentDate.add(Number(packageState.data?.data?.day) - 1, "days")
+        );
 
-        setDates([dates[0], secondDate]);
+        setDates([currentDate, secondDate]);
         setDisabledDates([]);
         return;
       }
-      const { newDate, disabledDays } = addBusinessDays(dates[0], 10);
-      setDates([dates[0], newDate]);
+
+      let clonedCurrentDate = currentDate.clone();
+
+      if (clonedCurrentDate.day() === 0) {
+        clonedCurrentDate = clonedCurrentDate.add(2, "days");
+      } else if (clonedCurrentDate.day() === 6) {
+        clonedCurrentDate = clonedCurrentDate.add(1, "days");
+      }
+
+      const { newDate, disabledDays } = addBusinessDays(
+        clonedCurrentDate,
+        Number(packageState.data?.data?.day)
+      );
+      setDates([clonedCurrentDate, newDate]);
       setDisabledDates(disabledDays);
     }
   }, [isIncludingWeekend]);
