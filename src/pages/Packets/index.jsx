@@ -29,18 +29,22 @@ const Packets = () => {
   );
 
   const language = lowerCase(localStorage.getItem("lang"));
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
-    activeFilter: 1,
+    activeFilter: undefined,
     isPricesActive: false,
   });
 
-  const [getMeals, mealsState] = api.useLazyGetMealsQuery();
   const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
   const [getPackages, packagesState] = api.useLazyGetPackagesQuery();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [meals, setMeals] = React.useState([]);
+  const [mealTypes, setMealTypes] = React.useState([]);
+  const [packages, setPackages] = React.useState([]);
 
   const handleSelectFilter = useMemoizedFn((id) => {
     state.activeFilter = id;
@@ -63,9 +67,8 @@ const Packets = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getMeals(language);
-    getMealTypes(language);
-    getPackages({ language, categoryId: categoryId });
+    getMealTypes({ categoryId, language, userToken: `Bearer ${userToken}` });
+    getPackages({ categoryId, language, userToken: `Bearer ${userToken}` });
   });
 
   useUpdateEffect(() => {
@@ -75,10 +78,33 @@ const Packets = () => {
   }, [windowWidth]);
 
   useUpdateEffect(() => {
-    if (!mealsState.isFetching && mealsState.isSuccess) {
-      setMeals(mealsState.data?.data);
+    if (!mealTypesState.isFetching && mealTypesState.isSuccess) {
+      const mealTypes = mealTypesState.data?.data?.map((mealType) => ({
+        name: mealType?.name,
+        id: mealType?.id,
+      }));
+
+      state.activeFilter = mealTypes?.[0]?.id;
+
+      setMealTypes(mealTypes);
     }
-  }, [mealsState.isFetching]);
+  }, [mealTypesState.isFetching]);
+
+  useUpdateEffect(() => {
+    if (!mealTypesState.isFetching && mealTypesState.isSuccess) {
+      const meals = mealTypesState.data?.data?.find(
+        (mealType) => Number(mealType?.id) === Number(state.activeFilter)
+      )?.meals;
+
+      setMeals(meals);
+    }
+  }, [mealTypesState.isFetching, state.activeFilter, mealTypesState.data]);
+
+  useUpdateEffect(() => {
+    if (!packagesState.isFetching && packagesState.isSuccess) {
+      setPackages(packagesState.data?.data);
+    }
+  }, [packagesState.isFetching]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
@@ -87,7 +113,7 @@ const Packets = () => {
   return !isPaymentSuccess ? (
     <div className="packet__page">
       <BlockContainer
-        title={mealsState.data?.data[0]?.category_name}
+        title={mealTypesState.data?.data?.[0]?.meals?.[0].category?.name}
         subtitle="Lorem ipsum dolor sit amet lorem ipsum dolor sit "
       >
         <div className="packets">
@@ -95,7 +121,7 @@ const Packets = () => {
             <div className="packets__filter">
               {mealTypesState.isFetching
                 ? map(Array(4).fill(0), () => <FilterTagLoader />)
-                : map(mealTypesState.data?.data, ({ name, id }) => (
+                : map(mealTypes, ({ name, id }) => (
                     <div
                       key={id}
                       className={`packets__filter-tag ${
@@ -137,27 +163,26 @@ const Packets = () => {
                   </Button>
                 </Row>
               </RenderIf>
-              {mealsState.isFetching
-                ? map(Array(5).fill(0), () => <PacketLoader />)
-                : map(meals, (packet) => {
-                    if (state.activeFilter === Number(packet.meal_type_id)) {
-                      return <PacketBlock {...packet} />;
-                    }
-                    return null;
-                  })}
+              {mealTypesState.isFetching
+                ? map(Array(5).fill(0), (_, index) => (
+                    <PacketLoader key={index} />
+                  ))
+                : map(meals, (packet) => (
+                    <PacketBlock key={packet?.id} {...packet} />
+                  ))}
             </div>
           </div>
           <div className="packets__prices">
-            {packagesState.isLoading
+            {packagesState.isFetching
               ? map(Array(4).fill(0), () => <PriceBlockLoader />)
-              : map(packagesState.data?.data, (price) => (
-                  <PriceBlock {...price} />
+              : map(packages, (price) => (
+                  <PriceBlock price={price?.id} {...price} />
                 ))}
           </div>
         </div>
       </BlockContainer>
       <RenderIf condition={state.isPricesActive}>
-        <PricesMobile data={packagesState.data?.data} onClose={onClosePrices} />
+        <PricesMobile data={packages} onClose={onClosePrices} />
       </RenderIf>
     </div>
   ) : (

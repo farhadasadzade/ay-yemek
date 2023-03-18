@@ -19,27 +19,30 @@ export const api = createApi({
         },
       }),
     }),
-    getMeals: builder.query({
-      query: (language) => ({
-        url: "meals",
-        headers: {
-          "Content-Language": language,
-        },
-      }),
-    }),
     getMealTypes: builder.query({
-      query: (language) => ({
-        url: "meal-types",
+      query: ({ categoryId, language, userToken }) => ({
+        url: `meal-types/category/${categoryId}`,
         headers: {
           "Content-Language": language,
+          Authorization: userToken,
         },
       }),
     }),
     getPackages: builder.query({
-      query: ({ language, categoryId }) => ({
+      query: ({ language, categoryId, userToken }) => ({
         url: `packages/category/${categoryId}`,
         headers: {
           "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
+    getPackageById: builder.query({
+      query: ({ language, packageId, userToken }) => ({
+        url: `package/${packageId}`,
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
         },
       }),
     }),
@@ -138,6 +141,19 @@ export const api = createApi({
           Authorization: userToken,
         },
       }),
+    }),
+    orderPackage: builder.mutation({
+      query: ({ language, userToken, body }) => {
+        return {
+          url: "/package-order",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+            Authorization: userToken,
+          },
+          body,
+        };
+      },
     }),
   }),
 });

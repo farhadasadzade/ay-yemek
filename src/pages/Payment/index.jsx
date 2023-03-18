@@ -1,16 +1,15 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { isEmpty } from "lodash";
+import { isEmpty, lowerCase } from "lodash";
 import dayjs from "dayjs";
 import i18n from "i18next";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { Col, Row, Checkbox } from "antd";
 import { Input, RenderIf, Button } from "common/components";
+import { api } from "common/api/api";
 import { Header, Footer } from "modules";
 import { logo } from "assets/images";
 import { success } from "assets/icons";
-import { selectPackage } from "redux/categories";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -61,10 +60,11 @@ function addBusinessDays(originalDate, numDaysToAdd) {
 const Payment = () => {
   const { t } = i18n;
   const history = useHistory();
-  const selectedPackage = useSelector(
-    (state) => state.category?.selectedPackage
-  );
-  const dispatch = useDispatch();
+  const selectedPackageId = localStorage.getItem("selectedPackageId");
+  const language = lowerCase(localStorage.getItem("lang"));
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [dates, setDates] = React.useState(undefined);
@@ -74,14 +74,26 @@ const Payment = () => {
   const [isPaymentSuccess, setPaymentSuccess] = React.useState(false);
   const [isDateValid, setDateValid] = React.useState(true);
 
+  const [getPackage, packageState] = api.useLazyGetPackageByIdQuery();
+  const [orderPackage, orderState] = api.useOrderPackageMutation();
+
   const onOpenChange = (open) => {
     setOpen(open);
   };
 
   const handlePayment = () => {
     if (!isEmpty(dates)) {
-      setPaymentSuccess(true);
-      dispatch(selectPackage({ ...selectedPackage, isPaymentSuccess: true }));
+      orderPackage({
+        body: {
+          category_id: 1,
+          package_id: selectedPackageId,
+          start_date: dates[0].toISOString().slice(0, 10),
+          end_date: dates[1].toISOString().slice(0, 10),
+          weekend: Number(isIncludingWeekend),
+        },
+        language,
+        userToken: `Bearer ${userToken}`,
+      });
       return;
     }
     setDateValid(false);
@@ -116,6 +128,28 @@ const Payment = () => {
     }
   }, [isIncludingWeekend]);
 
+  useUpdateEffect(() => {
+    if (!orderState.isLoading && orderState.isSuccess) {
+      setPaymentSuccess(true);
+      localStorage.removeItem("selectedPackageId");
+    }
+  }, [orderState.isLoading]);
+
+  React.useEffect(() => {
+    if (isEmpty(selectedPackageId) && !isPaymentSuccess) {
+      history.push("/home");
+      return;
+    }
+    getPackage({ userToken, packageId: selectedPackageId, language });
+  }, [
+    selectedPackageId,
+    getPackage,
+    history,
+    language,
+    userToken,
+    isPaymentSuccess,
+  ]);
+
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
   });
@@ -149,7 +183,9 @@ const Payment = () => {
               <p>{t("selectedPacket")}</p>
             </Row>
             <Row className="mb-5">
-              <div className="payment__selected">{`${selectedPackage.packageName}`}</div>
+              <div className="payment__selected">
+                {packageState.data?.data?.name}
+              </div>
             </Row>
             <Row className="mb-2">
               <Col span={18}>
@@ -176,7 +212,9 @@ const Payment = () => {
             <Row className="px-3 mb-4" justify="space-between" align="middle">
               <h2 className="payment__price">{t("totalPayment")}</h2>
               <Row align="middle">
-                <h2 className="payment__price pe-2">{selectedPackage.price}</h2>
+                <h2 className="payment__price pe-2">
+                  {packageState.data?.data?.price}
+                </h2>
                 <svg
                   width="12"
                   height="11"
@@ -226,9 +264,7 @@ const Payment = () => {
           </Row>
           <Row justify="center">
             <Button
-              onClick={() =>
-                history.push(`/home/category/${selectedPackage.categoryId}`)
-              }
+              onClick={() => history.push(`/home/category/${1}`)}
               type="secondary"
             >
               {t("startChoosingFood")}
