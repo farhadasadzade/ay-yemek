@@ -264,7 +264,9 @@ const Payment = () => {
           </Row>
           <Row justify="center">
             <Button
-              onClick={() => history.push(`/home/category/${1}`)}
+              onClick={() =>
+                history.push(`/home/category/${packageState?.category?.id}`)
+              }
               type="secondary"
             >
               {t("startChoosingFood")}

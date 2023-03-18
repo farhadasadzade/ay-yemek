@@ -88,16 +88,19 @@ const Categories = () => {
       <div className="categories">
         {categoriesState.isFetching
           ? map(Array(6).fill(0), () => <CategoryLoader />)
-          : map(state.categoriesData, ({ id, name, description, image }) => (
-              <Category
-                key={id}
-                id={id}
-                title={name}
-                titleColor={description}
-                text={description}
-                imageURL={image}
-              />
-            ))}
+          : map(
+              state.categoriesData,
+              ({ id, name, description, image, color }) => (
+                <Category
+                  key={id}
+                  id={id}
+                  title={name}
+                  color={color}
+                  text={description}
+                  imageURL={image}
+                />
+              )
+            )}
       </div>
       <Row className="py-4" justify="center">
         <Pagination
