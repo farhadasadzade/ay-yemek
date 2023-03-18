@@ -85,7 +85,7 @@ const Payment = () => {
     if (!isEmpty(dates)) {
       orderPackage({
         body: {
-          category_id: 1,
+          category_id: packageState?.category?.id,
           package_id: selectedPackageId,
           start_date: dates[0].toISOString().slice(0, 10),
           end_date: dates[1].toISOString().slice(0, 10),
