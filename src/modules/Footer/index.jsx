@@ -11,6 +11,8 @@ import Copyright from "./Copyright";
 import { footerLinks } from "./data";
 import "./style/index.scss";
 import { RenderIf } from "common/components";
+import appStore from "assets/images/app-store.PNG";
+import playStore from "assets/images/play-store.PNG";
 
 const ScrollToTop = ({ fillCircle, fillPath }) => {
   return (
@@ -86,6 +88,16 @@ const Footer = () => {
                 {t(`${title}`)}
               </Link>
             ))}
+          </Row>
+          <Row className="pb-5" justify="center" align="middle">
+            <>
+              <a href="#" style={{ margin: "0 20px" }}>
+                <img style={{ width: "150px" }} src={appStore} alt="" />
+              </a>
+              <a href="#" style={{ margin: "0 20px" }}>
+                <img style={{ width: "150px" }} src={playStore} alt="" />
+              </a>
+            </>
           </Row>
           <Row justify="center">
             <Link to="facebook">
