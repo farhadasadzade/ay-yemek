@@ -112,5 +112,8 @@
   "save": "Save",
   "cancel": "Cancel",
   "submit": "Submit",
-  "selectTime": "Select Time"
+  "selectTime": "Select Time",
+  "chooseTomorrowsMenu": "Choose tomorrow's menu",
+  "orderNotification": "Please place your order by 21:00",
+  "activeOrderStatus": "The menu you have selected is up to date on {{date}}"
 }

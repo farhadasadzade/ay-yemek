@@ -64,6 +64,21 @@
       margin-bottom: 17px;
     }
 
+    &-subtitle {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 157.4%;
+      /* or 25px */
+      text-align: center;
+      color: #797979;
+
+      & span {
+        color: $primary-color;
+      }
+    }
+
     &-name {
       font-family: "Inter";
       font-weight: 500;
@@ -164,6 +179,15 @@
   line-height: 157.4%;
   text-align: center;
   color: #797979;
+}
+
+.empty__result-not {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 24px;
+  color: #263238;
 }
 
 @media (max-width: 1300px) {

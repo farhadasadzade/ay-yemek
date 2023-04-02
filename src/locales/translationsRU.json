@@ -112,5 +112,8 @@
   "save": "Сохранять",
   "cancel": "Отмена",
   "submit": "Подтвердить",
-  "selectTime": "Выберите время"
+  "selectTime": "Выберите время",
+  "chooseTomorrowsMenu": "Выбрать завтрашнее меню",
+  "orderNotification": "Пожалуйста, оформите заказ до 21:00",
+  "activeOrderStatus": "Выбранное вами меню актуально на {{date}}"
 }
