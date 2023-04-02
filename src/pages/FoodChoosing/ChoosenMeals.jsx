@@ -10,6 +10,7 @@ import { trashBin } from "assets/icons";
 import { Button, RenderIf, Toast, Input } from "common/components";
 import { calendar } from "assets/icons";
 import { Map } from "modules";
+import { TimepickerUI } from "timepicker-ui";
 
 const monthNames = {
   az: [
@@ -77,13 +78,19 @@ const ChoosenMeals = ({
     choosenMeals: [],
   });
 
+  const tmRef = React.useRef(null);
+
   const [address, setAddress] = React.useState("");
   const [isAddressDenied, setAddressDenied] = React.useState(true);
   const [addressError, setAddressError] = React.useState(false);
-  const [time, setTime] = React.useState(undefined);
+  const [timePickerValue, setTimePickerValue] = React.useState("12:00");
 
   const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
   const [orderDaily, orderState] = api.useDailyOrderMutation();
+
+  const handleTimepicker = useMemoizedFn((e) => {
+    setTimePickerValue(`${e.detail.hour}:${e.detail.minutes} ${e.detail.type}`);
+  });
 
   const getPosition = useMemoizedFn((pos, address) => {
     setAddress({ pos, address });
@@ -109,21 +116,11 @@ const ChoosenMeals = ({
         latitude: address?.pos?.lat,
         longitude: address?.pos?.lng,
         note: "Tez çatdırın",
-        delivery_at: `${moment()
-          ?.add(1, "day")
-          ?.format("YYYY-MM-DD")} ${time}:00`,
+        delivery_at: `${moment()?.add(1, "day")?.format("YYYY-MM-DD")} ${
+          timePickerValue?.split(" ")?.[0]
+        }`,
       },
     });
-  });
-
-  const handleChangeTime = useMemoizedFn((value) => {
-    const time = value.$d?.getHours();
-
-    if (time?.length === 1) {
-      setTime(`0${time}`);
-    } else {
-      setTime(time);
-    }
   });
 
   useUpdateEffect(() => {
@@ -157,6 +154,32 @@ const ChoosenMeals = ({
     }
   }, [mealTypesState.isFetching]);
 
+  React.useEffect(() => {
+    const tm = tmRef.current;
+
+    const newPicker = new TimepickerUI(tm, {
+      disabledTime: {
+        minutes: [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38,
+          39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+          56, 57, 58, 59,
+        ],
+      },
+      clockType: "24h",
+      cancelLabel: t("cancel"),
+      okLabel: t("submit"),
+      timeLabel: t("selectTime"),
+    });
+    newPicker.create();
+
+    tm.addEventListener("accept", handleTimepicker);
+
+    return () => {
+      tm.removeEventListener("accept", handleTimepicker);
+    };
+  }, [handleTimepicker, t]);
+
   return (
     <>
       <div className="choosen">
@@ -183,14 +206,6 @@ const ChoosenMeals = ({
             </Row>
           </div>
         ))}
-        <Button
-          onClick={handleOrder}
-          type="primary"
-          style={{ width: "100%" }}
-          disabled={isEmpty(selectedMeals)}
-        >
-          {t("submitMenu")}
-        </Button>
       </div>
       <div className="deliver__form pt-5">
         <div className="deliver__form-top mb-3">
@@ -198,9 +213,7 @@ const ChoosenMeals = ({
             <img className="me-3" src={calendar} alt="calendar" />
             <p className="deliver__form-top-text">
               {`Seçdiyiniz menyu ${moment()?.add(1, "day")?.format("DD")} ${
-                monthNames[language]?.[
-                  moment()?.add(1, "day")?.month()
-                ]
+                monthNames[language]?.[moment()?.add(1, "day")?.month()]
               } tarixi üçün keçərlidir`}
             </p>
           </Row>
@@ -209,16 +222,13 @@ const ChoosenMeals = ({
           <Col span={24}>
             <label className="deliver__form-label" htmlFor="deliverTime">
               {t("chooseDeliverTime")}
-              <TimePicker
-                name="deliverTime"
-                size="large"
-                showNow={false}
-                showMinute={false}
-                showSecond={false}
-                format="HH:mm"
-                style={{ width: "100%", padding: "20px" }}
-                onSelect={handleChangeTime}
-              />
+              <div className="timepicker-ui" ref={tmRef}>
+                <input
+                  type="test"
+                  className="timepicker-ui-input"
+                  defaultValue={timePickerValue}
+                />
+              </div>
             </label>
           </Col>
         </Row>
@@ -227,7 +237,7 @@ const ChoosenMeals = ({
           getIsAddressDenied={getIsAddressDenied}
           status={addressError}
         />
-        <Row>
+        <Row className="mb-4">
           <Col span={24}>
             <label className="deliver__form-label" htmlFor="deliverTime">
               {t("additionalNote")}
@@ -235,6 +245,14 @@ const ChoosenMeals = ({
             </label>
           </Col>
         </Row>
+        <Button
+          onClick={handleOrder}
+          type="primary"
+          style={{ width: "100%" }}
+          disabled={isEmpty(selectedMeals)}
+        >
+          {t("submitMenu")}
+        </Button>
       </div>
     </>
   );

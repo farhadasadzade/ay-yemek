@@ -109,5 +109,8 @@
   "oldPassword": "Old password",
   "newPassword": "New password",
   "newPasswordAgain": "Re-enter new password",
-  "save": "Save"
+  "save": "Save",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "selectTime": "Select Time"
 }

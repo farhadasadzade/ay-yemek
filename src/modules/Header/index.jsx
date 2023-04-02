@@ -184,33 +184,10 @@ const Header = () => {
             </RenderIf>
             <RenderIf condition={isUserMenuVisible}>
               <div className="header__user-menu">
-                <p
-                  onClick={() => history.push("/profile")}
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: "400",
-                    fontSize: "12px",
-                    lineHeight: "15px",
-                    color: "#000000",
-                    padding: "0 16px 13px",
-                    cursor: "pointer",
-                  }}
-                >
+                <p onClick={() => history.push("/profile")}>
                   {t("myProfileInfo")}
                 </p>
                 <p
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontWeight: "400",
-                    fontSize: "10px",
-                    lineHeight: "13px",
-                    color: "#D81A1A",
-                    padding: "3px 16px 0",
-                    borderTop: "0.5px solid rgba(0, 0, 0, 0.15)",
-                    cursor: "pointer",
-                  }}
                   onClick={() =>
                     logout({ language, userToken: `Bearer ${userToken}` })
                   }

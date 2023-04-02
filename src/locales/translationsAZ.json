@@ -109,5 +109,8 @@
   "oldPassword": "Köhnə şifrə",
   "newPassword": "Yeni şifrə",
   "newPasswordAgain": "Yeni şifrə təkrar",
-  "save": "Yadda saxla"
+  "save": "Yadda saxla",
+  "cancel": "Imtina",
+  "submit": "Təsdiqlə",
+  "selectTime": "Vaxt seçin"
 }

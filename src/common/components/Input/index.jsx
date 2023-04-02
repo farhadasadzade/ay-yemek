@@ -2,6 +2,8 @@ import React from "react";
 import { includes } from "lodash";
 import { Input as CoreInput, DatePicker } from "antd";
 import "./style/index.scss";
+import moment from "moment";
+import dayjs from "dayjs";
 
 const { TextArea } = CoreInput;
 
@@ -69,6 +71,7 @@ const Input = ({
               onSelect={onSelect}
               disabledDate={disabledDate}
               value={defaultPickerValue}
+              defaultPickerValue={dayjs(dayjs().subtract(18, 'year')?.format('YYYY-MM-DD'), "YYYY-MM-DD")}
             />
           </label>
         </>

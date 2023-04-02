@@ -331,3 +331,68 @@
     padding-top: 0 !important;
   }
 }
+
+.timepicker-ui-wrapper {
+  font-family: "Inter" !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #202020 !important;
+}
+
+.timepicker-ui-footer {
+  padding-bottom: 15px !important;
+}
+
+.timepicker-ui-ok-btn {
+  padding: 9px 10px !important;
+  width: auto !important;
+  color: $primary-color;
+}
+
+.timepicker-ui-cancel-btn {
+  padding: 9px 10px !important;
+  width: auto !important;
+  color: $primary-color;
+}
+
+.timepicker-ui-hour.active {
+  color: $primary-color;
+  background-color: #ffd5bd;
+}
+
+.timepicker-ui-minutes.active {
+  color: $primary-color;
+  background-color: #ffd5bd;
+}
+
+.timepicker-ui-dot {
+  background-color: #ffd5bd;
+}
+
+.timepicker-ui-circle-hand {
+  background-color: #ffd5bd;
+}
+
+.timepicker-ui-clock-hand {
+  background-color: #ffd5bd;
+}
+
+.timepicker-ui-value-tips-24h.active {
+  color: $primary-color;
+}
+
+.timepicker-ui-input {
+  background: #ffffff;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  font-family: "Nunito";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 10px;
+  padding: 15px !important;
+  color: #797979;
+  padding: 25px;
+  margin-top: 5px;
+  width: 100%;
+}
