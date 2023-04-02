@@ -104,5 +104,10 @@
   "verify": "Təsdiqlə",
   "verifyOTP": "Telefonunuza gələn kodu daxil edin:",
   "codeIsInvalid": "Kod səhvdir",
-  "resend": "Yenidən göndər"
+  "resend": "Yenidən göndər",
+  "verifyYourAccount": "Siz təsdiqləməni tamamlamamısınız, zəhmət olmasa telefonunuza gələn kodu daxil edin",
+  "oldPassword": "Köhnə şifrə",
+  "newPassword": "Yeni şifrə",
+  "newPasswordAgain": "Yeni şifrə təkrar",
+  "save": "Yadda saxla"
 }

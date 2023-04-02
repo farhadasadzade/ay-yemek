@@ -26,6 +26,10 @@ const Input = ({
   ref,
   disabledDates,
   defaultPickerValue,
+  readonly,
+  inputValue,
+  inputDefaultValue,
+  disabled,
 }) => {
   switch (type) {
     case "textarea":
@@ -115,6 +119,10 @@ const Input = ({
               prefix={prefix}
               maxLength={maxLength}
               ref={ref}
+              readOnly={readonly}
+              value={inputValue}
+              defaultValue={inputDefaultValue}
+              disabled={disabled}
             />
           </label>
         </>

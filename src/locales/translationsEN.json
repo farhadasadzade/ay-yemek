@@ -104,5 +104,10 @@
   "verify": "Confirm",
   "verifyOTP": "Enter the code received on your phone:",
   "codeIsInvalid": "The code is incorrect",
-  "resend": "Send again"
+  "resend": "Send again",
+  "verifyYourAccount": "You have not completed verification, please enter the code received on your phone",
+  "oldPassword": "Old password",
+  "newPassword": "New password",
+  "newPasswordAgain": "Re-enter new password",
+  "save": "Save"
 }

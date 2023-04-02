@@ -155,5 +155,40 @@ export const api = createApi({
         };
       },
     }),
+    getUserData: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "user",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
+    dailyOrder: builder.mutation({
+      query: ({ language, userToken, body }) => {
+        return {
+          url: "/daily-order",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+            Authorization: userToken,
+          },
+          body,
+        };
+      },
+    }),
+    changePassoword: builder.mutation({
+      query: ({ language, userToken, body }) => {
+        return {
+          url: "/change-password",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+            Authorization: userToken,
+          },
+          body,
+        };
+      },
+    }),
   }),
 });

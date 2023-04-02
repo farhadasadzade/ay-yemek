@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18next";
-import { map, lowerCase } from "lodash";
+import { map, lowerCase, isEmpty } from "lodash";
 import { useMemoizedFn } from "ahooks";
 import { Row } from "antd";
 import {
@@ -10,12 +10,14 @@ import {
   instagramBlack,
   whatsappBlack,
 } from "assets/icons";
-import { Typography, Button } from "common/components";
+import { Typography, Button, RenderIf } from "common/components";
 import { headerLinks } from "./data";
 
 const MobileMenu = ({ visible, toggleMobileMenu }) => {
   const { t, changeLanguage } = i18n;
   const location = useLocation();
+  const userToken = localStorage.getItem("userToken");
+  const isUserLogined = !isEmpty(userToken);
 
   const handleSelectLang = useMemoizedFn((lang) => {
     localStorage.setItem("lang", lang);
@@ -53,18 +55,20 @@ const MobileMenu = ({ visible, toggleMobileMenu }) => {
           </Link>
         ))}
       </Row>
-      <Row justify="center" className="pt-5 pb-3">
-        <Link to="/login">
-          <Typography className="mobile__menu-link" size={18}>
-            {t("login")}
-          </Typography>
-        </Link>
-      </Row>
-      <Row justify="center">
-        <Link to="/register">
-          <Button type="primary">{t("register")}</Button>
-        </Link>
-      </Row>
+      <RenderIf condition={!isUserLogined}>
+        <Row justify="center" className="pt-5 pb-3">
+          <Link to="/login">
+            <Typography className="mobile__menu-link" size={18}>
+              {t("login")}
+            </Typography>
+          </Link>
+        </Row>
+        <Row justify="center">
+          <Link to="/register">
+            <Button type="primary">{t("register")}</Button>
+          </Link>
+        </Row>
+      </RenderIf>
       <Row
         className="mb-3 pb-2 pt-3"
         justify="center"

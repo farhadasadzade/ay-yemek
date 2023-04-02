@@ -85,10 +85,9 @@ const Payment = () => {
     if (!isEmpty(dates)) {
       orderPackage({
         body: {
-          category_id: packageState.data?.data?.category?.id,
-          package_id: selectedPackageId,
-          start_date: dates[0].toISOString().slice(0, 10),
-          end_date: dates[1].toISOString().slice(0, 10),
+          package_id: Number(selectedPackageId),
+          started_date: dates[0].toISOString().slice(0, 10),
+          ended_date: dates[1].toISOString().slice(0, 10),
           weekend: Number(isIncludingWeekend),
         },
         language,
@@ -105,6 +104,10 @@ const Payment = () => {
     );
 
     setWindowWidth(window.innerWidth);
+
+    if (isEmpty(localStorage.getItem("selectedPackageId"))) {
+      history.push(`/home`);
+    }
   });
 
   React.useEffect(() => {
@@ -158,7 +161,6 @@ const Payment = () => {
   useUpdateEffect(() => {
     if (!orderState.isLoading && orderState.isSuccess) {
       setPaymentSuccess(true);
-      localStorage.removeItem("selectedPackageId");
     }
   }, [orderState.isLoading]);
 
@@ -291,9 +293,12 @@ const Payment = () => {
           </Row>
           <Row justify="center">
             <Button
-              onClick={() =>
-                history.push(`/home/category/${packageState?.category?.id}`)
-              }
+              onClick={() => {
+                history.push(
+                  `/home/category/${packageState.data?.data.category?.id}`
+                );
+                localStorage.removeItem("selectedPackageId");
+              }}
               type="secondary"
             >
               {t("startChoosingFood")}

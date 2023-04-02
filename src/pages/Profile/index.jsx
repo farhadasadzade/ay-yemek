@@ -7,6 +7,8 @@ import { Row } from "antd";
 import { Footer, Header } from "modules";
 import { RenderIf } from "common/components";
 import UserInfo from "./UserInfo";
+import ChangePassword from "./ChangePassword";
+import ActiveOrders from "./ActiveOrders";
 import Navbar from "./Navbar";
 import "./style/index.scss";
 
@@ -45,8 +47,14 @@ const Profile = ({ match: { url } }) => {
 
           <Switch>
             <Route path={`${url}/user`} render={() => <UserInfo />} />
-            <Route path={`${url}/active-orders`} render={() => <></>} />
-            <Route path={`${url}/change-password`} render={() => <></>} />
+            <Route
+              path={`${url}/active-orders`}
+              render={() => <ActiveOrders />}
+            />
+            <Route
+              path={`${url}/change-password`}
+              render={() => <ChangePassword />}
+            />
             <Route path={`${url}/payments`} render={() => <></>} />
             <Redirect to={`${url}/user`} />
           </Switch>

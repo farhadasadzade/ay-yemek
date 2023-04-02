@@ -146,6 +146,26 @@
   }
 }
 
+.empty__result-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 30px;
+  text-align: center;
+  color: #00072d;
+}
+
+.empty__result-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 157.4%;
+  text-align: center;
+  color: #797979;
+}
+
 @media (max-width: 1300px) {
   .profile {
     &__nav {
@@ -186,6 +206,14 @@
         line-height: 27px;
         padding: 0 50px;
       }
+    }
+  }
+
+  .profile {
+    padding: 80px 0px 0px;
+
+    &__title {
+      padding-left: 15px;
     }
   }
 }

@@ -62,7 +62,6 @@ const Register = () => {
       .string()
       .required()
       .min(8, "Password too short")
-      .matches(/^(?=.*[a-z])/, "Must contain at least one lowercase character")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*[0-9])/, "Must contain at least one number"),
     birthDate: yup.string().required(),

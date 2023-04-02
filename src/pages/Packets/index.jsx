@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import i18n from "i18next";
 import {
@@ -24,9 +23,6 @@ import "./style/index.scss";
 const Packets = () => {
   const { t } = i18n;
   const { id: categoryId } = useParams();
-  const isPaymentSuccess = useSelector(
-    (state) => state.category.selectedPackage?.isPaymentSuccess
-  );
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
@@ -40,11 +36,15 @@ const Packets = () => {
 
   const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
   const [getPackages, packagesState] = api.useLazyGetPackagesQuery();
+  const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [meals, setMeals] = React.useState([]);
   const [mealTypes, setMealTypes] = React.useState([]);
   const [packages, setPackages] = React.useState([]);
+  const [isPaymentSuccess, setPaymentSuccess] = React.useState(false);
+  const [selectedPackageId, setSelectedPackageId] = React.useState(undefined);
+  const [orderId, setOrderId] = React.useState(undefined);
 
   const handleSelectFilter = useMemoizedFn((id) => {
     state.activeFilter = id;
@@ -69,6 +69,7 @@ const Packets = () => {
 
     getMealTypes({ categoryId, language, userToken: `Bearer ${userToken}` });
     getPackages({ categoryId, language, userToken: `Bearer ${userToken}` });
+    getUserData({ language, userToken: `Bearer ${userToken}` });
   });
 
   useUpdateEffect(() => {
@@ -76,6 +77,33 @@ const Packets = () => {
       state.isPricesActive = false;
     }
   }, [windowWidth]);
+
+  useUpdateEffect(() => {
+    if (!userDataState.isFetching && userDataState.isSuccess) {
+      const packages = userDataState.data?.data?.packageOrders?.map(
+        (order) => order?.package
+      );
+      const categoryIds = packages?.map((pack) => pack?.category?.id);
+
+      const selectedPackageId = packages?.find(
+        (pack) => pack?.category?.id === Number(categoryId)
+      )?.id;
+
+      setOrderId(
+        userDataState.data?.data?.packageOrders?.find(
+          (order) => order?.package?.id === Number(selectedPackageId)
+        )?.id
+      );
+
+      if (selectedPackageId) {
+        setSelectedPackageId(selectedPackageId);
+      }
+
+      if (categoryIds?.includes(Number(categoryId))) {
+        setPaymentSuccess(true);
+      }
+    }
+  }, [userDataState.isFetching]);
 
   useUpdateEffect(() => {
     if (!mealTypesState.isFetching && mealTypesState.isSuccess) {
@@ -195,7 +223,7 @@ const Packets = () => {
       </RenderIf>
     </div>
   ) : (
-    <FoodChoosing />
+    <FoodChoosing selectedPackageId={selectedPackageId} orderId={orderId} />
   );
 };
 

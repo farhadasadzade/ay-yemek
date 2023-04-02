@@ -11,6 +11,7 @@ const MobileUserMenu = ({
   toggleMobileUserMenu,
   isLogoutModalVisible,
   setLogoutModalVisible,
+  userName,
 }) => {
   const [background, setBackground] = React.useState({ background: "none" });
 
@@ -42,7 +43,7 @@ const MobileUserMenu = ({
           <Link to="/profile">
             <Row>
               <img className="me-2" src={user} alt="user-icon" />
-              <p className="header__user-name me-2">Valiyeva Fidan</p>
+              <p className="header__user-name me-2">{userName}</p>
             </Row>
           </Link>
         </div>

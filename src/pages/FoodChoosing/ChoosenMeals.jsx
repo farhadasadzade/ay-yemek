@@ -1,25 +1,151 @@
 import React from "react";
 import i18n from "i18next";
-import { isEmpty, map, lowerCase } from "lodash";
-import { useMount, useReactive, useUpdateEffect } from "ahooks";
-import { Row } from "antd";
+import { useParams } from "react-router";
+import moment from "moment";
+import { isEmpty, map, lowerCase, values } from "lodash";
+import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
+import { Row, Col, TimePicker } from "antd";
 import { api } from "common/api/api";
 import { trashBin } from "assets/icons";
-import { Button, RenderIf, Toast } from "common/components";
+import { Button, RenderIf, Toast, Input } from "common/components";
+import { calendar } from "assets/icons";
+import { Map } from "modules";
 
-const ChoosenMeals = ({ selectedMeals, handleDeleteMeal, isTitleHidden }) => {
+const monthNames = {
+  az: [
+    "Yanvar",
+    "Fevral",
+    "Mart",
+    "Aprel",
+    "May",
+    "İyun",
+    "İyul",
+    "Avqust",
+    "Sentyabr",
+    "Oktyabr",
+    "Noyabr",
+    "Dekabr",
+  ],
+  en: [
+    [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+  ],
+  ru: [
+    "январь",
+    "февраль",
+    "март",
+    "апрель",
+    "май",
+    "июнь",
+    "июль",
+    "август",
+    "сентябрь",
+    "октябрь",
+    "ноябрь",
+    "декабрь",
+  ],
+};
+
+const ChoosenMeals = ({
+  selectedMeals,
+  handleDeleteMeal,
+  isTitleHidden,
+  selectedPackageId,
+  orderId,
+}) => {
   const { t } = i18n;
+  const { id: categoryId } = useParams();
 
   const language = lowerCase(localStorage.getItem("lang"));
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
     choosenMeals: [],
   });
 
+  const [address, setAddress] = React.useState("");
+  const [isAddressDenied, setAddressDenied] = React.useState(true);
+  const [addressError, setAddressError] = React.useState(false);
+  const [time, setTime] = React.useState(undefined);
+
   const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
+  const [orderDaily, orderState] = api.useDailyOrderMutation();
+
+  const getPosition = useMemoizedFn((pos, address) => {
+    setAddress({ pos, address });
+
+    if (!isEmpty(pos)) {
+      setAddressError(false);
+    }
+  });
+
+  const getIsAddressDenied = useMemoizedFn((denied) => {
+    setAddressDenied(denied);
+  });
+
+  const handleOrder = useMemoizedFn(() => {
+    orderDaily({
+      language,
+      userToken: `Bearer ${userToken}`,
+      body: {
+        package_id: selectedPackageId,
+        order_status_id: `${orderId}`,
+        meals: values(selectedMeals)?.map((meal) => meal?.id),
+        address: address?.address,
+        latitude: address?.pos?.lat,
+        longitude: address?.pos?.lng,
+        note: "Tez çatdırın",
+        delivery_at: `${moment()
+          ?.add(1, "day")
+          ?.format("YYYY-MM-DD")} ${time}:00`,
+      },
+    });
+  });
+
+  const handleChangeTime = useMemoizedFn((value) => {
+    const time = value.$d?.getHours();
+
+    if (time?.length === 1) {
+      setTime(`0${time}`);
+    } else {
+      setTime(time);
+    }
+  });
+
+  useUpdateEffect(() => {
+    if (!orderState.isLoading) {
+      if (orderState.isSuccess) {
+        Toast.fire({
+          icon: "success",
+          title: orderState.data?.message,
+        });
+      }
+
+      if (orderState.error?.status === 302) {
+        Toast.fire({
+          icon: "warning",
+          title: orderState.error?.data?.message,
+        });
+      }
+    }
+  }, [orderState.isLoading]);
 
   useMount(() => {
-    getMealTypes(language);
+    getMealTypes({ categoryId, language, userToken: `Bearer ${userToken}` });
   });
 
   useUpdateEffect(() => {
@@ -32,43 +158,85 @@ const ChoosenMeals = ({ selectedMeals, handleDeleteMeal, isTitleHidden }) => {
   }, [mealTypesState.isFetching]);
 
   return (
-    <div className="choosen">
-      <RenderIf condition={!isTitleHidden}>
-        <h2 className="choosen__title">{t("choosenMeals")}</h2>
-      </RenderIf>
-      {map(state.choosenMeals, (meal) => (
-        <div className="choosen__meal">
-          <h3 className="choosen__meal-title">{meal?.mealTypeName}</h3>
-          <Row className="mb-3" align="middle" justify="space-between">
-            <p className="choosen__meal-name">
-              {isEmpty(selectedMeals[meal?.mealTypeId]?.name)
-                ? t("choose")
-                : selectedMeals[meal?.mealTypeId]?.name}
+    <>
+      <div className="choosen">
+        <RenderIf condition={!isTitleHidden}>
+          <h2 className="choosen__title">{t("choosenMeals")}</h2>
+        </RenderIf>
+        {map(state.choosenMeals, (meal) => (
+          <div className="choosen__meal">
+            <h3 className="choosen__meal-title">{meal?.mealTypeName}</h3>
+            <Row className="mb-3" align="middle" justify="space-between">
+              <p className="choosen__meal-name">
+                {isEmpty(selectedMeals[meal?.mealTypeId]?.name)
+                  ? t("choose")
+                  : selectedMeals[meal?.mealTypeId]?.name}
+              </p>
+              <img
+                onMouseOver={(e) => (e.target.style.scale = "1.1")}
+                onMouseLeave={(e) => (e.target.style.scale = "1")}
+                style={{ cursor: "pointer" }}
+                src={trashBin}
+                alt="delete"
+                onClick={() => handleDeleteMeal(meal?.mealTypeId)}
+              />
+            </Row>
+          </div>
+        ))}
+        <Button
+          onClick={handleOrder}
+          type="primary"
+          style={{ width: "100%" }}
+          disabled={isEmpty(selectedMeals)}
+        >
+          {t("submitMenu")}
+        </Button>
+      </div>
+      <div className="deliver__form pt-5">
+        <div className="deliver__form-top mb-3">
+          <Row wrap={false} align="middle">
+            <img className="me-3" src={calendar} alt="calendar" />
+            <p className="deliver__form-top-text">
+              {`Seçdiyiniz menyu ${moment()?.add(1, "day")?.format("DD")} ${
+                monthNames[language]?.[
+                  moment()?.add(1, "day")?.month()
+                ]
+              } tarixi üçün keçərlidir`}
             </p>
-            <img
-              onMouseOver={(e) => (e.target.style.scale = "1.1")}
-              onMouseLeave={(e) => (e.target.style.scale = "1")}
-              style={{ cursor: "pointer" }}
-              src={trashBin}
-              alt="delete"
-              onClick={() => handleDeleteMeal(meal?.mealTypeId)}
-            />
           </Row>
         </div>
-      ))}
-      <Button
-        onClick={() =>
-          Toast.fire({
-            icon: "success",
-            title: t("foodChoosingSuccess"),
-          })
-        }
-        type="primary"
-        style={{ width: "100%" }}
-      >
-        {t("submitMenu")}
-      </Button>
-    </div>
+        <Row className="mb-3">
+          <Col span={24}>
+            <label className="deliver__form-label" htmlFor="deliverTime">
+              {t("chooseDeliverTime")}
+              <TimePicker
+                name="deliverTime"
+                size="large"
+                showNow={false}
+                showMinute={false}
+                showSecond={false}
+                format="HH:mm"
+                style={{ width: "100%", padding: "20px" }}
+                onSelect={handleChangeTime}
+              />
+            </label>
+          </Col>
+        </Row>
+        <Map
+          getPosition={getPosition}
+          getIsAddressDenied={getIsAddressDenied}
+          status={addressError}
+        />
+        <Row>
+          <Col span={24}>
+            <label className="deliver__form-label" htmlFor="deliverTime">
+              {t("additionalNote")}
+              <Input type="textarea" />
+            </label>
+          </Col>
+        </Row>
+      </div>
+    </>
   );
 };
 

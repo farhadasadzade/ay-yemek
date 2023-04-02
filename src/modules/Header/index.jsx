@@ -45,6 +45,7 @@ const Header = () => {
   const [isLogoutModalVisible, setLogoutModalVisible] = React.useState(false);
 
   const [logout, logoutState] = api.useLogoutMutation();
+  const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
   const handleSelectLang = useMemoizedFn((lang) => {
     localStorage.setItem("lang", lang);
@@ -67,6 +68,13 @@ const Header = () => {
 
     setSelectedLang(localStorage.getItem("lang"));
     changeLanguage(lowerCase(localStorage.getItem("lang")));
+
+    if (!isEmpty(userToken)) {
+      getUserData({
+        language,
+        userToken: `Bearer ${userToken}`,
+      });
+    }
   });
 
   useUnmount(() => {
@@ -152,11 +160,15 @@ const Header = () => {
         </RenderIf>
         <RenderIf condition={isUserLogined}>
           <Row onClick={toggleUserMenu} className="header__user" align="middle">
-            <RenderIf condition={!logoutState.isLoading}>
+            <RenderIf
+              condition={!logoutState.isLoading && !userDataState.isFetching}
+            >
               <>
                 <img className="me-2" src={user} alt="user-icon" />
                 <p className="header__user-name me-2">
-                  Valiyeva Fidan{" "}
+                  {userDataState.data?.data?.name +
+                    " " +
+                    userDataState.data?.data?.surname}{" "}
                   <img
                     className="ms-2"
                     src={chevronDownBlue}
@@ -165,7 +177,9 @@ const Header = () => {
                 </p>
               </>
             </RenderIf>
-            <RenderIf condition={logoutState.isLoading}>
+            <RenderIf
+              condition={logoutState.isLoading || userDataState.isFetching}
+            >
               <div className="button-loader"></div>
             </RenderIf>
             <RenderIf condition={isUserMenuVisible}>
@@ -248,6 +262,11 @@ const Header = () => {
         toggleMobileUserMenu={toggleMobileUserMenu}
         isLogoutModalVisible={isLogoutModalVisible}
         setLogoutModalVisible={setLogoutModalVisible}
+        userName={
+          userDataState.data?.data?.name +
+          " " +
+          userDataState.data?.data?.surname
+        }
       />
       <RenderIf condition={isLogoutModalVisible}>
         <div className="modal">

@@ -9,7 +9,7 @@ import {
   useUnmount,
   useUpdateEffect,
 } from "ahooks";
-import { map, lowerCase } from "lodash";
+import { map, lowerCase, omit } from "lodash";
 import { Button, RenderIf } from "common/components";
 import { BlockContainer, FilterTagLoader, PacketLoader } from "components";
 import ChoosenMeals from "./ChoosenMeals";
@@ -19,23 +19,26 @@ import PricesMobile from "./PricesMobile";
 import { api } from "common/api/api";
 import "./style/index.scss";
 
-const FoodChoosing = () => {
+const FoodChoosing = ({ selectedPackageId, orderId }) => {
   const { t } = i18n;
 
   const { id: categoryId } = useParams();
   const language = lowerCase(localStorage.getItem("lang"));
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
     activeFilter: 1,
     isPricesActive: false,
   });
 
-  const [getMeals, mealsState] = api.useLazyGetMealsQuery();
   const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [meals, setMeals] = React.useState([]);
   const [selectedMeals, setSelectedMeals] = React.useState({});
+  const [mealTypes, setMealTypes] = React.useState([]);
 
   const handleSelectFilter = useMemoizedFn((type) => {
     state.activeFilter = type;
@@ -52,11 +55,11 @@ const FoodChoosing = () => {
   });
 
   const handleSelectMeal = useMemoizedFn((meal) => {
-    setSelectedMeals({ ...selectedMeals, [meal?.meal_type_id]: meal });
+    setSelectedMeals({ ...selectedMeals, [meal?.typeId]: meal });
   });
 
   const handleDeleteMeal = useMemoizedFn((mealTypeId) => {
-    setSelectedMeals({ ...selectedMeals, [mealTypeId]: undefined });
+    setSelectedMeals(omit(selectedMeals, mealTypeId));
   });
 
   useMount(() => {
@@ -66,8 +69,7 @@ const FoodChoosing = () => {
 
     setWindowWidth(window.innerWidth);
 
-    getMeals(language);
-    getMealTypes(language);
+    getMealTypes({ categoryId, language, userToken: `Bearer ${userToken}` });
   });
 
   useUpdateEffect(() => {
@@ -77,10 +79,27 @@ const FoodChoosing = () => {
   }, [windowWidth]);
 
   useUpdateEffect(() => {
-    if (!mealsState.isFetching && mealsState.isSuccess) {
-      setMeals(mealsState.data?.data);
+    if (!mealTypesState.isFetching && mealTypesState.isSuccess) {
+      const mealTypes = mealTypesState.data?.data?.map((mealType) => ({
+        name: mealType?.name,
+        id: mealType?.id,
+      }));
+
+      state.activeFilter = mealTypes?.[0]?.id;
+
+      setMealTypes(mealTypes);
     }
-  }, [mealsState.isFetching]);
+  }, [mealTypesState.isFetching]);
+
+  useUpdateEffect(() => {
+    if (!mealTypesState.isFetching && mealTypesState.isSuccess) {
+      const meals = mealTypesState.data?.data?.find(
+        (mealType) => Number(mealType?.id) === Number(state.activeFilter)
+      )?.meals;
+
+      setMeals(meals);
+    }
+  }, [mealTypesState.isFetching, state.activeFilter, mealTypesState.data]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
@@ -89,7 +108,16 @@ const FoodChoosing = () => {
   return (
     <div className="packet__page">
       <BlockContainer
-        title={mealsState.data?.data[0]?.category_name}
+        title={
+          mealTypesState.data?.data?.[0]?.meals?.find(
+            (meal) => Number(meal?.category?.id) === Number(categoryId)
+          )?.category?.name
+        }
+        titleColor={
+          mealTypesState.data?.data?.[0]?.meals?.find(
+            (meal) => Number(meal?.category?.id) === Number(categoryId)
+          )?.category?.color
+        }
         subtitle="Lorem ipsum dolor sit amet lorem ipsum dolor sit "
       >
         <div className="packets">
@@ -97,7 +125,7 @@ const FoodChoosing = () => {
             <div className="packets__filter">
               {mealTypesState.isFetching
                 ? map(Array(4).fill(0), () => <FilterTagLoader />)
-                : map(mealTypesState.data?.data, ({ name, id }) => (
+                : map(mealTypes, ({ name, id }) => (
                     <div
                       key={id}
                       className={`packets__filter-tag ${
@@ -142,27 +170,26 @@ const FoodChoosing = () => {
                   </Button>
                 </Row>
               </RenderIf>
-              {mealsState.isLoading
-                ? map(Array(5).fill(0), () => <PacketLoader />)
-                : map(meals, (packet) => {
-                    if (state.activeFilter === Number(packet.meal_type_id)) {
-                      return (
-                        <PacketBlock
-                          handleSelectMeal={handleSelectMeal}
-                          {...packet}
-                        />
-                      );
-                    }
-                    return null;
-                  })}
+              {mealTypesState.isFetching
+                ? map(Array(5).fill(0), (_, index) => (
+                    <PacketLoader key={index} />
+                  ))
+                : map(meals, (packet) => (
+                    <PacketBlock
+                      handleSelectMeal={handleSelectMeal}
+                      typeId={state.activeFilter}
+                      {...packet}
+                    />
+                  ))}
             </div>
           </div>
           <div className="packets__prices">
             <ChoosenMeals
               selectedMeals={selectedMeals}
               handleDeleteMeal={handleDeleteMeal}
+              selectedPackageId={selectedPackageId}
+              orderId={orderId}
             />
-            <DeliverForm />
           </div>
         </div>
       </BlockContainer>

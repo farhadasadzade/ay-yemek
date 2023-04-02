@@ -4,38 +4,36 @@ import { Row } from "antd";
 import { info, kkal } from "assets/icons";
 
 const PacketBlock = ({
-  handleSelectMeal,
   image,
-  description,
-  id,
+  ingredient,
   name,
-  category_name,
-  meal_type_id,
+  category,
+  calorie,
+  handleSelectMeal,
+  id,
+  typeId,
 }) => {
   const { t } = i18n;
 
   return (
     <div className="packets__foods-block">
       <div className="packets__foods-img">
-        <img
-          src={`${process.env.REACT_APP_BASE_IMG_URL}meals/${image}`}
-          alt="packet"
-        />
+        <img src={image} alt="packet" />
       </div>
       <div className="packets__foods-about">
         <Row justify="space-between" align="middle">
           <h2 className="packets__foods-title">{name}</h2>
           <Row align="middle">
-            <p className="packets__foods-type">{category_name}</p>
+            <p className="packets__foods-type">{category?.name}</p>
             <img src={info} alt="type" className="packets__foods-info" />
           </Row>
         </Row>
         <Row>
-          <p className="packets__foods-text">{description}</p>
+          <p className="packets__foods-text">{ingredient}</p>
         </Row>
         <Row justify="space-between">
           <Row
-            onClick={() => handleSelectMeal({ id, name, meal_type_id })}
+            onClick={() => handleSelectMeal({ id, name, typeId })}
             style={{ cursor: "pointer" }}
             align="middle"
           >
@@ -43,7 +41,7 @@ const PacketBlock = ({
             <p className="packets__foods-btn-text me-2">{t("add")}</p>
           </Row>
           <Row justify="end" align="middle">
-            <p className="packets__foods-kkal">{500}</p>
+            <p className="packets__foods-kkal">{calorie}</p>
             <img src={kkal} alt="kkal" />
           </Row>
         </Row>
