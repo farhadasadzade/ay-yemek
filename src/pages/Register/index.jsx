@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import PasswordChecklist from "react-password-checklist";
 import * as yup from "yup";
@@ -232,7 +232,9 @@ const Register = () => {
           <div className="register">
             <div className="register__form">
               <RenderIf condition={windowWidth >= 1000}>
-                <img className="mb-4" src={logo} alt="logo" />
+                <Link to="/home">
+                  <img className="mb-4" src={logo} alt="logo" />
+                </Link>
               </RenderIf>
               <RenderIf condition={windowWidth >= 1000}>
                 <button

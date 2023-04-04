@@ -150,7 +150,9 @@ const Login = () => {
         <div className="register">
           <div className="register__form">
             <RenderIf condition={windowWidth >= 1000}>
-              <img className="mb-4" src={logo} alt="logo" />
+              <Link to="/home">
+                <img className="mb-4" src={logo} alt="logo" />
+              </Link>
             </RenderIf>
             <RenderIf condition={windowWidth >= 1000}>
               <button
