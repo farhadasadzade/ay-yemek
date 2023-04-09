@@ -190,5 +190,27 @@ export const api = createApi({
         };
       },
     }),
+    contact: builder.mutation({
+      query: ({ language, userToken, body }) => {
+        return {
+          url: "/contact",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+            Authorization: userToken,
+          },
+          body,
+        };
+      },
+    }),
+    getSettings: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "settings",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
   }),
 });

@@ -2,6 +2,10 @@ import React from "react";
 import i18n from "i18next";
 import { Row } from "antd";
 import { info, kkal } from "assets/icons";
+import { hexToRgbA } from "common/helpers";
+import { useMemoizedFn } from "ahooks";
+import Swal from "sweetalert2";
+import moment from "moment";
 
 const PacketBlock = ({
   image,
@@ -12,11 +16,34 @@ const PacketBlock = ({
   handleSelectMeal,
   id,
   typeId,
+  isDisabledByStatus,
 }) => {
   const { t } = i18n;
 
+  const backgroundColor = hexToRgbA(category?.color);
+
+  const handleAddMeal = useMemoizedFn(() => {
+    if (
+      moment()?.isBetween(moment("21:00", "hh:mm"), moment("00:00", "hh:mm"))
+    ) {
+      Swal.fire({
+        icon: "warning",
+        title: t("warningMessageByTime"),
+      });
+    }
+
+    if (isDisabledByStatus) {
+      Swal.fire({
+        icon: "warning",
+        title: t("warningMessageByStatus"),
+      });
+      return;
+    }
+    handleSelectMeal({ id, name, typeId });
+  });
+
   return (
-    <div className="packets__foods-block">
+    <div className="packets__foods-block" style={{ backgroundColor }}>
       <div className="packets__foods-img">
         <img src={image} alt="packet" />
       </div>
@@ -24,7 +51,12 @@ const PacketBlock = ({
         <Row justify="space-between" align="middle">
           <h2 className="packets__foods-title">{name}</h2>
           <Row align="middle">
-            <p className="packets__foods-type">{category?.name}</p>
+            <p
+              className="packets__foods-type"
+              style={{ color: category?.color }}
+            >
+              {category?.name}
+            </p>
             <img src={info} alt="type" className="packets__foods-info" />
           </Row>
         </Row>
@@ -33,7 +65,7 @@ const PacketBlock = ({
         </Row>
         <Row justify="space-between">
           <Row
-            onClick={() => handleSelectMeal({ id, name, typeId })}
+            onClick={handleAddMeal}
             style={{ cursor: "pointer" }}
             align="middle"
           >

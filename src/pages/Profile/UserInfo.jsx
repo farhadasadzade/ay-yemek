@@ -6,6 +6,7 @@ import { Col, Row, Form } from "antd";
 import { api } from "common/api/api";
 import { Button, Input } from "common/components";
 import { plusOrange } from "assets/icons";
+import { Link } from "react-router-dom";
 
 const UserInfo = () => {
   const { t } = i18n;
@@ -46,12 +47,14 @@ const UserInfo = () => {
         </h2>
         <Button type="secondary">{t("updatePackage")}</Button>
       </Row>
-      <button className="profile__main-addPacket">
-        <Row align="middle">
-          <img className="me-2" src={plusOrange} alt="plus" />
-          {t("addNewPackage")}
-        </Row>
-      </button>
+      <Link to="/home/categories">
+        <button className="profile__main-addPacket">
+          <Row align="middle">
+            <img className="me-2" src={plusOrange} alt="plus" />
+            {t("addNewPackage")}
+          </Row>
+        </button>
+      </Link>
       <Form>
         <Row className="mb-3" gutter={24}>
           <Col span={windowWidth > 1000 ? 12 : 24}>

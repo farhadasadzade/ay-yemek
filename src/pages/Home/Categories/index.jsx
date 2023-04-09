@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Carousel from "react-elastic-carousel";
 import i18n from "i18next";
-import { useMount, useUnmount, useUpdateEffect } from "ahooks";
+import { useMount, useUnmount, useUpdateEffect, useMemoizedFn } from "ahooks";
 import { map, lowerCase } from "lodash";
 import { Row } from "antd";
 import { HomeTitle, CarouselArrows, CategoryLoader } from "components";
@@ -13,6 +13,7 @@ import "./style/index.scss";
 
 const Categories = () => {
   const { t } = i18n;
+  const history = useHistory();
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
@@ -23,6 +24,10 @@ const Categories = () => {
   const [categories, setCategories] = React.useState([]);
 
   const [getCategories, categoriesState] = api.useLazyGetCategoriesQuery();
+
+  const handleClickOnCategory = useMemoizedFn((id) => {
+    history.push(`/home/category/${id}`);
+  });
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -78,6 +83,7 @@ const Categories = () => {
                           text={description}
                           imageURL={image}
                           color={color}
+                          onClick={() => handleClickOnCategory(id)}
                         />
                       );
                     }

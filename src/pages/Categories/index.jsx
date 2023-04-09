@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import i18n from "i18next";
 import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
 import { map, filter, lowerCase } from "lodash";
@@ -46,6 +47,7 @@ const PaginationPrevButton = () => (
 
 const Categories = () => {
   const { t } = i18n;
+  const history = useHistory();
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
@@ -67,6 +69,10 @@ const Categories = () => {
     state.currentPage = page;
 
     setTimeout(() => window.scrollTo(0, 0), 200);
+  });
+
+  const handleClickOnCategory = useMemoizedFn((id) => {
+    history.push(`/home/category/${id}`);
   });
 
   useMount(() => getCategories({ language, userToken: `Bearer ${userToken}` }));
@@ -98,6 +104,7 @@ const Categories = () => {
                   color={color}
                   text={description}
                   imageURL={image}
+                  onClick={() => handleClickOnCategory(id)}
                 />
               )
             )}

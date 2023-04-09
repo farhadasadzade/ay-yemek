@@ -1,6 +1,7 @@
 import React from "react";
 import { Row } from "antd";
 import { info, kkal } from "assets/icons";
+import { hexToRgbA } from "common/helpers";
 
 const PacketBlock = ({
   image,
@@ -10,8 +11,10 @@ const PacketBlock = ({
   category,
   calorie,
 }) => {
+  const backgroundColor = hexToRgbA(category?.color);
+
   return (
-    <div className="packets__foods-block">
+    <div className="packets__foods-block" style={{ backgroundColor }}>
       <div className="packets__foods-img">
         <img src={image} alt="packet" />
       </div>
@@ -19,7 +22,12 @@ const PacketBlock = ({
         <Row justify="space-between" align="middle">
           <h2 className="packets__foods-title">{name}</h2>
           <Row align="middle">
-            <p className="packets__foods-type">{category?.name}</p>
+            <p
+              className="packets__foods-type"
+              style={{ color: category?.color }}
+            >
+              {category?.name}
+            </p>
             <img src={info} alt="type" className="packets__foods-info" />
           </Row>
         </Row>

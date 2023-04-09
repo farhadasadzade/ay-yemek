@@ -213,7 +213,9 @@ const Payment = () => {
             </Row>
             <Row className="mb-5">
               <div className="payment__selected">
-                {packageState.data?.data?.name}
+                {packageState.data?.data?.category?.name +
+                  " " +
+                  packageState.data?.data?.name}
               </div>
             </Row>
             <Row className="mb-2">

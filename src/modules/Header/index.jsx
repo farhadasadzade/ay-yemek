@@ -187,13 +187,7 @@ const Header = () => {
                 <p onClick={() => history.push("/profile")}>
                   {t("myProfileInfo")}
                 </p>
-                <p
-                  onClick={() =>
-                    logout({ language, userToken: `Bearer ${userToken}` })
-                  }
-                >
-                  {t("logout")}
-                </p>
+                <p onClick={() => setLogoutModalVisible(true)}>{t("logout")}</p>
               </div>
             </RenderIf>
           </Row>

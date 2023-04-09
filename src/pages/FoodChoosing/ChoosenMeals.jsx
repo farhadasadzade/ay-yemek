@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import moment from "moment";
 import { isEmpty, map, lowerCase, values } from "lodash";
 import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
-import { Row, Col, TimePicker } from "antd";
+import { Row, Col } from "antd";
 import { api } from "common/api/api";
 import { trashBin } from "assets/icons";
 import { Button, RenderIf, Toast, Input } from "common/components";
@@ -165,6 +165,7 @@ const ChoosenMeals = ({
           39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
           56, 57, 58, 59,
         ],
+        hours: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 22, 23, 0],
       },
       clockType: "24h",
       cancelLabel: t("cancel"),

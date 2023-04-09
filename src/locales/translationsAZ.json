@@ -54,7 +54,7 @@
   "emailIsUsedAlready": "Bu E-Poçt artıq istifadə olunub",
   "dontHaveAccount": "Hesabınız yoxdur?",
   "emailOrPassIncorrect": "E-Poçt və ya Parol yanlışdır",
-  "myProfileInfo": "Profİl məlumatlarım",
+  "myProfileInfo": "Profil məlumatlarım",
   "logout": "Çıxış",
   "mainFood": "Ana yemək",
   "garnir": "Qarnir",
@@ -115,5 +115,7 @@
   "selectTime": "Vaxt seçin",
   "chooseTomorrowsMenu": "Sabahın menyusunu seç",
   "orderNotification": "Sifarişinizi 21:00-a qədər verməyiniz xahiş olunur",
-  "activeOrderStatus": "Seçdiyiniz menyu {{date}} tarixi üçün keçərlidir"
+  "activeOrderStatus": "Seçdiyiniz menyu {{date}} tarixi üçün keçərlidir",
+  "warningMessageByTime": "Gündəlik menyunu yalnız 00:00-dan 21:00-a kimi sifariş edə bilərsiniz!",
+  "warningMessageByStatus": "Bu kateqoriyadan yemək seçmək üçün bu kateqoriyaya aid paket əldə etməlisiniz!"
 }

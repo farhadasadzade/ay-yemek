@@ -6,7 +6,7 @@ import i18n from "i18next";
 import { Typography, Button } from "common/components";
 import { categoryShape } from "assets/images";
 
-const Category = ({ title, text, id, imageURL, color }) => {
+const Category = ({ title, text, id, imageURL, color, onClick }) => {
   const { t } = i18n;
   const history = useHistory();
 
@@ -15,7 +15,7 @@ const Category = ({ title, text, id, imageURL, color }) => {
   });
 
   return (
-    <div className="home__category">
+    <div className="home__category" onClick={onClick}>
       <div className="home__category-img">
         <img src={imageURL} alt="category" />
         <img className="home__category-shape" src={categoryShape} alt="shape" />

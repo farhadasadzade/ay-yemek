@@ -9,7 +9,7 @@ import {
   useUnmount,
   useUpdateEffect,
 } from "ahooks";
-import { map, lowerCase, omit } from "lodash";
+import { map, lowerCase, omit, max } from "lodash";
 import { Button, RenderIf } from "common/components";
 import { BlockContainer, FilterTagLoader, PacketLoader } from "components";
 import ChoosenMeals from "./ChoosenMeals";
@@ -34,11 +34,13 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
   });
 
   const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
+  const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [meals, setMeals] = React.useState([]);
   const [selectedMeals, setSelectedMeals] = React.useState({});
   const [mealTypes, setMealTypes] = React.useState([]);
+  const [userPackagesStatus, setUserPackagesStatus] = React.useState([]);
 
   const handleSelectFilter = useMemoizedFn((type) => {
     state.activeFilter = type;
@@ -70,6 +72,7 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
     setWindowWidth(window.innerWidth);
 
     getMealTypes({ categoryId, language, userToken: `Bearer ${userToken}` });
+    getUserData({ language, userToken: `Bearer ${userToken}` });
   });
 
   useUpdateEffect(() => {
@@ -100,6 +103,18 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
       setMeals(meals);
     }
   }, [mealTypesState.isFetching, state.activeFilter, mealTypesState.data]);
+
+  useUpdateEffect(() => {
+    if (!userDataState.isFetching && userDataState.isSuccess) {
+      setUserPackagesStatus(
+        max(
+          userDataState.data?.data?.packageOrders.map((order) =>
+            Number(order?.package?.category?.expensive)
+          )
+        )
+      );
+    }
+  }, [userDataState.isFetching]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
@@ -179,6 +194,9 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
                       handleSelectMeal={handleSelectMeal}
                       typeId={state.activeFilter}
                       {...packet}
+                      isDisabledByStatus={
+                        Number(packet?.category?.expensive) > userPackagesStatus
+                      }
                     />
                   ))}
             </div>

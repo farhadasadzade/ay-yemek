@@ -120,9 +120,11 @@ const ActiveOrders = () => {
       }
 
       if (date?.split("-")?.[1]?.[0] === "0") {
-        setDeliveryMonth(monthNames[language]?.[date?.split("-")?.[2]?.[1]]);
+        setDeliveryMonth(
+          monthNames[language]?.[date?.split("-")?.[1]?.[1] - 1]
+        );
       } else {
-        setDeliveryMonth(monthNames[language]?.[date?.split("-")?.[2]]);
+        setDeliveryMonth(monthNames[language]?.[date?.split("-")?.[1]] - 1);
       }
     }
   }, [userDataState.isFetching]);
