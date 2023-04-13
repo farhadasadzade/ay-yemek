@@ -117,5 +117,6 @@
   "orderNotification": "Please place your order by 21:00",
   "activeOrderStatus": "The menu you have selected is up to date on {{date}}",
   "warningMessageByTime": "You can order the daily menu only from 00:00 to 21:00!",
-  "warningMessageByStatus": "To select food from this category, you must purchase a package of this category!"
+  "warningMessageByStatus": "To select food from this category, you must purchase a package of this category!",
+  "fillAllTheFields": "Please fill in all fields."
 }

@@ -169,6 +169,13 @@ const Register = () => {
     methods.setValue("birthDate", val);
   });
 
+  const handleInvalid = useMemoizedFn(() => {
+    Toast.fire({
+      icon: "error",
+      title: t("fillAllTheFields"),
+    });
+  });
+
   React.useEffect(() => {
     methods.register("name");
     methods.register("surname");
@@ -255,7 +262,12 @@ const Register = () => {
                   <p>Lorem Ipsum is simply dummy text of the printing</p>
                 </Row>
               </RenderIf>
-              <form onSubmit={methods.handleSubmit(handleSumbitRegistration)}>
+              <form
+                onSubmit={methods.handleSubmit(
+                  handleSumbitRegistration,
+                  handleInvalid
+                )}
+              >
                 <RenderIf condition={windowWidth >= 1000}>
                   <Row className="mb-3" gutter={32}>
                     <Col span={12}>

@@ -13,7 +13,7 @@ import "leaflet/dist/leaflet.css";
 import "./style/index.scss";
 import pointInPolygon from "point-in-polygon";
 
-const Map = ({ getPosition, getIsAddressDenied, status }) => {
+const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
   const { t } = i18n;
   const refPoly = React.useRef(null);
 
@@ -80,6 +80,12 @@ const Map = ({ getPosition, getIsAddressDenied, status }) => {
 
     getAddressByPosition(markerPosition);
   });
+
+  React.useEffect(() => {
+    setSelectedAddress(defaultValue?.address);
+    setMarkerPosition(defaultValue?.position);
+    setSelectedPosition(defaultValue?.position);
+  }, [defaultValue]);
 
   useUpdateEffect(() => {
     if (!addressesState.isFetching && addressesState.isSuccess) {

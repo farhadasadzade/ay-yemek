@@ -202,12 +202,14 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
             </div>
           </div>
           <div className="packets__prices">
-            <ChoosenMeals
-              selectedMeals={selectedMeals}
-              handleDeleteMeal={handleDeleteMeal}
-              selectedPackageId={selectedPackageId}
-              orderId={orderId}
-            />
+            <div style={{ width: "100%", position: "sticky", top: "150px" }}>
+              <ChoosenMeals
+                selectedMeals={selectedMeals}
+                handleDeleteMeal={handleDeleteMeal}
+                selectedPackageId={selectedPackageId}
+                orderId={orderId}
+              />
+            </div>
           </div>
         </div>
       </BlockContainer>

@@ -21,7 +21,6 @@ const Autocomplete = ({
       <AutoComplete
         className="autocomplete"
         options={dataSource}
-        allowClear
         onChange={onChange}
         onSelect={onSelect}
         style={{ width: "100%" }}
