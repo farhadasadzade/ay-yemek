@@ -24,12 +24,13 @@ const PacketBlock = ({
 
   const handleAddMeal = useMemoizedFn(() => {
     if (
-      moment()?.isBetween(moment("21:00", "hh:mm"), moment("00:00", "hh:mm"))
+      moment()?.isBetween(moment("21:00", "hh:mm"), moment("24:00", "hh:mm"))
     ) {
       Swal.fire({
         icon: "warning",
         title: t("warningMessageByTime"),
       });
+      return;
     }
 
     if (isDisabledByStatus) {

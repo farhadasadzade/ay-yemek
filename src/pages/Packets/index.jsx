@@ -17,6 +17,7 @@ import { Row } from "antd";
 import { Button, RenderIf } from "common/components";
 import { api } from "common/api/api";
 import { PacketLoader, FilterTagLoader, PriceBlockLoader } from "components";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { FoodChoosing } from "pages";
 import "./style/index.scss";
 
@@ -59,6 +60,16 @@ const Packets = () => {
   const onClosePrices = useMemoizedFn(() => {
     state.isPricesActive = false;
   });
+
+  const fetchItems = useMemoizedFn(() => {
+    const meals = mealTypesState.data?.data?.find(
+      (mealType) => Number(mealType?.id) === Number(state.activeFilter)
+    )?.meals;
+
+    setTimeout(() => {
+      setMeals(meals?.slice(0, meals?.length + 5));
+    }, 1000)
+  })
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -124,7 +135,7 @@ const Packets = () => {
         (mealType) => Number(mealType?.id) === Number(state.activeFilter)
       )?.meals;
 
-      setMeals(meals);
+      setMeals(meals?.slice(0, 5));
     }
   }, [mealTypesState.isFetching, state.activeFilter, mealTypesState.data]);
 
@@ -135,7 +146,7 @@ const Packets = () => {
   }, [packagesState.isFetching]);
 
   useUnmount(() => {
-    window.removeEventListener("resize", () => {});
+    window.removeEventListener("resize", () => { });
   });
 
   return !isPaymentSuccess ? (
@@ -159,18 +170,17 @@ const Packets = () => {
               {mealTypesState.isFetching
                 ? map(Array(4).fill(0), () => <FilterTagLoader />)
                 : map(mealTypes, ({ name, id }) => (
-                    <div
-                      key={id}
-                      className={`packets__filter-tag ${
-                        state.activeFilter === id
-                          ? "packets__filter-tag-active"
-                          : ""
+                  <div
+                    key={id}
+                    className={`packets__filter-tag ${state.activeFilter === id
+                      ? "packets__filter-tag-active"
+                      : ""
                       }`}
-                      onClick={() => handleSelectFilter(id)}
-                    >
-                      {name}
-                    </div>
-                  ))}
+                    onClick={() => handleSelectFilter(id)}
+                  >
+                    {name}
+                  </div>
+                ))}
             </div>
             <div className="packets__foods">
               <RenderIf condition={windowWidth <= 1200}>
@@ -200,21 +210,31 @@ const Packets = () => {
                   </Button>
                 </Row>
               </RenderIf>
-              {mealTypesState.isFetching
-                ? map(Array(5).fill(0), (_, index) => (
+              <InfiniteScroll
+                dataLength={mealTypesState.data?.data?.find(
+                  (mealType) => Number(mealType?.id) === Number(state.activeFilter)
+                )?.meals?.length ?? 0}
+                next={fetchItems}
+                hasMore={mealTypesState.data?.data?.find(
+                  (mealType) => Number(mealType?.id) === Number(state.activeFilter)
+                )?.meals?.length > meals?.length}
+                loader={<div className="button-loader"></div>}>
+                {mealTypesState.isFetching
+                  ? map(Array(5).fill(0), (_, index) => (
                     <PacketLoader key={index} />
                   ))
-                : map(meals, (packet) => (
+                  : map(meals, (packet) => (
                     <PacketBlock key={packet?.id} {...packet} />
                   ))}
+              </InfiniteScroll>
             </div>
           </div>
           <div className="packets__prices">
             {packagesState.isFetching
               ? map(Array(4).fill(0), () => <PriceBlockLoader />)
               : map(packages, (price) => (
-                  <PriceBlock price={price?.id} {...price} />
-                ))}
+                <PriceBlock price={price?.id} {...price} />
+              ))}
           </div>
         </div>
       </BlockContainer>

@@ -45,9 +45,8 @@ const MobileMenu = ({ visible, toggleMobileMenu }) => {
             className="my-2"
           >
             <Typography
-              className={`mobile__menu-link ${
-                location?.pathname === link && "mobile__menu-link-active"
-              }`}
+              className={`mobile__menu-link ${location?.pathname === link && "mobile__menu-link-active"
+                }`}
               size={19}
             >
               {t(`${title}`)}
@@ -72,7 +71,7 @@ const MobileMenu = ({ visible, toggleMobileMenu }) => {
       <Row
         className="mb-3 pb-2 pt-3"
         justify="center"
-        style={{ flexGrow: "1", alignItems: "end" }}
+        style={{ flexGrow: "1", alignItems: "end", flexWrap: 'nowrap', overflowX: 'hidden' }}
       >
         <Typography className="mobile__menu-text me-2" size={14}>
           {t("followUs")}
@@ -99,7 +98,7 @@ const MobileMenu = ({ visible, toggleMobileMenu }) => {
           />
         </Link>
       </Row>
-      <Row className="mb-5 pb-3" justify="center">
+      <Row className="mb-5 pb-3" justify="center" style={{ flexWrap: 'nowrap', overflowX: 'hidden' }} >
         <button
           onClick={() => handleSelectLang("AZ")}
           className="mobile__menu-lang"

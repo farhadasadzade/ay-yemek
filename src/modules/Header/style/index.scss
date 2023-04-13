@@ -98,6 +98,7 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      white-space: pre;
     }
   }
 }
@@ -125,6 +126,7 @@
     color: $text-color !important;
     font-size: 19px;
     margin: 0 33px;
+    white-space: pre;
   }
 
   &-link-active {
@@ -132,6 +134,7 @@
     color: $primary-color !important;
     font-size: 19px;
     margin: 0 33px;
+    white-space: pre;
   }
 
   &-link:hover {
@@ -140,6 +143,7 @@
 
   &-text {
     color: $secondary-color !important;
+    white-space: pre;
   }
 
   &-socials:hover {
@@ -150,6 +154,7 @@
   &-lang {
     background: none;
     border: none;
+    white-space: pre;
   }
 
   &-lang article {

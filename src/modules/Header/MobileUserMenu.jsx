@@ -41,7 +41,7 @@ const MobileUserMenu = ({
       <div className={`mobile__user ${visible ? "active" : ""}`}>
         <div className="mobile__user-top">
           <Link to="/profile">
-            <Row>
+            <Row wrap={false}>
               <img className="me-2" src={user} alt="user-icon" />
               <p className="header__user-name me-2">{userName}</p>
             </Row>
