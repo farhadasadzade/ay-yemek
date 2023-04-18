@@ -3,6 +3,7 @@ import ContentLoader from "react-content-loader";
 
 const CategoryLoader = (props) => (
   <ContentLoader
+    key={props?.key}
     speed={1}
     width={321}
     height={542}

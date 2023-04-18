@@ -88,6 +88,10 @@ const Register = () => {
   const [isRuleModalVisible, { toggle: toggleRuleModal }] = useToggle();
 
   const [register, registerState] = api.useRegisterMutation();
+  const { data: termsData } = api.useGetTermsAndConditionsQuery({
+    language,
+    userToken: `Bearer ${process.env.REACT_APP_DEFAULT_TOKEN}`,
+  });
 
   const [phoneState, setPhoneState] = React.useState("");
   const [windowWidth, setWindowWidth] = React.useState(0);
@@ -440,7 +444,11 @@ const Register = () => {
           <Footer />
         </RenderIf>
       </>
-      <Rules visible={isRuleModalVisible} toggleRuleModal={toggleRuleModal} />
+      <Rules
+        visible={isRuleModalVisible}
+        toggleRuleModal={toggleRuleModal}
+        termsData={termsData?.data}
+      />
     </>
   );
 };

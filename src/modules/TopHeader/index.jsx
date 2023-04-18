@@ -30,13 +30,16 @@ const TopHeader = () => {
         <Typography className="top-header-text me-3">{t("forCall")}</Typography>
         <img className="me-3" src={phone} alt="phone" />
         {getSettingsByKey("phone")?.map((value) => (
-          <Typography className="top-header-text top-header-info me-3">
+          <Typography
+            key={value}
+            className="top-header-text top-header-info me-3"
+          >
             {value}
           </Typography>
         ))}
         <img className="me-2" src={mail} alt="mail" />
         {getSettingsByKey("email")?.map((value) => (
-          <Typography className="top-header-text top-header-info">
+          <Typography key={value} className="top-header-text top-header-info">
             {value}
           </Typography>
         ))}

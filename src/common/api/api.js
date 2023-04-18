@@ -212,5 +212,32 @@ export const api = createApi({
         },
       }),
     }),
+    getTermsAndConditions: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "terms-conditions",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
+    getDeliveryTimes: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "delivery-times",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
+    getOrderTime: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "order-time",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
   }),
 });

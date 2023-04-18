@@ -3,7 +3,9 @@ import i18n from "i18next";
 import { Row } from "antd";
 import { info, kkal } from "assets/icons";
 import { hexToRgbA } from "common/helpers";
-import { useMemoizedFn } from "ahooks";
+import { useMemoizedFn, useUpdateEffect } from "ahooks";
+import { api } from "common/api/api";
+import { lowerCase } from "lodash";
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -20,28 +22,40 @@ const PacketBlock = ({
 }) => {
   const { t } = i18n;
 
+  const language = lowerCase(localStorage.getItem("lang"));
+  const userToken =
+    localStorage.getItem("userToken") ||
+    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+
   const backgroundColor = hexToRgbA(category?.color);
 
-  const handleAddMeal = useMemoizedFn(() => {
-    if (
-      moment()?.isBetween(moment("21:00", "hh:mm"), moment("24:00", "hh:mm"))
-    ) {
-      Swal.fire({
-        icon: "warning",
-        title: t("warningMessageByTime"),
-      });
-      return;
-    }
+  const [getOrderTime, orderTimeState] = api.useLazyGetOrderTimeQuery();
 
-    if (isDisabledByStatus) {
+  const handleAddMeal = useMemoizedFn(() => {
+    getOrderTime({ language, userToken: `Bearer ${userToken}` });
+  });
+
+  useUpdateEffect(() => {
+    if (!orderTimeState.isFetching) {
+      if (orderTimeState.isError) {
+        Swal.fire({
+          icon: "warning",
+          title: t("warningMessageByTime"),
+        });
+        return;
+      }
+
+      if (orderTimeState.isSuccess && !isDisabledByStatus) {
+        handleSelectMeal({ id, name, typeId });
+        return;
+      }
+
       Swal.fire({
         icon: "warning",
         title: t("warningMessageByStatus"),
       });
-      return;
     }
-    handleSelectMeal({ id, name, typeId });
-  });
+  }, [orderTimeState.isFetching]);
 
   return (
     <div className="packets__foods-block" style={{ backgroundColor }}>

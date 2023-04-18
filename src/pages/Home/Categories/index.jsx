@@ -70,7 +70,9 @@ const Categories = () => {
             enableMouseSwipe={false}
           >
             {categoriesState.isFetching
-              ? map(Array(3).fill(0), () => <CategoryLoader />)
+              ? map(Array(3).fill(0), (_, index) => (
+                  <CategoryLoader key={index} />
+                ))
               : map(
                   categories,
                   ({ id, name, description, image, color }, index) => {
