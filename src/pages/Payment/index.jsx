@@ -160,7 +160,7 @@ const Payment = () => {
 
   useUpdateEffect(() => {
     if (!orderState.isLoading && orderState.isSuccess) {
-      setPaymentSuccess(true);
+      window.location.replace(orderState.data?.data);
     }
   }, [orderState.isLoading]);
 
