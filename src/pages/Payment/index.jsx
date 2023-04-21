@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import PaymentPage from "./PaymentPage";
 import PaymentSuccess from "./PaymentSuccess";
 
@@ -23,6 +23,7 @@ const Payment = ({ match: { url } }) => {
         path={`${url}/decline`}
         render={(props) => <PaymentPage {...props} />}
       />
+      <Redirect to="/payment" />
     </Switch>
   );
 };
