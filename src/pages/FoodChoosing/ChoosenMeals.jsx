@@ -128,9 +128,7 @@ const ChoosenMeals = ({
         latitude: address?.pos?.lat,
         longitude: address?.pos?.lng,
         note: "Tez çatdırın",
-        delivery_at: `${moment()?.add(1, "day")?.format("YYYY-MM-DD")} ${
-          timePickerValue?.split(" ")?.[0]
-        }`,
+        delivery_at: `${timePickerValue?.split(" ")?.[0]}`,
       },
     });
   });
