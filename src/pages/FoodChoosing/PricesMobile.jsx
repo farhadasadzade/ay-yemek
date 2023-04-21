@@ -3,12 +3,18 @@ import i18n from "i18next";
 import { Row } from "antd";
 import ChoosenMeals from "./ChoosenMeals";
 
-const PricesMobile = ({ onClose, selectedMeals, handleDeleteMeal }) => {
+const PricesMobile = ({
+  onClose,
+  selectedMeals,
+  handleDeleteMeal,
+  selectedPackageId,
+  orderId,
+}) => {
   const { t } = i18n;
 
   return (
     <div className={`prices__mobile`}>
-      <Row align="middle">
+      <Row align="middle" onClick={onClose}>
         <svg
           style={{ cursor: "pointer" }}
           onClick={onClose}
@@ -33,6 +39,8 @@ const PricesMobile = ({ onClose, selectedMeals, handleDeleteMeal }) => {
           isTitleHidden
           selectedMeals={selectedMeals}
           handleDeleteMeal={handleDeleteMeal}
+          selectedPackageId={selectedPackageId}
+          orderId={orderId}
         />
       </div>
     </div>

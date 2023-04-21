@@ -9,7 +9,8 @@ import { Input, RenderIf, Button } from "common/components";
 import { api } from "common/api/api";
 import { Header, Footer } from "modules";
 import { logo } from "assets/images";
-import { success } from "assets/icons";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -57,7 +58,7 @@ function addBusinessDays(originalDate, numDaysToAdd) {
   return { newDate, disabledDays };
 }
 
-const PaymentPage = () => {
+const PaymentPage = ({ match: { url } }) => {
   const { t } = i18n;
   const history = useHistory();
   const selectedPackageId = localStorage.getItem("selectedPackageId");
@@ -127,6 +128,24 @@ const PaymentPage = () => {
     setDisabledDates(disabledDays);
   }, [packageState.data?.data?.day]);
 
+  useMount(() => {
+    if (url === "/payment/decline") {
+      Swal.fire({
+        icon: "error",
+        title: t("error"),
+      });
+      return;
+    }
+
+    if (url === "/payment/cancel") {
+      Swal.fire({
+        icon: "error",
+        title: t("error"),
+      });
+      return;
+    }
+  });
+
   useUpdateEffect(() => {
     const currentDate = dayjs().add(1, "day");
     if (!isEmpty(dates)) {
@@ -183,7 +202,9 @@ const PaymentPage = () => {
       <div className="register">
         <div className="register__form">
           <RenderIf condition={windowWidth >= 1000}>
-            <img className="mb-4" src={logo} alt="logo" />
+            <Link to="/home">
+              <img className="mb-4" src={logo} alt="logo" />
+            </Link>
           </RenderIf>
           <RenderIf condition={windowWidth >= 1000}>
             <button

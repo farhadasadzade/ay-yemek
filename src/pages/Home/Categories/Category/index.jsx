@@ -6,16 +6,19 @@ import i18n from "i18next";
 import { Typography, Button } from "common/components";
 import { categoryShape } from "assets/images";
 
-const Category = ({ title, text, id, imageURL, color, onClick }) => {
+const Category = ({ title, text, id, imageURL, color, onClick, key }) => {
   const { t } = i18n;
   const history = useHistory();
 
-  const handleClickMore = useMemoizedFn(() => {
+  const handleClickMore = useMemoizedFn((event) => {
+    console.log(event);
+    event.stopImmidiatePropagation();
+    event.cancelBubble = true
     history.push(`/home/category/${id}`);
   });
 
   return (
-    <div className="home__category" onClick={onClick}>
+    <div className="home__category" key={key} onClick={onClick}>
       <div className="home__category-img">
         <img src={imageURL} alt="category" />
         <img className="home__category-shape" src={categoryShape} alt="shape" />

@@ -1,6 +1,6 @@
 import React from "react";
 import i18n from "i18next";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import moment from "moment";
 import { isEmpty, map, lowerCase, values } from "lodash";
 import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
@@ -11,6 +11,7 @@ import { Button, RenderIf, Toast, Input } from "common/components";
 import { calendar } from "assets/icons";
 import { Map } from "modules";
 import { TimepickerUI } from "timepicker-ui";
+import Swal from "sweetalert2";
 
 const monthNames = {
   az: [
@@ -73,6 +74,7 @@ const ChoosenMeals = ({
 }) => {
   const { t } = i18n;
   const { id: categoryId } = useParams();
+  const history = useHistory();
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
@@ -136,9 +138,11 @@ const ChoosenMeals = ({
   useUpdateEffect(() => {
     if (!orderState.isLoading) {
       if (orderState.isSuccess) {
-        Toast.fire({
+        Swal.fire({
           icon: "success",
           title: orderState.data?.message,
+        }).then(() => {
+          history.push("/profile/active-orders");
         });
       }
 

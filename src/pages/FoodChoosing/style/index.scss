@@ -8,9 +8,11 @@
   background-color: #ffffff;
   top: 0;
   left: 0;
-  padding-top: 50px;
+  padding-top: 150px;
   padding-left: 20px;
   padding-right: 20px;
+  padding-bottom: 30px;
+  overflow-y: scroll;
 
   &-back {
     font-family: "Inter";

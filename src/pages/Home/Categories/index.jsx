@@ -104,6 +104,7 @@ const Categories = () => {
                 titleColor={description}
                 text={description}
                 imageURL={image}
+                onClick={() => handleClickOnCategory(id)}
               />
             ))}
           </Row>

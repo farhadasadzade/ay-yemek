@@ -2,8 +2,6 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import PaymentPage from "./PaymentPage";
 import PaymentSuccess from "./PaymentSuccess";
-import PaymentCancel from "./PaymentCancel";
-import PaymentDecline from "./PaymentDecline";
 
 const Payment = ({ match: { url } }) => {
   return (
@@ -19,11 +17,11 @@ const Payment = ({ match: { url } }) => {
       />
       <Route
         path={`${url}/cancel`}
-        render={(props) => <PaymentCancel {...props} />}
+        render={(props) => <PaymentPage {...props} />}
       />
       <Route
         path={`${url}/decline`}
-        render={(props) => <PaymentDecline {...props} />}
+        render={(props) => <PaymentPage {...props} />}
       />
     </Switch>
   );

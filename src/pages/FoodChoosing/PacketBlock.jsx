@@ -7,7 +7,6 @@ import { useMemoizedFn, useUpdateEffect } from "ahooks";
 import { api } from "common/api/api";
 import { lowerCase } from "lodash";
 import Swal from "sweetalert2";
-import moment from "moment";
 
 const PacketBlock = ({
   image,

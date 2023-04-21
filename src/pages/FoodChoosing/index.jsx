@@ -72,8 +72,8 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
 
     setTimeout(() => {
       setMeals(meals?.slice(0, meals?.length + 5));
-    }, 1000)
-  })
+    }, 1000);
+  });
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -128,8 +128,16 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
   }, [userDataState.isFetching]);
 
   useUnmount(() => {
-    window.removeEventListener("resize", () => { });
+    window.removeEventListener("resize", () => {});
   });
+
+  useUpdateEffect(() => {
+    if (state.isPricesActive) {
+      document.body.style.overflowY = "hidden";
+      return;
+    }
+    document.body.style.overflowY = "scroll";
+  }, [state.isPricesActive]);
 
   return (
     <div className="packet__page">
@@ -152,21 +160,19 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
               {mealTypesState.isFetching
                 ? map(Array(4).fill(0), () => <FilterTagLoader />)
                 : map(mealTypes, ({ name, id }) => (
-                  <div
-                    key={id}
-                    className={`packets__filter-tag ${state.activeFilter === id
-                      ? "packets__filter-tag-active"
-                      : ""
+                    <div
+                      key={id}
+                      className={`packets__filter-tag ${
+                        state.activeFilter === id
+                          ? "packets__filter-tag-active"
+                          : ""
                       }`}
-                    onClick={() => handleSelectFilter(id)}
-                  >
-                    {name}
-                  </div>
-                ))}
+                      onClick={() => handleSelectFilter(id)}
+                    >
+                      {name}
+                    </div>
+                  ))}
             </div>
-            <RenderIf condition={windowWidth <= 1200}>
-              <DeliverForm />
-            </RenderIf>
             <div className="packets__foods">
               <RenderIf condition={windowWidth <= 1200}>
                 <Row className="my-3" justify="center">
@@ -196,28 +202,36 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
                 </Row>
               </RenderIf>
               <InfiniteScroll
-                dataLength={mealTypesState.data?.data?.find(
-                  (mealType) => Number(mealType?.id) === Number(state.activeFilter)
-                )?.meals?.length ?? 0}
+                dataLength={
+                  mealTypesState.data?.data?.find(
+                    (mealType) =>
+                      Number(mealType?.id) === Number(state.activeFilter)
+                  )?.meals?.length ?? 0
+                }
                 next={fetchItems}
-                hasMore={mealTypesState.data?.data?.find(
-                  (mealType) => Number(mealType?.id) === Number(state.activeFilter)
-                )?.meals?.length > meals?.length}
-                loader={<div className="button-loader"></div>}>
+                hasMore={
+                  mealTypesState.data?.data?.find(
+                    (mealType) =>
+                      Number(mealType?.id) === Number(state.activeFilter)
+                  )?.meals?.length > meals?.length
+                }
+                loader={<div className="button-loader"></div>}
+              >
                 {mealTypesState.isFetching
                   ? map(Array(5).fill(0), (_, index) => (
-                    <PacketLoader key={index} />
-                  ))
+                      <PacketLoader key={index} />
+                    ))
                   : map(meals, (packet) => (
-                    <PacketBlock
-                      handleSelectMeal={handleSelectMeal}
-                      typeId={state.activeFilter}
-                      {...packet}
-                      isDisabledByStatus={
-                        Number(packet?.category?.expensive) > userPackagesStatus
-                      }
-                    />
-                  ))}
+                      <PacketBlock
+                        handleSelectMeal={handleSelectMeal}
+                        typeId={state.activeFilter}
+                        {...packet}
+                        isDisabledByStatus={
+                          Number(packet?.category?.expensive) >
+                          userPackagesStatus
+                        }
+                      />
+                    ))}
               </InfiniteScroll>
             </div>
           </div>
@@ -238,6 +252,8 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
           selectedMeals={selectedMeals}
           handleDeleteMeal={handleDeleteMeal}
           onClose={onClosePrices}
+          selectedPackageId={selectedPackageId}
+          orderId={orderId}
         />
       </RenderIf>
     </div>
