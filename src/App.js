@@ -7,7 +7,7 @@ function App() {
       <Route path="/home" render={(props) => <Main {...props} />} />
       <Route path="/register" render={(props) => <Register {...props} />} />
       <Route path="/login" render={(props) => <Login {...props} />} />
-      <Route path="/payment" render={() => <Payment />} />
+      <Route path="/payment" render={(props) => <Payment {...props} />} />
       <Route path="/profile" render={(props) => <Profile {...props} />} />
       <Redirect to="/home" />
     </Switch>

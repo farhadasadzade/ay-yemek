@@ -98,8 +98,6 @@ const ChoosenMeals = ({
     userToken: `Bearer ${userToken}`,
   });
 
-  console.log({ deliveryTimes });
-
   const handleTimepicker = useMemoizedFn((e) => {
     setTimePickerValue(`${e.detail.hour}:${e.detail.minutes} ${e.detail.type}`);
   });
@@ -157,6 +155,18 @@ const ChoosenMeals = ({
     getMealTypes({ categoryId, language, userToken: `Bearer ${userToken}` });
     getUserData({ language, userToken: `Bearer ${userToken}` });
   });
+
+  useUpdateEffect(() => {
+    if (!userDataState.isFetching && userDataState.isSuccess) {
+      setAddress({
+        address: userDataState.data?.data?.address,
+        pos: {
+          lng: Number(userDataState.data?.data?.longitude),
+          lat: Number(userDataState.data?.data?.latitude),
+        },
+      });
+    }
+  }, [userDataState.isFetching]);
 
   useUpdateEffect(() => {
     if (!mealTypesState.isFetching && mealTypesState.isSuccess) {

@@ -234,6 +234,10 @@ a {
   border: 1px solid red !important;
 }
 
+.swal2-popup {
+  font-family: "Inter";
+}
+
 @media (max-width: 800px) {
   .payment__success-title {
     font-family: "Inter";
