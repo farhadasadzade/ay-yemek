@@ -13,6 +13,7 @@ import ActiveOrders from "./ActiveOrders";
 import Navbar from "./Navbar";
 import { api } from "common/api/api";
 import "./style/index.scss";
+import Payments from "./Payments";
 
 const Profile = ({ match: { url } }) => {
   const { t } = i18n;
@@ -74,7 +75,7 @@ const Profile = ({ match: { url } }) => {
               path={`${url}/change-password`}
               render={() => <ChangePassword />}
             />
-            <Route path={`${url}/payments`} render={() => <></>} />
+            <Route path={`${url}/payments`} render={() => <Payments />} />
             <Redirect to={`${url}/user`} />
           </Switch>
         </Row>

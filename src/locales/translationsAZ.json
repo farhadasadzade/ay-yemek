@@ -118,5 +118,9 @@
   "activeOrderStatus": "Seçdiyiniz menyu {{date}} tarixi üçün keçərlidir",
   "warningMessageByTime": "Gündəlik menyunu yalnız 00:00-dan 21:00-a kimi sifariş edə bilərsiniz!",
   "warningMessageByStatus": "Bu kateqoriyadan yemək seçmək üçün bu kateqoriyaya aid paket əldə etməlisiniz!",
-  "fillAllTheFields": "Zəhmət olmasa bütün xanaları doldurun."
+  "fillAllTheFields": "Zəhmət olmasa bütün xanaları doldurun.",
+  "tableCategory": "Kateqoriya",
+  "tablePacketName": "Paket",
+  "tablePrice": "Qiymət",
+  "tableDate": "Etibarlılıq"
 }

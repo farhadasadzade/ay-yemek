@@ -190,6 +190,25 @@
   color: #263238;
 }
 
+.table__title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+  color: $primary-color;
+}
+
+.table__cell {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  color: #0a2540;
+  white-space: pre;
+}
+
 @media (max-width: 1300px) {
   .profile {
     &__nav {

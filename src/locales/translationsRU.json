@@ -118,5 +118,9 @@
   "activeOrderStatus": "Выбранное вами меню актуально на {{date}}",
   "warningMessageByTime": "Заказать дневное меню можно только с 00:00 до 21:00!",
   "warningMessageByStatus": "Чтобы выбрать еду из этой категории, необходимо приобрести упаковку этой категории!",
-  "fillAllTheFields": "Пожалуйста, заполните все поля."
+  "fillAllTheFields": "Пожалуйста, заполните все поля.",
+  "tableCategory": "Категория",
+  "tablePacketName": "Пакет",
+  "tablePrice": "Цена",
+  "tableDate": "Срок"
 }

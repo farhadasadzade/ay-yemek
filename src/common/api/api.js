@@ -239,5 +239,14 @@ export const api = createApi({
         },
       }),
     }),
+    getUserPayments: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "/user/payments",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
   }),
 });
