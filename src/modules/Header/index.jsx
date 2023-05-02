@@ -111,6 +111,12 @@ const Header = () => {
     }
   }, [logoutState.isLoading]);
 
+  useUpdateEffect(() => {
+    if (!userDataState.isFetching && userDataState.isError) {
+      localStorage.removeItem("userToken");
+    }
+  }, [userDataState.isFetching]);
+
   const languageItems = [
     {
       key: 0,

@@ -3,19 +3,22 @@ import { GoogleMap, Polygon, Marker } from "@react-google-maps/api";
 import { useMemoizedFn, useToggle, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
 import Swal from "sweetalert2";
-import { map } from "lodash";
+import { map, lowerCase, every, some } from "lodash";
 import { Row } from "antd";
 import { apiMap } from "common/api/apiMap";
+import { api } from "common/api/api";
 import { RenderIf, Autocomplete, Button } from "common/components";
 import { exit } from "assets/icons";
 import { positions } from "./data";
+import pointInPolygon from "point-in-polygon";
 import "leaflet/dist/leaflet.css";
 import "./style/index.scss";
-import pointInPolygon from "point-in-polygon";
 
 const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
   const { t } = i18n;
   const refPoly = React.useRef(null);
+  const userToken = localStorage.getItem("userToken");
+  const language = lowerCase(localStorage.getItem("lang"));
 
   const [markerPosition, setMarkerPosition] = React.useState({
     lat: 40.3785,
@@ -30,6 +33,10 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
   const [getAddresses, addressesState] = apiMap.useLazyGetAddressesQuery();
   const [getAddressByPosition, addressByPositionState] =
     apiMap.useLazyGetAddressByPositionQuery();
+  const { data: serviceAreas } = api.useGetAreasQuery({
+    userToken: `Bearer ${userToken}`,
+    language,
+  });
 
   const handleClickOnMap = useMemoizedFn((e) => {
     setMarkerPosition({
@@ -58,9 +65,14 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
   });
 
   const handleSelectPosition = useMemoizedFn(() => {
-    const isInsidePolygon = pointInPolygon(
-      [markerPosition?.lng, markerPosition?.lat],
-      positions.map((pos) => [Number(pos[0]), Number(pos[1])])
+    const isInsidePolygon = some(serviceAreas.data, (data) =>
+      pointInPolygon(
+        [markerPosition?.lng, markerPosition?.lat],
+        data?.content?.map((pos) => [
+          Number(pos?.split(",")[0]),
+          Number(pos?.split(",")[1]),
+        ])
+      )
     );
 
     toggleMap();
@@ -159,28 +171,30 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
                 lat: 40.3785,
                 lng: 49.9451,
               }}
-              zoom={12}
+              zoom={7}
               onClick={handleClickOnMap}
             >
-              <Polygon
-                ref={refPoly}
-                options={{
-                  fillColor: "lightblue",
-                  fillOpacity: 0.3,
-                  strokeColor: "red",
-                  strokeOpacity: 1,
-                  strokeWeight: 2,
-                  clickable: false,
-                  draggable: false,
-                  editable: false,
-                  geodesic: false,
-                  zIndex: 1,
-                }}
-                paths={positions.map((a) => ({
-                  lat: Number(a[1]),
-                  lng: Number(a[0]),
-                }))}
-              />
+              {serviceAreas?.data?.map((data) => (
+                <Polygon
+                  ref={refPoly}
+                  options={{
+                    fillColor: "lightblue",
+                    fillOpacity: 0.3,
+                    strokeColor: "red",
+                    strokeOpacity: 1,
+                    strokeWeight: 2,
+                    clickable: false,
+                    draggable: false,
+                    editable: false,
+                    geodesic: false,
+                    zIndex: 1,
+                  }}
+                  paths={data?.content.map((a) => ({
+                    lat: Number(a.split(",")?.[1]),
+                    lng: Number(a.split(",")?.[0]),
+                  }))}
+                />
+              ))}
               <Marker
                 position={markerPosition}
                 draggable

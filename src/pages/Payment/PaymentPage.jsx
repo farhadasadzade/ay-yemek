@@ -223,13 +223,19 @@ const PaymentPage = ({ match: { url } }) => {
           <Row className="mb-4">
             <p>{t("selectedPacket")}</p>
           </Row>
-          <Row className="mb-5">
-            <div className="payment__selected">
-              {packageState.data?.data?.category?.name +
-                " " +
-                packageState.data?.data?.name}
-            </div>
-          </Row>
+          <RenderIf condition={!packageState.isFetching}>
+            <Row className="mb-5">
+              <div className="payment__selected">
+                {packageState.data?.data?.category?.name +
+                  " " +
+                  packageState.data?.data?.name}
+              </div>
+            </Row>
+          </RenderIf>
+
+          <RenderIf condition={packageState.isFetching}>
+            <div className="button-loader"></div>
+          </RenderIf>
           <Row className="mb-2">
             <Col span={18}>
               <Input

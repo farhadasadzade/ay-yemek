@@ -248,5 +248,14 @@ export const api = createApi({
         },
       }),
     }),
+    getAreas: builder.query({
+      query: ({ language, userToken }) => ({
+        url: "/service-areas",
+        headers: {
+          "Content-Language": language,
+          Authorization: userToken,
+        },
+      }),
+    }),
   }),
 });
