@@ -23,6 +23,7 @@ import { Footer, Header, Map } from "modules";
 import OTP from "./OTP";
 import "./style/index.scss";
 import { api } from "common/api/api";
+import { Helmet } from "react-helmet";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -237,6 +238,9 @@ const Register = () => {
         <RenderIf condition={windowWidth < 1000}>
           <Header />
         </RenderIf>
+        <Helmet>
+          <meta name="description" content="Register Ay yemek" />
+        </Helmet>
         {isRegistrationSuccess ? (
           <OTP phone={phoneState} />
         ) : (

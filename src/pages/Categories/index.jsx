@@ -8,6 +8,7 @@ import { BlockContainer, CategoryLoader } from "components";
 import { api } from "common/api/api";
 import Category from "pages/Home/Categories/Category";
 import "./style/index.scss";
+import { Helmet } from "react-helmet";
 
 const PaginationNextButton = () => (
   <div className="pagination__button">
@@ -91,6 +92,9 @@ const Categories = () => {
       title={t("categories")}
       subtitle="Lorem ipsum dolor sit amet consectetur adipiscing elit interdum ullamcorper ."
     >
+      <Helmet>
+        <meta name="description" content="Categories Ay yemek" />
+      </Helmet>
       <div className="categories">
         {categoriesState.isFetching
           ? map(Array(6).fill(0), () => <CategoryLoader />)

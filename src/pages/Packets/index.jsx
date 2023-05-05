@@ -20,6 +20,7 @@ import { PacketLoader, FilterTagLoader, PriceBlockLoader } from "components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FoodChoosing } from "pages";
 import "./style/index.scss";
+import { Helmet } from "react-helmet";
 
 const Packets = () => {
   const { t } = i18n;
@@ -68,8 +69,8 @@ const Packets = () => {
 
     setTimeout(() => {
       setMeals(meals?.slice(0, meals?.length + 5));
-    }, 1000)
-  })
+    }, 1000);
+  });
 
   useMount(() => {
     window.addEventListener("resize", (e) =>
@@ -146,11 +147,14 @@ const Packets = () => {
   }, [packagesState.isFetching]);
 
   useUnmount(() => {
-    window.removeEventListener("resize", () => { });
+    window.removeEventListener("resize", () => {});
   });
 
   return !isPaymentSuccess ? (
     <div className="packet__page">
+      <Helmet>
+        <meta name="description" content="Packets Ay yemek" />
+      </Helmet>
       <BlockContainer
         title={
           mealTypesState.data?.data?.[0]?.meals?.find(
@@ -170,17 +174,18 @@ const Packets = () => {
               {mealTypesState.isFetching
                 ? map(Array(4).fill(0), () => <FilterTagLoader />)
                 : map(mealTypes, ({ name, id }) => (
-                  <div
-                    key={id}
-                    className={`packets__filter-tag ${state.activeFilter === id
-                      ? "packets__filter-tag-active"
-                      : ""
+                    <div
+                      key={id}
+                      className={`packets__filter-tag ${
+                        state.activeFilter === id
+                          ? "packets__filter-tag-active"
+                          : ""
                       }`}
-                    onClick={() => handleSelectFilter(id)}
-                  >
-                    {name}
-                  </div>
-                ))}
+                      onClick={() => handleSelectFilter(id)}
+                    >
+                      {name}
+                    </div>
+                  ))}
             </div>
             <div className="packets__foods">
               <RenderIf condition={windowWidth <= 1200}>
@@ -211,21 +216,28 @@ const Packets = () => {
                 </Row>
               </RenderIf>
               <InfiniteScroll
-                dataLength={mealTypesState.data?.data?.find(
-                  (mealType) => Number(mealType?.id) === Number(state.activeFilter)
-                )?.meals?.length ?? 0}
+                dataLength={
+                  mealTypesState.data?.data?.find(
+                    (mealType) =>
+                      Number(mealType?.id) === Number(state.activeFilter)
+                  )?.meals?.length ?? 0
+                }
                 next={fetchItems}
-                hasMore={mealTypesState.data?.data?.find(
-                  (mealType) => Number(mealType?.id) === Number(state.activeFilter)
-                )?.meals?.length > meals?.length}
-                loader={<div className="button-loader"></div>}>
+                hasMore={
+                  mealTypesState.data?.data?.find(
+                    (mealType) =>
+                      Number(mealType?.id) === Number(state.activeFilter)
+                  )?.meals?.length > meals?.length
+                }
+                loader={<div className="button-loader"></div>}
+              >
                 {mealTypesState.isFetching
                   ? map(Array(5).fill(0), (_, index) => (
-                    <PacketLoader key={index} />
-                  ))
+                      <PacketLoader key={index} />
+                    ))
                   : map(meals, (packet) => (
-                    <PacketBlock key={packet?.id} {...packet} />
-                  ))}
+                      <PacketBlock key={packet?.id} {...packet} />
+                    ))}
               </InfiniteScroll>
             </div>
           </div>
@@ -233,8 +245,8 @@ const Packets = () => {
             {packagesState.isFetching
               ? map(Array(4).fill(0), () => <PriceBlockLoader />)
               : map(packages, (price) => (
-                <PriceBlock price={price?.id} {...price} />
-              ))}
+                  <PriceBlock price={price?.id} {...price} />
+                ))}
           </div>
         </div>
       </BlockContainer>

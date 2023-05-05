@@ -8,6 +8,7 @@ import { api } from "common/api/api";
 import { favoriteFoods } from "./data";
 import "./style/index.scss";
 import { RenderIf } from "common/components";
+import { Helmet } from "react-helmet";
 
 const FavoriteFoods = () => {
   const { t } = i18n;
@@ -50,9 +51,11 @@ const FavoriteFoods = () => {
     }
   }, [windowWidth]);
 
-
   return (
     <RenderIf condition={windowWidth > 1000}>
+      <Helmet>
+        <meta name="description" content="Home Favorite Food Ay yemek" />
+      </Helmet>
       <div className="home__favorite">
         <HomeTitle
           title={t("favoriteFoods")}

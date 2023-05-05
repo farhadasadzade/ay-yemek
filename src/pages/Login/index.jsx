@@ -13,6 +13,7 @@ import { Row } from "antd";
 import { Input, Button, RenderIf } from "common/components";
 import OTP from "../Register/OTP";
 import { Footer, Header } from "modules";
+import { Helmet } from "react-helmet";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -144,6 +145,9 @@ const Login = () => {
       <RenderIf condition={windowWidth < 1000}>
         <Header />
       </RenderIf>
+      <Helmet>
+        <meta name="description" content="Login Ay yemek" />
+      </Helmet>
       {isVerifyRequired ? (
         <OTP phone={phoneState} />
       ) : (

@@ -9,6 +9,7 @@ import { chevronDown } from "assets/icons";
 import { api } from "common/api/api";
 import Accordion from "./Accordion";
 import "./style/index.scss";
+import { Helmet } from "react-helmet";
 
 const FAQ = () => {
   const { t } = i18n;
@@ -50,6 +51,9 @@ const FAQ = () => {
 
   return (
     <div className="home__faq">
+      <Helmet>
+        <meta name="description" content="Home Faq Ay yemek" />
+      </Helmet>
       <HomeTitle
         title={t("faq")}
         subtitle="Lorem Ipsum is simply dummy text of the printing "

@@ -8,6 +8,7 @@ import { Row } from "antd";
 import { HomeTitle, CarouselArrows, CategoryLoader } from "components";
 import { RenderIf } from "common/components";
 import { api } from "common/api/api";
+import { Helmet } from "react-helmet";
 import Category from "./Category";
 import "./style/index.scss";
 
@@ -51,6 +52,9 @@ const Categories = () => {
 
   return (
     <div className="home__categories">
+      <Helmet>
+        <meta name="description" content="Home Categories Ay yemek" />
+      </Helmet>
       <HomeTitle
         title={t("category")}
         subtitle="Lorem Ipsum is simply dummy text of the printing"

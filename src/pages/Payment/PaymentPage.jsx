@@ -11,6 +11,7 @@ import { Header, Footer } from "modules";
 import { logo } from "assets/images";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const BackArrow = ({ stroke, className }) => (
   <svg
@@ -199,6 +200,9 @@ const PaymentPage = ({ match: { url } }) => {
       <RenderIf condition={windowWidth < 1000}>
         <Header />
       </RenderIf>
+      <Helmet>
+        <meta name="description" content="Payment Ay yemek" />
+      </Helmet>
       <div className="register">
         <div className="register__form">
           <RenderIf condition={windowWidth >= 1000}>

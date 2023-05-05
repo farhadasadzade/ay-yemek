@@ -12,6 +12,7 @@ import CarouselPagination from "./CarouselPagination";
 import ReviewComment from "./ReviewComment";
 import "./style/index.scss";
 import { RenderIf } from "common/components";
+import { Helmet } from "react-helmet";
 
 const Review = () => {
   const { t } = i18n;
@@ -51,6 +52,9 @@ const Review = () => {
 
   return (
     <div className="home__review">
+      <Helmet>
+        <meta name="description" content="Home Review Ay yemek" />
+      </Helmet>
       <HomeTitle
         title={t("theyChooseUs")}
         subtitle="Lorem Ipsum is simply dummy text of the printing "

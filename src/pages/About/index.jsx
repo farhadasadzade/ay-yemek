@@ -4,6 +4,7 @@ import { Row } from "antd";
 import { BlockContainer } from "components";
 import { about1, about2 } from "assets/images";
 import "./style/index.scss";
+import { Helmet } from "react-helmet";
 
 const About = () => {
   const { t } = i18n;
@@ -13,6 +14,9 @@ const About = () => {
       title={t("about")}
       subtitle="Lorem ipsum dolor sit amet consectetur adipiscing elit interdum ullamcorper ."
     >
+      <Helmet>
+        <meta name="description" content="About Ay yemek" />
+      </Helmet>
       <div className="about">
         <Row className="about__images">
           <div

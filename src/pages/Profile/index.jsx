@@ -14,6 +14,7 @@ import Navbar from "./Navbar";
 import { api } from "common/api/api";
 import "./style/index.scss";
 import Payments from "./Payments";
+import { Helmet } from "react-helmet";
 
 const Profile = ({ match: { url } }) => {
   const { t } = i18n;
@@ -54,6 +55,9 @@ const Profile = ({ match: { url } }) => {
   return (
     <>
       <Header />
+      <Helmet>
+        <meta name="description" content="Profile Ay yemek" />
+      </Helmet>
       <div className="profile">
         <h1 className="profile__title">{t("myProfileInfo")}</h1>
         <Row justify="space-between" gutter={12}>

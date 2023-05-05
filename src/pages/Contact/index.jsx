@@ -12,6 +12,7 @@ import { Button, Input, Toast } from "common/components";
 import { mail, phone } from "assets/icons";
 import ContactBlock from "./ContactBlock";
 import "./style/index.scss";
+import { Helmet } from "react-helmet";
 
 const Contact = () => {
   const schema = yup.object().shape({
@@ -92,6 +93,9 @@ const Contact = () => {
 
   return (
     <BlockContainer title={t("contact")} subtitle={t("contactWith")}>
+      <Helmet>
+        <meta name="description" content="Contact Ay yemek" />
+      </Helmet>
       <Row className="contact__info mb-4" gutter={windowWidth > 1000 ? 100 : 0}>
         <Col span={windowWidth > 1000 ? 12 : 24}>
           <ContactBlock

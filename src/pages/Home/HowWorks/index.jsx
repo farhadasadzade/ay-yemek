@@ -5,6 +5,7 @@ import { Row } from "antd";
 import { HomeTitle } from "components";
 import { howWorks, howWorks1, howWorks2, howWorks3 } from "assets/images";
 import { RenderIf } from "common/components";
+import { Helmet } from "react-helmet";
 import "./style/index.scss";
 
 const HowWorks = () => {
@@ -25,6 +26,9 @@ const HowWorks = () => {
   return (
     <>
       <div className="howworks">
+        <Helmet>
+          <meta name="description" content="Home Howworks Ay yemek" />
+        </Helmet>
         <HomeTitle
           title={t("howWorks")}
           subtitle="Lorem Ipsum is simply dummy text of the printing"

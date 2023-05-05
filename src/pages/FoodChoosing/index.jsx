@@ -19,6 +19,7 @@ import PacketBlock from "./PacketBlock";
 import PricesMobile from "./PricesMobile";
 import { api } from "common/api/api";
 import "./style/index.scss";
+import { Helmet } from "react-helmet";
 
 const FoodChoosing = ({ selectedPackageId, orderId }) => {
   const { t } = i18n;
@@ -141,6 +142,9 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
 
   return (
     <div className="packet__page">
+      <Helmet>
+        <meta name="description" content="Food Choosing Ay yemek" />
+      </Helmet>
       <BlockContainer
         title={
           mealTypesState.data?.data?.[0]?.meals?.find(
