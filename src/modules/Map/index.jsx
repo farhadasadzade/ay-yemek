@@ -100,6 +100,15 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
   }, [defaultValue]);
 
   useUpdateEffect(() => {
+    setMarkerPosition({
+      lat: parseFloat(serviceAreas?.data?.[0]?.content?.[0]?.split(",")?.[1]),
+      lng: parseFloat(serviceAreas?.data?.[0]?.content?.[0]?.split(",")?.[0]),
+    });
+  }, [serviceAreas?.data]);
+
+  console.log()
+
+  useUpdateEffect(() => {
     if (!addressesState.isFetching && addressesState.isSuccess) {
       setAddresses(
         map(addressesState.data?.features, (feat) => ({
@@ -167,11 +176,8 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
                 width: "100%",
                 height: "87%",
               }}
-              center={{
-                lat: 40.3785,
-                lng: 49.9451,
-              }}
-              zoom={7}
+              center={markerPosition}
+              zoom={10}
               onClick={handleClickOnMap}
             >
               {serviceAreas?.data?.map((data) => (
