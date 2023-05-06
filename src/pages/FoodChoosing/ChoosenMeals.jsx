@@ -91,6 +91,7 @@ const ChoosenMeals = ({
   const [isAddressDenied, setAddressDenied] = React.useState(true);
   const [addressError, setAddressError] = React.useState(false);
   const [timePickerValue, setTimePickerValue] = React.useState("12:00");
+  const [additionalNote, setAdditionalNote] = React.useState("");
 
   const [getMealTypes, mealTypesState] = api.useLazyGetMealTypesQuery();
   const [orderDaily, orderState] = api.useDailyOrderMutation();
@@ -127,10 +128,14 @@ const ChoosenMeals = ({
         address: address?.address,
         latitude: address?.pos?.lat,
         longitude: address?.pos?.lng,
-        note: "Tez çatdırın",
+        note: additionalNote,
         delivery_at: `${timePickerValue?.split(" ")?.[0]}`,
       },
     });
+  });
+
+  const handleChange = useMemoizedFn((e) => {
+    setAdditionalNote(e.target.value);
   });
 
   useUpdateEffect(() => {
@@ -279,7 +284,7 @@ const ChoosenMeals = ({
           <Col span={24}>
             <label className="deliver__form-label" htmlFor="deliverTime">
               {t("additionalNote")}
-              <Input type="textarea" />
+              <Input type="textarea" onChange={handleChange} />
             </label>
           </Col>
         </Row>
