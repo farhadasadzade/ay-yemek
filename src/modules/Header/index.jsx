@@ -9,6 +9,7 @@ import {
   useUpdateEffect,
   useUnmount,
   useMemoizedFn,
+  useCreation,
 } from "ahooks";
 import { logo } from "assets/images";
 import { chevronDownBlue, menuBar, user, exit } from "assets/icons";
@@ -22,7 +23,6 @@ import MobileUserMenu from "./MobileUserMenu";
 const Header = () => {
   const { t, changeLanguage } = i18n;
   const location = useLocation();
-  const isUserLogined = !isEmpty(localStorage.getItem("userToken"));
   const userToken = localStorage.getItem("userToken");
   const history = useHistory();
   const language = lowerCase(localStorage.getItem("lang"));
@@ -46,6 +46,11 @@ const Header = () => {
 
   const [logout, logoutState] = api.useLogoutMutation();
   const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
+
+  const isUserLogined = useCreation(
+    () => !isEmpty(localStorage.getItem("userToken")),
+    [userDataState.isFetching]
+  );
 
   const handleSelectLang = useMemoizedFn((lang) => {
     localStorage.setItem("lang", lang);
