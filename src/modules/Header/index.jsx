@@ -43,14 +43,12 @@ const Header = () => {
     localStorage.getItem("lang")
   );
   const [isLogoutModalVisible, setLogoutModalVisible] = React.useState(false);
+  const [userName, setUserName] = React.useState(undefined);
 
   const [logout, logoutState] = api.useLogoutMutation();
   const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
-  const isUserLogined = useCreation(
-    () => !isEmpty(localStorage.getItem("userToken")),
-    [userDataState.isFetching]
-  );
+  const isUserLogined = !isEmpty(localStorage.getItem("userToken"));
 
   const handleSelectLang = useMemoizedFn((lang) => {
     localStorage.setItem("lang", lang);
@@ -119,6 +117,15 @@ const Header = () => {
   useUpdateEffect(() => {
     if (!userDataState.isFetching && userDataState.isError) {
       localStorage.removeItem("userToken");
+      setUserName(
+        userDataState.data?.data?.name + " " + userDataState.data?.data?.surname
+      );
+    }
+  }, [userDataState.isFetching]);
+
+  useUpdateEffect(() => {
+    if (!userDataState.isFetching && userDataState.isSuccess) {
+      setUserName(undefined);
     }
   }, [userDataState.isFetching]);
 
@@ -172,14 +179,14 @@ const Header = () => {
         <RenderIf condition={isUserLogined}>
           <Row onClick={toggleUserMenu} className="header__user" align="middle">
             <RenderIf
-              condition={!logoutState.isLoading && !userDataState.isFetching}
+              condition={
+                !logoutState.isLoading && !userDataState.isFetching && userName
+              }
             >
               <>
                 <img className="me-2" src={user} alt="user-icon" />
                 <p className="header__user-name me-2">
-                  {userDataState.data?.data?.name +
-                    " " +
-                    userDataState.data?.data?.surname}{" "}
+                  {userName}{" "}
                   <img
                     className="ms-2"
                     src={chevronDownBlue}
