@@ -128,7 +128,7 @@ const ChoosenMeals = ({
         address: address?.address,
         latitude: address?.pos?.lat,
         longitude: address?.pos?.lng,
-        note: additionalNote,
+        note: isEmpty(additionalNote) ? undefined : additionalNote,
         delivery_at: `${timePickerValue?.split(" ")?.[0]}`,
       },
     });

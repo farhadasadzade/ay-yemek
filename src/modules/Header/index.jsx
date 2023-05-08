@@ -117,15 +117,15 @@ const Header = () => {
   useUpdateEffect(() => {
     if (!userDataState.isFetching && userDataState.isError) {
       localStorage.removeItem("userToken");
-      setUserName(
-        userDataState.data?.data?.name + " " + userDataState.data?.data?.surname
-      );
+      setUserName(undefined);
     }
   }, [userDataState.isFetching]);
 
   useUpdateEffect(() => {
     if (!userDataState.isFetching && userDataState.isSuccess) {
-      setUserName(undefined);
+      setUserName(
+        userDataState.data?.data?.name + " " + userDataState.data?.data?.surname
+      );
     }
   }, [userDataState.isFetching]);
 
@@ -180,7 +180,9 @@ const Header = () => {
           <Row onClick={toggleUserMenu} className="header__user" align="middle">
             <RenderIf
               condition={
-                !logoutState.isLoading && !userDataState.isFetching && userName
+                !logoutState.isLoading &&
+                !userDataState.isFetching &&
+                Boolean(userName)
               }
             >
               <>
