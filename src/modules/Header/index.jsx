@@ -48,7 +48,10 @@ const Header = () => {
   const [logout, logoutState] = api.useLogoutMutation();
   const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
-  const isUserLogined = !isEmpty(localStorage.getItem("userToken"));
+  const isUserLogined = useCreation(
+    () => !isEmpty(localStorage.getItem("userToken")),
+    [userName]
+  );
 
   const handleSelectLang = useMemoizedFn((lang) => {
     localStorage.setItem("lang", lang);
