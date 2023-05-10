@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Col, Row } from "antd";
-import { useMemoizedFn, useUpdateEffect } from "ahooks";
+import { useMemoizedFn, useUpdateEffect, useMount, useUnmount } from "ahooks";
 import { isEmpty, trim, lowerCase } from "lodash";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,6 +34,7 @@ const ForgotPassword = () => {
 
   const [isOTPSuccess, setOTPSuccess] = React.useState(false);
   const [phone, setPhone] = React.useState("");
+  const [windowWidth, setWindowWidth] = React.useState(0);
 
   const [resend, resendState] = api.useResendOtpMutation();
 
@@ -74,6 +75,19 @@ const ForgotPassword = () => {
     }
   }, [resendState.isLoading]);
 
+  useMount(() => {
+    window.addEventListener("resize", (e) =>
+      setWindowWidth(e.target.innerWidth)
+    );
+
+    setWindowWidth(window.innerWidth);
+    document.body.style.overflowY = "scroll";
+  });
+
+  useUnmount(() => {
+    window.removeEventListener("resize", () => {});
+  });
+
   return (
     <>
       <Header />
@@ -83,7 +97,7 @@ const ForgotPassword = () => {
       {!isOTPSuccess ? (
         <>
           <Row justify="center">
-            <Col span={8}>
+            <Col span={windowWidth > 1000 ? 8 : 22}>
               <form onSubmit={methods.handleSubmit(handleSumbitRecover)}>
                 <Row className="mb-3">
                   <Input

@@ -97,7 +97,7 @@ const ChangePassword = ({ phone }) => {
   return (
     <>
       <Row justify="center">
-        <Col span={8}>
+        <Col span={windowWidth > 1000 ? 8 : 22}>
           <form onSubmit={methods.handleSubmit(handleSubmitForgotPassword)}>
             <Row className="mb-3">
               <Input
