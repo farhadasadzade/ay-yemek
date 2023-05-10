@@ -122,5 +122,7 @@
   "tableCategory": "Категория",
   "tablePacketName": "Пакет",
   "tablePrice": "Цена",
-  "tableDate": "Срок"
+  "tableDate": "Срок",
+  "forgotPassword": "Я забыл пароль",
+  "forgotPasswordTitle": "Обновить пароль"
 }

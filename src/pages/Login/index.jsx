@@ -98,7 +98,7 @@ const Login = () => {
   });
 
   React.useEffect(() => {
-    methods.register("email");
+    methods.register("password");
     methods.register("phone");
   }, [methods]);
 
@@ -217,6 +217,14 @@ const Login = () => {
               </p>
               <Link style={{ ...linkStyle, color: "#F75C03" }} to="/register">
                 {t("registerNow2")}
+              </Link>
+            </Row>
+            <Row className="mt-5" justify="center" align="middle">
+              <Link
+                style={{ ...linkStyle, color: "#F75C03" }}
+                to="/forgot-password"
+              >
+                {t("forgotPassword")}
               </Link>
             </Row>
           </div>

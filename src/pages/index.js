@@ -9,3 +9,4 @@ export { default as Packets } from "./Packets";
 export { default as Payment } from "./Payment";
 export { default as FoodChoosing } from "./FoodChoosing";
 export { default as Profile } from "./Profile";
+export { default as ForgotPassword } from "./ForgotPassword";

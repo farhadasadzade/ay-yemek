@@ -122,5 +122,7 @@
   "tableCategory": "Category",
   "tablePacketName": "Package",
   "tablePrice": "Price",
-  "tableDate": "Validate date"
+  "tableDate": "Validate date",
+  "forgotPassword": "I forgot the password",
+  "forgotPasswordTitle": "Update password"
 }

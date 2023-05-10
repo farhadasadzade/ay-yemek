@@ -44,14 +44,14 @@ const Header = () => {
   );
   const [isLogoutModalVisible, setLogoutModalVisible] = React.useState(false);
   const [userName, setUserName] = React.useState(undefined);
+  const [isUserLogined, setUserLogined] = React.useState(false);
 
   const [logout, logoutState] = api.useLogoutMutation();
   const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
-  const isUserLogined = useCreation(
-    () => !isEmpty(localStorage.getItem("userToken")),
-    [userName]
-  );
+  useUpdateEffect(() => {
+    setUserLogined(!isEmpty(localStorage.getItem("userToken")));
+  }, [userName, userDataState.isFetching, localStorage]);
 
   const handleSelectLang = useMemoizedFn((lang) => {
     localStorage.setItem("lang", lang);
@@ -113,6 +113,7 @@ const Header = () => {
       setLogoutLoading(false);
       setLogoutModalVisible(false);
       setMobileUserMenu(false);
+      setUserLogined(false);
       history.push("/home");
     }
   }, [logoutState.isLoading]);
@@ -121,6 +122,7 @@ const Header = () => {
     if (!userDataState.isFetching && userDataState.isError) {
       localStorage.removeItem("userToken");
       setUserName(undefined);
+      setUserLogined(false);
     }
   }, [userDataState.isFetching]);
 

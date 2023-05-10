@@ -257,5 +257,29 @@ export const api = createApi({
         },
       }),
     }),
+    resetPassword: builder.mutation({
+      query: ({ language, body }) => {
+        return {
+          url: "/reset-password",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+          },
+          body,
+        };
+      },
+    }),
+    resendOtp: builder.mutation({
+      query: ({ language, body }) => {
+        return {
+          url: "/resend",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+          },
+          body,
+        };
+      },
+    }),
   }),
 });

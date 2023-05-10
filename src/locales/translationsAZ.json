@@ -122,5 +122,7 @@
   "tableCategory": "Kateqoriya",
   "tablePacketName": "Paket",
   "tablePrice": "Qiymət",
-  "tableDate": "Etibarlılıq"
+  "tableDate": "Etibarlılıq",
+  "forgotPassword": "Şifrəni unutmuşam",
+  "forgotPasswordTitle": "Şifrəni yenilə"
 }
