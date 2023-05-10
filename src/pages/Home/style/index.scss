@@ -8,12 +8,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  aspect-ratio: 16/5;
+  height: 100%;
 
   &__info {
     width: 100%;
     background-size: cover;
     background-position: center;
-    padding: 300px 100px 20px;
+    height: 100%;
 
     &-title {
       color: #fff;
@@ -57,12 +60,12 @@
 @media (max-width: 1000px) {
   .intro {
     flex-direction: column;
+    aspect-ratio: 16/9;
 
     &__info {
       width: 100%;
       max-width: none;
       margin-bottom: 56px;
-      padding: 100px 50px 20px;
 
       &-title {
         color: #fff;

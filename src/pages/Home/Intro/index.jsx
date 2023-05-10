@@ -41,25 +41,7 @@ const Intro = () => {
                 <div
                   className="intro__info"
                   style={{ backgroundImage: `url(${image})` }}
-                >
-                  <Typography
-                    className="intro__info-title"
-                    size={40}
-                    weight={600}
-                  >
-                    {title}
-                  </Typography>
-                  <Typography
-                    className="intro__info-subtitle mt-3 mb-5"
-                    size={18}
-                    weight={400}
-                  >
-                    {description}
-                  </Typography>
-                  <Link to={`home/${slug}`}>
-                    <Button type="secondary">{button_text}</Button>
-                  </Link>
-                </div>
+                ></div>
               </div>
             )
           )}
