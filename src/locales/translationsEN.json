@@ -124,5 +124,6 @@
   "tablePrice": "Price",
   "tableDate": "Validate date",
   "forgotPassword": "I forgot the password",
-  "forgotPasswordTitle": "Update password"
+  "forgotPasswordTitle": "Update password",
+  "customerNumber": "Customer code"
 }

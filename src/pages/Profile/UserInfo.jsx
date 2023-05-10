@@ -86,7 +86,7 @@ const UserInfo = () => {
   });
 
   useUnmount(() => {
-    window.removeEventListener("resize", () => { });
+    window.removeEventListener("resize", () => {});
   });
 
   return (
@@ -94,23 +94,36 @@ const UserInfo = () => {
       <Row>
         <h1 className="profile__main-title">{t("choosenCategory")}</h1>
       </Row>
-      {userDataState.data?.data?.packageOrders?.map(order => {
+      {userDataState.data?.data?.packageOrders?.map((order) => {
+        const startedDate = order?.started_date?.split("-");
+        const endedDate = order?.ended_date?.split("-");
 
-        const startedDate = order?.started_date?.split('-')
-        const endedDate = order?.ended_date?.split('-')
-
-        const startedMonth = startedDate?.[1]?.[0] === '0' ? startedDate?.[1]?.[1] : startedDate?.[1]
-        const endedMonth = endedDate?.[1]?.[0] === '0' ? endedDate?.[1]?.[1] : endedDate?.[1]
+        const startedMonth =
+          startedDate?.[1]?.[0] === "0"
+            ? startedDate?.[1]?.[1]
+            : startedDate?.[1];
+        const endedMonth =
+          endedDate?.[1]?.[0] === "0" ? endedDate?.[1]?.[1] : endedDate?.[1];
 
         return (
           <Row className="mb-3" align="middle" justify="space-between" wrap>
             <h2 className="profile__main-name">
               {order?.package?.category?.name} ({order?.package?.name}){" "}
-              <span>etibarlidir {startedDate?.[2]} {monthNames[language]?.[startedMonth - 1]} {startedDate?.[0]} - {endedDate?.[2]} {monthNames[language]?.[endedMonth - 1]} {endedDate?.[0]}</span>
+              <span>
+                etibarlidir {startedDate?.[2]}{" "}
+                {monthNames[language]?.[startedMonth - 1]} {startedDate?.[0]} -{" "}
+                {endedDate?.[2]} {monthNames[language]?.[endedMonth - 1]}{" "}
+                {endedDate?.[0]}
+              </span>
             </h2>
-            <Button onClick={() => handleUpdatePackage(order?.package?.id)} type="secondary">{t("updatePackage")}</Button>
+            <Button
+              onClick={() => handleUpdatePackage(order?.package?.id)}
+              type="secondary"
+            >
+              {t("updatePackage")}
+            </Button>
           </Row>
-        )
+        );
       })}
       <Link to="/home/categories">
         <button className="profile__main-addPacket">
@@ -144,11 +157,11 @@ const UserInfo = () => {
         <Row className="mb-3" gutter={24}>
           <Col span={windowWidth > 1000 ? 12 : 24}>
             <Input
-              name="password"
-              type="password"
-              label={t("password")}
+              name="customerNumber"
+              type="text"
+              label={t("customerNumber")}
               disabled
-              inputValue={99999999}
+              inputValue={userDataState.data?.data?.customer_number}
             />
           </Col>
           <Col span={windowWidth > 1000 ? 12 : 24}>

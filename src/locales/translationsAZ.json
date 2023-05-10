@@ -124,5 +124,6 @@
   "tablePrice": "Qiymət",
   "tableDate": "Etibarlılıq",
   "forgotPassword": "Şifrəni unutmuşam",
-  "forgotPasswordTitle": "Şifrəni yenilə"
+  "forgotPasswordTitle": "Şifrəni yenilə",
+  "customerNumber": "Müştəri kodu"
 }

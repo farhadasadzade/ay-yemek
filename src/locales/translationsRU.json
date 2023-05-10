@@ -124,5 +124,6 @@
   "tablePrice": "Цена",
   "tableDate": "Срок",
   "forgotPassword": "Я забыл пароль",
-  "forgotPasswordTitle": "Обновить пароль"
+  "forgotPasswordTitle": "Обновить пароль",
+  "customerNumber": "Клиентский код"
 }
