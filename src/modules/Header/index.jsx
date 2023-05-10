@@ -258,11 +258,7 @@ const Header = () => {
         toggleMobileUserMenu={toggleMobileUserMenu}
         isLogoutModalVisible={isLogoutModalVisible}
         setLogoutModalVisible={setLogoutModalVisible}
-        userName={
-          userDataState.data?.data?.name +
-          " " +
-          userDataState.data?.data?.surname
-        }
+        userName={userName}
       />
       <RenderIf condition={isLogoutModalVisible}>
         <div className="modal">

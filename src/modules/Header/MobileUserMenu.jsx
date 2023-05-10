@@ -40,12 +40,17 @@ const MobileUserMenu = ({
       ></div>
       <div className={`mobile__user ${visible ? "active" : ""}`}>
         <div className="mobile__user-top">
-          <Link to="/profile">
-            <Row wrap={false}>
-              <img className="me-2" src={user} alt="user-icon" />
-              <p className="header__user-name me-2">{userName ?? ""}</p>
-            </Row>
-          </Link>
+          <RenderIf condition={userName}>
+            <Link to="/profile">
+              <Row wrap={false}>
+                <img className="me-2" src={user} alt="user-icon" />
+                <p className="header__user-name me-2">{userName}</p>
+              </Row>
+            </Link>
+          </RenderIf>
+          <RenderIf condition={!userName}>
+            <div className="button-loader"></div>
+          </RenderIf>
         </div>
         <div className="mobile__user-bottom">
           <Navbar
