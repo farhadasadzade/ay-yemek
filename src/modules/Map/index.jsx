@@ -1,20 +1,19 @@
 import React from "react";
 import { GoogleMap, Polygon, Marker } from "@react-google-maps/api";
-import { useMemoizedFn, useToggle, useUpdateEffect } from "ahooks";
+import { useMemoizedFn, useMount, useToggle, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
 import Swal from "sweetalert2";
-import { map, lowerCase, every, some } from "lodash";
+import { map, lowerCase, some } from "lodash";
 import { Row } from "antd";
 import { apiMap } from "common/api/apiMap";
 import { api } from "common/api/api";
 import { RenderIf, Autocomplete, Button } from "common/components";
 import { exit } from "assets/icons";
-import { positions } from "./data";
 import pointInPolygon from "point-in-polygon";
 import "leaflet/dist/leaflet.css";
 import "./style/index.scss";
 
-const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
+const Map = ({ getPosition, getIsAddressDenied, status }) => {
   const { t } = i18n;
   const refPoly = React.useRef(null);
   const userToken = localStorage.getItem("userToken");
@@ -37,6 +36,7 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
     userToken: `Bearer ${userToken}`,
     language,
   });
+  const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
   const handleClickOnMap = useMemoizedFn((e) => {
     setMarkerPosition({
@@ -93,11 +93,23 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
     getAddressByPosition(markerPosition);
   });
 
-  React.useEffect(() => {
-    setSelectedAddress(defaultValue?.address);
-    setMarkerPosition(defaultValue?.position);
-    setSelectedPosition(defaultValue?.position);
-  }, [defaultValue]);
+  useMount(() => {
+    getUserData({ language, userToken: `Bearer ${userToken}` });
+  });
+
+  useUpdateEffect(() => {
+    if (!userDataState.isFetching && userDataState.isSuccess) {
+      setMarkerPosition({
+        lng: Number(userDataState.data?.data?.longitude),
+        lat: Number(userDataState.data?.data?.latitude),
+      });
+      setSelectedPosition({
+        lng: Number(userDataState.data?.data?.longitude),
+        lat: Number(userDataState.data?.data?.latitude),
+      });
+      setSelectedAddress(userDataState.data?.data?.address);
+    }
+  }, [userDataState.isFetching]);
 
   useUpdateEffect(() => {
     setMarkerPosition({
@@ -106,7 +118,7 @@ const Map = ({ getPosition, getIsAddressDenied, status, defaultValue }) => {
     });
   }, [serviceAreas?.data]);
 
-  console.log()
+  console.log();
 
   useUpdateEffect(() => {
     if (!addressesState.isFetching && addressesState.isSuccess) {

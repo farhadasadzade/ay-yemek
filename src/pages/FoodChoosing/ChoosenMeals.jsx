@@ -160,7 +160,6 @@ const ChoosenMeals = ({
 
   useMount(() => {
     getMealTypes({ categoryId, language, userToken: `Bearer ${userToken}` });
-    getUserData({ language, userToken: `Bearer ${userToken}` });
   });
 
   useUpdateEffect(() => {
@@ -272,13 +271,6 @@ const ChoosenMeals = ({
           getPosition={getPosition}
           getIsAddressDenied={getIsAddressDenied}
           status={addressError}
-          defaultValue={{
-            address: userDataState.data?.data?.address,
-            position: {
-              lng: Number(userDataState.data?.data?.longitude),
-              lat: Number(userDataState.data?.data?.latitude),
-            },
-          }}
         />
         <Row className="mb-4">
           <Col span={24}>
