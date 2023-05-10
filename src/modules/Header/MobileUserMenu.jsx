@@ -43,7 +43,7 @@ const MobileUserMenu = ({
           <Link to="/profile">
             <Row wrap={false}>
               <img className="me-2" src={user} alt="user-icon" />
-              <p className="header__user-name me-2">{userName}</p>
+              <p className="header__user-name me-2">{userName ?? ""}</p>
             </Row>
           </Link>
         </div>
