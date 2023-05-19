@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import Cookies from "js-cookie";
 import { useMemoizedFn } from "ahooks";
 import { isEmpty } from "lodash";
 import i18n from "i18next";
@@ -14,7 +15,7 @@ const PriceBlock = ({ id, name, price }) => {
   const handleClickPacket = useMemoizedFn(() => {
     localStorage.setItem("selectedPackageId", id);
 
-    if (isEmpty(localStorage.getItem("userToken"))) {
+    if (isEmpty(Cookies.get("userToken"))) {
       history.push("/register");
       return;
     }

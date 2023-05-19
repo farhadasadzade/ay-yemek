@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect, useHistory } from "react-router";
+import Cookies from "js-cookie";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { isEmpty, lowerCase } from "lodash";
 import i18n from "i18next";
@@ -19,7 +20,7 @@ import { Helmet } from "react-helmet";
 const Profile = ({ match: { url } }) => {
   const { t } = i18n;
   const history = useHistory();
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
   const language = lowerCase(localStorage.getItem("lang"));
 
   const [windowWidth, setWindowWidth] = React.useState(0);
@@ -28,7 +29,7 @@ const Profile = ({ match: { url } }) => {
   const [logout, logoutState] = api.useLogoutMutation();
 
   useMount(() => {
-    if (isEmpty(localStorage.getItem("userToken"))) {
+    if (isEmpty(Cookies.get("userToken"))) {
       history.push("/home");
     }
 
@@ -42,7 +43,7 @@ const Profile = ({ match: { url } }) => {
 
   useUpdateEffect(() => {
     if (!logoutState.isLoading && logoutState.isSuccess) {
-      localStorage.removeItem("userToken");
+      Cookies.remove("userToken");
       setLogoutModalVisible(false);
       history.push("/home");
     }

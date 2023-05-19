@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import {
   useMemoizedFn,
@@ -28,8 +29,7 @@ const Packets = () => {
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
     activeFilter: undefined,

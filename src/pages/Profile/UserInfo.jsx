@@ -1,6 +1,7 @@
 import React from "react";
-import i18n from "i18next";
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
+import i18n from "i18next";
 import { useMount, useUnmount, useMemoizedFn } from "ahooks";
 import { lowerCase } from "lodash";
 import { Col, Row, Form } from "antd";
@@ -59,7 +60,7 @@ const monthNames = {
 const UserInfo = () => {
   const { t } = i18n;
   const language = lowerCase(localStorage.getItem("lang"));
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
   const history = useHistory();
 
   const [windowWidth, setWindowWidth] = React.useState(0);

@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import { lowerCase } from "lodash";
 import { useTranslation } from "react-i18next";
 import { Typography } from "common/components";
@@ -11,7 +12,7 @@ const TopHeader = () => {
   const { t } = useTranslation();
 
   const language = lowerCase(localStorage.getItem("lang"));
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
 
   const { data: settings } = api.useGetSettingsQuery({
     language,

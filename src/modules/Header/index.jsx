@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { map, isEmpty, lowerCase } from "lodash";
 import { Row, Dropdown } from "antd";
@@ -9,7 +10,6 @@ import {
   useUpdateEffect,
   useUnmount,
   useMemoizedFn,
-  useCreation,
 } from "ahooks";
 import { logo } from "assets/images";
 import { chevronDownBlue, menuBar, user, exit } from "assets/icons";
@@ -23,7 +23,7 @@ import MobileUserMenu from "./MobileUserMenu";
 const Header = () => {
   const { t, changeLanguage } = i18n;
   const location = useLocation();
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
   const history = useHistory();
   const language = lowerCase(localStorage.getItem("lang"));
 
@@ -50,7 +50,7 @@ const Header = () => {
   const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
 
   useUpdateEffect(() => {
-    setUserLogined(!isEmpty(localStorage.getItem("userToken")));
+    setUserLogined(!isEmpty(Cookies.get("userToken")));
   }, [userName, userDataState.isFetching, localStorage]);
 
   const handleSelectLang = useMemoizedFn((lang) => {
@@ -109,7 +109,7 @@ const Header = () => {
 
   useUpdateEffect(() => {
     if (!logoutState.isLoading && logoutState.isSuccess) {
-      localStorage.removeItem("userToken");
+      Cookies.remove("userToken");
       setLogoutLoading(false);
       setLogoutModalVisible(false);
       setMobileUserMenu(false);
@@ -120,7 +120,7 @@ const Header = () => {
 
   useUpdateEffect(() => {
     if (!userDataState.isFetching && userDataState.isError) {
-      localStorage.removeItem("userToken");
+      Cookies.remove("userToken");
       setUserName(undefined);
       setUserLogined(false);
     }

@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import Cookies from "js-cookie";
 import { success } from "assets/icons";
 import { lowerCase, isEmpty } from "lodash";
 import { Row } from "antd";
@@ -16,8 +17,7 @@ const PaymentSuccess = () => {
   const selectedPackageId = localStorage.getItem("selectedPackageId");
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [windowWidth, setWindowWidth] = React.useState(0);
 

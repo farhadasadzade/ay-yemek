@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import Carousel from "react-elastic-carousel";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { useMount, useUnmount, useUpdateEffect, useMemoizedFn } from "ahooks";
 import { map, lowerCase } from "lodash";
@@ -18,7 +19,7 @@ const Categories = () => {
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
+  Cookies.get("userToken") ||
     process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [windowWidth, setWindowWidth] = React.useState(0);

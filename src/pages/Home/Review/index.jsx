@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { map, lowerCase } from "lodash";
 import { Row } from "antd";
@@ -19,8 +20,7 @@ const Review = () => {
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [itemsToShow, setItemsToShow] = React.useState(2);
   const [windowWidth, setWindowWidth] = React.useState(0);

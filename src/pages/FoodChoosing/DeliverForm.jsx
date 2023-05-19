@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import moment from "moment";
 import { useMemoizedFn, useUpdateEffect } from "ahooks";
@@ -14,8 +15,7 @@ const DeliverForm = ({ selectedMeals, selectedPackageId, orderId }) => {
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [address, setAddress] = React.useState("");
   const [isAddressDenied, setAddressDenied] = React.useState(true);

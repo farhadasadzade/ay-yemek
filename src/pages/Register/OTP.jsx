@@ -2,6 +2,7 @@ import React from "react";
 import OtpInput from "react-otp-input";
 import { useTimer } from "react-timer-hook";
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 import { useMount } from "ahooks";
 import i18n from "i18next";
 import { lowerCase } from "lodash";
@@ -57,7 +58,7 @@ const OTP = ({ phone }) => {
       });
 
       setTimeout(() => {
-        localStorage.setItem("userToken", verifyState.data?.data);
+        Cookies.set("userToken", verifyState.data?.data);
         history.push("/home");
       }, 1000);
     }

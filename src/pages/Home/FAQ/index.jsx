@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { filter, lowerCase } from "lodash";
 import { useMount, useUnmount, useMemoizedFn, useUpdateEffect } from "ahooks";
@@ -15,8 +16,7 @@ const FAQ = () => {
   const { t } = i18n;
 
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
   const language = lowerCase(localStorage.getItem("lang"));
 
   const [faqNumber, setFaqNumber] = React.useState(4);

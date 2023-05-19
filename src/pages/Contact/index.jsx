@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import Cookies from "js-cookie";
 import { isEmpty, trim, lowerCase } from "lodash";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -22,7 +23,7 @@ const Contact = () => {
   });
 
   const language = lowerCase(localStorage.getItem("lang"));
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
 
   const methods = useForm({
     resolver: yupResolver(schema),

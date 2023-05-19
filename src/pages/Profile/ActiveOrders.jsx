@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { Col, Row } from "antd";
 import { isEmpty, lowerCase, map } from "lodash";
@@ -84,7 +85,7 @@ const EmptyResult = () => {
 const ActiveOrders = () => {
   const { t } = i18n;
   const language = lowerCase(localStorage.getItem("lang"));
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [activeOrders, setActiveOrders] = React.useState([]);

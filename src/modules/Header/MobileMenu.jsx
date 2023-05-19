@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { map, lowerCase, isEmpty } from "lodash";
 import { useMemoizedFn } from "ahooks";
@@ -16,7 +17,7 @@ import { headerLinks } from "./data";
 const MobileMenu = ({ visible, toggleMobileMenu }) => {
   const { t, changeLanguage } = i18n;
   const location = useLocation();
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
   const isUserLogined = !isEmpty(userToken);
 
   const handleSelectLang = useMemoizedFn((lang) => {

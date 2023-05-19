@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import { useCreation } from "ahooks";
 import i18n from "i18next";
 import { api } from "common/api/api";
@@ -11,7 +12,7 @@ const Payments = () => {
   const { t } = i18n;
 
   const language = lowerCase(localStorage.getItem("lang"));
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
 
   const { data: userPayments, isFetching: isUserPaymentsFetching } =
     api.useGetUserPaymentsQuery({

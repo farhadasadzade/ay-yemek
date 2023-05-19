@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Cookies from "js-cookie";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMount, useUnmount, useMemoizedFn, useUpdateEffect } from "ahooks";
@@ -113,7 +114,7 @@ const Login = () => {
   useUpdateEffect(() => {
     if (!loginState.isLoading) {
       if (loginState.isSuccess) {
-        localStorage.setItem("userToken", loginState.data?.data);
+        Cookies.set("userToken", loginState.data?.data);
 
         setTimeout(() => history.push("/home"), 1000);
       }

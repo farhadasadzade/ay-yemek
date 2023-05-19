@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
 import { map, filter, lowerCase } from "lodash";
@@ -52,8 +53,7 @@ const Categories = () => {
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
     minIndex: 0,

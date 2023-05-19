@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import Cookies from "js-cookie";
 import { isEmpty, lowerCase } from "lodash";
 import dayjs from "dayjs";
 import i18n from "i18next";
@@ -65,8 +66,7 @@ const PaymentPage = ({ match: { url } }) => {
   const selectedPackageId = localStorage.getItem("selectedPackageId");
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const [windowWidth, setWindowWidth] = React.useState(0);
   const [dates, setDates] = React.useState(undefined);

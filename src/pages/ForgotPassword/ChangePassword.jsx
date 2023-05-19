@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import PasswordChecklist from "react-password-checklist";
+import Cookies from "js-cookie";
 import { useMemoizedFn, useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { isEmpty, lowerCase, trim } from "lodash";
 import { Row, Col } from "antd";
@@ -84,7 +85,7 @@ const ChangePassword = ({ phone }) => {
 
   useUpdateEffect(() => {
     if (!resetState.isLoading && resetState.isSuccess) {
-      localStorage.setItem("userToken", resetState.data?.data);
+      Cookies.set("userToken", resetState.data?.data);
       history.push("/home");
 
       Toast.fire({

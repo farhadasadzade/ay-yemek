@@ -1,6 +1,7 @@
 import React from "react";
-import i18n from "i18next";
 import { useParams } from "react-router";
+import Cookies from "js-cookie";
+import i18n from "i18next";
 import { Row } from "antd";
 import {
   useMemoizedFn,
@@ -14,7 +15,6 @@ import { Button, RenderIf } from "common/components";
 import { BlockContainer, FilterTagLoader, PacketLoader } from "components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ChoosenMeals from "./ChoosenMeals";
-import DeliverForm from "./DeliverForm";
 import PacketBlock from "./PacketBlock";
 import PricesMobile from "./PricesMobile";
 import { api } from "common/api/api";
@@ -27,8 +27,7 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
   const { id: categoryId } = useParams();
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
     activeFilter: 1,

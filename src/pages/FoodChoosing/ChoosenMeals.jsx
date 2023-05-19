@@ -1,6 +1,7 @@
 import React from "react";
-import i18n from "i18next";
 import { useParams, useHistory } from "react-router";
+import Cookies from "js-cookie";
+import i18n from "i18next";
 import moment from "moment";
 import { isEmpty, map, lowerCase, values } from "lodash";
 import { useMemoizedFn, useMount, useReactive, useUpdateEffect } from "ahooks";
@@ -78,8 +79,7 @@ const ChoosenMeals = ({
 
   const language = lowerCase(localStorage.getItem("lang"));
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
 
   const state = useReactive({
     choosenMeals: [],

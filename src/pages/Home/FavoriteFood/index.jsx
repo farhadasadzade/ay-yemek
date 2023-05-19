@@ -1,11 +1,11 @@
 import React from "react";
 import Carousel from "react-elastic-carousel";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { map, lowerCase } from "lodash";
 import { useMount, useUnmount, useUpdateEffect } from "ahooks";
 import { HomeTitle, CarouselArrows } from "components";
 import { api } from "common/api/api";
-import { favoriteFoods } from "./data";
 import "./style/index.scss";
 import { RenderIf } from "common/components";
 import { Helmet } from "react-helmet";
@@ -14,8 +14,7 @@ const FavoriteFoods = () => {
   const { t } = i18n;
 
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
   const language = lowerCase(localStorage.getItem("lang"));
 
   const [windowWidth, setWindowWidth] = React.useState(0);

@@ -1,5 +1,6 @@
 import React from "react";
 import { GoogleMap, Polygon, Marker } from "@react-google-maps/api";
+import Cookies from "js-cookie";
 import { useMemoizedFn, useMount, useToggle, useUpdateEffect } from "ahooks";
 import i18n from "i18next";
 import Swal from "sweetalert2";
@@ -16,7 +17,7 @@ import "./style/index.scss";
 const Map = ({ getPosition, getIsAddressDenied, status }) => {
   const { t } = i18n;
   const refPoly = React.useRef(null);
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
   const language = lowerCase(localStorage.getItem("lang"));
 
   const [markerPosition, setMarkerPosition] = React.useState({

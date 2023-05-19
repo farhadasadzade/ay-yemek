@@ -1,17 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Carousel from "react-elastic-carousel";
+import Cookies from "js-cookie";
 import { useCreation } from "ahooks";
 import { lowerCase, map } from "lodash";
-import { Typography, Button } from "common/components";
 import { api } from "common/api/api";
 import { Helmet } from "react-helmet";
 import "../style/index.scss";
 
 const Intro = () => {
   const userToken =
-    localStorage.getItem("userToken") ||
-    process.env.REACT_APP_DEFAULT_USER_TOKEN;
+    Cookies.get("userToken") || process.env.REACT_APP_DEFAULT_USER_TOKEN;
   const language = lowerCase(localStorage.getItem("lang"));
 
   const { data: sliderItems } = api.useGetSlidersQuery({

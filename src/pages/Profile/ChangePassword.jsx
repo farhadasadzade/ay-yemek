@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import i18n from "i18next";
 import { lowerCase, isEmpty, trim } from "lodash";
 import { useMount, useUnmount } from "ahooks";
@@ -34,7 +35,7 @@ const ChangePassword = () => {
     resolver: yupResolver(schema),
   });
   const language = lowerCase(localStorage.getItem("lang"));
-  const userToken = localStorage.getItem("userToken");
+  const userToken = Cookies.get("userToken");
 
   const [inputValues, setInputValues] = React.useState({
     password: "",
