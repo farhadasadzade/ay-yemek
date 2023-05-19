@@ -87,6 +87,14 @@ const FoodChoosing = ({ selectedPackageId, orderId }) => {
   });
 
   useUpdateEffect(() => {
+    if (state.isPricesActive) {
+      document.body.style.overflowY = "hidden";
+      return;
+    }
+    document.body.style.overflowY = "scroll";
+  }, [state.isPricesActive]);
+
+  useUpdateEffect(() => {
     if (windowWidth > 700) {
       state.isPricesActive = false;
     }

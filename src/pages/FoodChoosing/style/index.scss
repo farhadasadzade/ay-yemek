@@ -319,7 +319,7 @@
       &-img {
         max-width: 299px;
         width: 100%;
-        height: 154px;
+        height: 220px;
 
         & img {
           width: 100%;
@@ -331,6 +331,23 @@
 
   .deliver__form {
     padding-top: 0 !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .packets {
+    &__foods {
+      &-img {
+        max-width: 299px;
+        width: 100%;
+        aspect-ratio: 1/1;
+
+        & img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
   }
 }
 
