@@ -119,8 +119,6 @@ const Map = ({ getPosition, getIsAddressDenied, status }) => {
     });
   }, [serviceAreas?.data]);
 
-  console.log();
-
   useUpdateEffect(() => {
     if (!addressesState.isFetching && addressesState.isSuccess) {
       setAddresses(

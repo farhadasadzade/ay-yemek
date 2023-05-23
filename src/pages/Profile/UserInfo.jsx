@@ -1,14 +1,16 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { isEmpty } from "lodash";
 import Cookies from "js-cookie";
 import i18n from "i18next";
-import { useMount, useUnmount, useMemoizedFn } from "ahooks";
+import { useMount, useUnmount, useMemoizedFn, useUpdateEffect } from "ahooks";
 import { lowerCase } from "lodash";
 import { Col, Row, Form } from "antd";
 import { api } from "common/api/api";
-import { Button, Input } from "common/components";
+import { Button, Input, Toast } from "common/components";
 import { plusOrange } from "assets/icons";
 import { Link } from "react-router-dom";
+import { Map } from "modules";
 
 const monthNames = {
   az: [
@@ -64,12 +66,41 @@ const UserInfo = () => {
   const history = useHistory();
 
   const [windowWidth, setWindowWidth] = React.useState(0);
+  const [address, setAddress] = React.useState("");
+  const [isAddressDenied, setAddressDenied] = React.useState(true);
+  const [addressError, setAddressError] = React.useState(false);
 
   const [getUserData, userDataState] = api.useLazyGetUserDataQuery();
+  const [updateUserData, updateState] = api.useUpdateProfileMutation();
 
   const handleUpdatePackage = useMemoizedFn((id) => {
     localStorage.setItem("selectedPackageId", id);
     history.push("/payment");
+  });
+
+  const getPosition = useMemoizedFn((pos, address) => {
+    setAddress({ pos, address });
+
+    if (!isEmpty(pos)) {
+      setAddressError(false);
+    }
+    return { pos, address };
+  });
+
+  const getIsAddressDenied = useMemoizedFn((denied) => {
+    setAddressDenied(denied);
+  });
+
+  const handleUpdate = useMemoizedFn(() => {
+    updateUserData({
+      language,
+      userToken: `Bearer ${userToken}`,
+      body: {
+        address: address?.address,
+        latitude: address?.pos?.lat,
+        longitude: address?.pos?.lng,
+      },
+    });
   });
 
   useMount(() => {
@@ -85,6 +116,24 @@ const UserInfo = () => {
       userToken: `Bearer ${userToken}`,
     });
   });
+
+  useUpdateEffect(() => {
+    if (!updateState.isLoading) {
+      if (updateState.isSuccess) {
+        Toast.fire({
+          icon: "success",
+          title: updateState.data?.message,
+        });
+      }
+
+      if (updateState.isError) {
+        Toast.fire({
+          icon: "error",
+          title: updateState.error?.data?.message,
+        });
+      }
+    }
+  }, [updateState.isLoading]);
 
   useUnmount(() => {
     window.removeEventListener("resize", () => {});
@@ -186,13 +235,24 @@ const UserInfo = () => {
             />
           </Col>
           <Col span={windowWidth > 1000 ? 12 : 24}>
-            <Input
-              name="address"
-              type="text"
-              label={t("address")}
-              disabled
-              inputValue={userDataState.data?.data?.address}
+            <Map
+              getPosition={getPosition}
+              getIsAddressDenied={getIsAddressDenied}
+              status={addressError}
             />
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Col span={windowWidth > 1000 ? 12 : 24}>
+            <Button
+              style={{ width: "100%" }}
+              type="primary"
+              isLoading={updateState.isLoading}
+              onClick={handleUpdate}
+              disabled={isEmpty(address)}
+            >
+              {t("updateProfile")}
+            </Button>
           </Col>
         </Row>
       </Form>

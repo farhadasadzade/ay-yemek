@@ -125,5 +125,6 @@
   "tableDate": "Срок",
   "forgotPassword": "Я забыл пароль",
   "forgotPasswordTitle": "Обновить пароль",
-  "customerNumber": "Клиентский код"
+  "customerNumber": "Клиентский код",
+  "updateProfile": "Обновить профиль"
 }

@@ -125,5 +125,6 @@
   "tableDate": "Validate date",
   "forgotPassword": "I forgot the password",
   "forgotPasswordTitle": "Update password",
-  "customerNumber": "Customer code"
+  "customerNumber": "Customer code",
+  "updateProfile": "Update Profileupdate "
 }

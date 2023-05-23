@@ -281,5 +281,18 @@ export const api = createApi({
         };
       },
     }),
+    updateProfile: builder.mutation({
+      query: ({ language, body, userToken }) => {
+        return {
+          url: "/user/update",
+          method: "POST",
+          headers: {
+            "Content-Language": language,
+            Authorization: userToken,
+          },
+          body,
+        };
+      },
+    }),
   }),
 });
